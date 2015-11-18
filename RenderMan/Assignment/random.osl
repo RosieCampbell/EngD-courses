@@ -1,0 +1,13 @@
+surface random (
+	color Cin = 1,
+output	color Cout=0
+)
+{
+    float repeatCount=24;
+    int whichStripe=(int)floor(u*repeatCount);
+    Cout=(float)(whichStripe%2);
+
+		color green=color("rgb",0,1,0);
+
+		Cout=mix(Cin,Cin*0.6,Cout);
+}
