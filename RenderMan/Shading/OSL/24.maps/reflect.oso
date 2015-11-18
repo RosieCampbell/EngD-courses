@@ -1,0 +1,106 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader reflect
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	1 1 1		%read{2147483647,-1} %write{31,31}
+global	vector	I	%read{2,12} %write{2147483647,-1} %derivs
+global	normal	N	%read{0,0} %write{2147483647,-1} %derivs
+local	vector	___318_d	%read{17,26} %write{16,16} %derivs
+local	float	___318_s	%read{22,31} %write{21,25} %derivs
+local	float	___318_t	%read{28,31} %write{27,30} %derivs
+local	normal	Nf	%read{9,11} %write{5,6} %derivs
+local	vector	Rcurrent	%read{14,14} %write{12,12} %derivs
+local	vector	Rworld	%read{16,16} %write{14,14} %derivs
+temp	normal	$tmp1	%read{2,6} %write{0,0} %derivs
+const	string	$const1	"faceforward"		%read{1,1} %write{2147483647,-1}
+temp	float	$tmp2	%read{3,3} %write{2,2}
+const	int	$const2	0		%read{3,22} %write{2147483647,-1}
+temp	int	$tmp3	%read{4,4} %write{3,3}
+const	string	$const3	"reflect"		%read{8,8} %write{2147483647,-1}
+const	int	$const4	2		%read{17,17} %write{2147483647,-1}
+temp	float	$tmp4	%read{10,10} %write{9,9} %derivs
+temp	float	$tmp5	%read{11,11} %write{10,10} %derivs
+const	float	$const5	2		%read{10,20} %write{2147483647,-1}
+temp	vector	$tmp6	%read{12,12} %write{11,11} %derivs
+const	string	$const6	"world"		%read{14,14} %write{2147483647,-1}
+const	string	$const7	"transform"		%read{13,13} %write{2147483647,-1}
+const	string	$const8	"common"		%read{14,14} %write{2147483647,-1}
+const	string	$const9	"studio2.tx"		%read{31,31} %write{2147483647,-1}
+const	string	$const10	"myEnvironment"		%read{15,15} %write{2147483647,-1}
+temp	float	$tmp7	%read{21,21} %write{19,19} %derivs
+temp	float	$tmp8	%read{19,19} %write{17,17} %derivs
+temp	float	$tmp9	%read{19,19} %write{18,18} %derivs
+const	float	$const11	3.1415927		%read{20,28} %write{2147483647,-1}
+temp	float	$tmp10	%read{21,21} %write{20,20} %derivs
+temp	int	$tmp11	%read{23,23} %write{22,22}
+const	int	$const12	1		%read{26,26} %write{2147483647,-1}
+const	float	$const13	1		%read{24,30} %write{2147483647,-1}
+temp	float	$tmp12	%read{27,27} %write{26,26} %derivs
+temp	float	$tmp13	%read{29,29} %write{28,28} %derivs
+const	float	$const14	0.5		%read{29,29} %write{2147483647,-1}
+code ___main___
+# reflect.osl:26
+#     normal Nf = faceforward (normalize(N),I);
+	normalize	$tmp1 N 	%filename{"reflect.osl"} %line{26} %argrw{"wr"}
+	functioncall	$const1 8 	%argrw{"r"}
+# reflect.osl:3
+# 	return (dot(I,N)>0)?-N:N;
+	dot		$tmp2 I $tmp1 	%line{3} %argrw{"wrr"}
+	gt		$tmp3 $tmp2 $const2 	%argrw{"wrr"}
+	if		$tmp3 6 7 	%argrw{"r"}
+	neg		Nf $tmp1 	%argrw{"wr"}
+	assign		Nf $tmp1 	%argrw{"wr"}
+	return
+# reflect.osl:27
+#     vector Rcurrent=reflect(I,Nf);
+	functioncall	$const3 13 	%line{27} %argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:192
+# float  mix (float  x, float  y, float  a) BUILTIN;
+	dot		$tmp4 Nf I 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{192} %argrw{"wrr"}
+	mul		$tmp5 $const5 $tmp4 	%argrw{"wrr"}
+	mul		$tmp6 $tmp5 Nf 	%argrw{"wrr"}
+	sub		Rcurrent I $tmp6 	%argrw{"wrr"}
+# reflect.osl:28
+#     vector Rworld=transform("world",Rcurrent);
+	functioncall	$const7 15 	%filename{"reflect.osl"} %line{28} %argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:242
+#         Kr = F;
+	transformv	Rworld $const8 $const6 Rcurrent 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{242} %argrw{"wrrr"}
+# reflect.osl:30
+#     Cout=(color)myEnvironment("studio2.tx",Rworld);
+	functioncall	$const10 32 	%filename{"reflect.osl"} %line{30} %argrw{"r"}
+# reflect.osl:8
+# 	vector d=normalize(R);
+	normalize	___318_d Rworld 	%line{8} %argrw{"wr"}
+# reflect.osl:9
+# 	float s = atan2(d[2],d[0])/(2*M_PI);
+	compref		$tmp8 ___318_d $const4 	%line{9} %argrw{"wrr"}
+	compref		$tmp9 ___318_d $const2 	%argrw{"wrr"}
+	atan2		$tmp7 $tmp8 $tmp9 	%argrw{"wrr"}
+	mul		$tmp10 $const5 $const11 	%argrw{"wrr"}
+	div		___318_s $tmp7 $tmp10 	%argrw{"wrr"}
+# reflect.osl:10
+# 	if(s<0)
+	lt		$tmp11 ___318_s $const2 	%line{10} %argrw{"wrr"}
+	if		$tmp11 25 25 	%argrw{"r"}
+# reflect.osl:11
+# 		s+=1;
+	add		___318_s ___318_s $const13 	%line{11} %argrw{"wrr"}
+# reflect.osl:12
+# 	s=1-s; //Wrap clockwise from the X axis...
+	sub		___318_s $const13 ___318_s 	%line{12} %argrw{"wrr"}
+# reflect.osl:14
+# 	float t = asin(d[1]);
+	compref		$tmp12 ___318_d $const12 	%line{14} %argrw{"wrr"}
+	asin		___318_t $tmp12 	%argrw{"wr"}
+# reflect.osl:15
+# 	t = t/M_PI+0.5;
+	div		$tmp13 ___318_t $const11 	%line{15} %argrw{"wrr"}
+	add		___318_t $tmp13 $const14 	%argrw{"wrr"}
+# reflect.osl:16
+# 	t=1-t;
+	sub		___318_t $const13 ___318_t 	%line{16} %argrw{"wrr"}
+# reflect.osl:18
+# 	return (color)texture(filename,s,t);
+	texture		Cout $const9 ___318_s ___318_t 	%line{18} %argrw{"wrrr"} %argderivs{2,3}
+	end

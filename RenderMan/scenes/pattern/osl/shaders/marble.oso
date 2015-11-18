@@ -1,0 +1,69 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader marble
+param	color	Cin	0.5 0.5 0.5		%read{18,18} %write{2147483647,-1}
+param	float	freq	1		%read{1,1} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{18,18}
+global	point	P	%read{3,3} %write{2147483647,-1}
+local	float	sum	%read{4,18} %write{0,17}
+local	float	freqVal	%read{4,17} %write{1,17}
+local	point	Pshad	%read{9,9} %write{3,3}
+local	int	___317_i	%read{4,17} %write{4,17}
+const	int	$const1	0		%read{0,5} %write{2147483647,-1}
+const	string	$const2	"object"		%read{3,3} %write{2147483647,-1}
+const	string	$const3	"transform"		%read{2,2} %write{2147483647,-1}
+const	string	$const4	"common"		%read{3,3} %write{2147483647,-1}
+const	int	$const5	6		%read{6,6} %write{2147483647,-1}
+temp	int	$tmp1	%read{4,17} %write{4,17}
+const	int	$const6	1		%read{17,17} %write{2147483647,-1}
+temp	float	$tmp2	%read{13,13} %write{7,7}
+const	float	$const7	1		%read{7,7} %write{2147483647,-1}
+temp	float	$tmp3	%read{13,13} %write{12,12}
+const	float	$const8	0.5		%read{11,11} %write{2147483647,-1}
+temp	float	$tmp4	%read{11,11} %write{10,10}
+temp	float	$tmp5	%read{9,9} %write{8,8}
+const	float	$const10	4		%read{8,8} %write{2147483647,-1}
+temp	point	$tmp6	%read{10,10} %write{9,9}
+temp	float	$tmp7	%read{12,12} %write{11,11}
+temp	float	$tmp8	%read{14,14} %write{13,13}
+const	float	$const12	2		%read{15,15} %write{2147483647,-1}
+temp	int	$tmp9	%read{2147483647,-1} %write{16,16}
+code ___main___
+# marble.osl:5
+#     float sum = 0;
+	assign		sum $const1 	%filename{"marble.osl"} %line{5} %argrw{"wr"}
+# marble.osl:6
+#     float freqVal = freq;
+	assign		freqVal freq 	%line{6} %argrw{"wr"}
+# marble.osl:8
+#     point Pshad = transform ("object", P);
+	functioncall	$const3 4 	%line{8} %argrw{"r"}
+# /data2/trinar/p4dev/rmanprod/_publish/linuxRHEL6_x86-64_gcc44icc140_external_releaseprofile/RenderManProServer-19.1b1/lib/osl/include/stdosl.h:243
+# normal transform (matrix Mto, normal p) BUILTIN;
+	transform	Pshad $const4 $const2 P 	%filename{"/data2/trinar/p4dev/rmanprod/_publish/linuxRHEL6_x86-64_gcc44icc140_external_releaseprofile/RenderManProServer-19.1b1/lib/osl/include/stdosl.h"} %line{243} %argrw{"wrrr"}
+# marble.osl:9
+#     for (int i = 0; i < 6; i++) 
+	for		$tmp1 6 7 16 18 	%filename{"marble.osl"} %line{9} %argrw{"r"}
+	assign		___317_i $const1 	%argrw{"wr"}
+	lt		$tmp1 ___317_i $const5 	%argrw{"wrr"}
+# marble.osl:11
+#         sum = sum + 1/freqVal * abs(.5 - noise( 4 * freqVal * Pshad)) ;
+	div		$tmp2 $const7 freqVal 	%line{11} %argrw{"wrr"}
+	mul		$tmp5 $const10 freqVal 	%argrw{"wrr"}
+	mul		$tmp6 $tmp5 Pshad 	%argrw{"wrr"}
+	noise		$tmp4 $tmp6 	%argrw{"wr"}
+	sub		$tmp7 $const8 $tmp4 	%argrw{"wrr"}
+	abs		$tmp3 $tmp7 	%argrw{"wr"}
+	mul		$tmp8 $tmp2 $tmp3 	%argrw{"wrr"}
+	add		sum sum $tmp8 	%argrw{"wrr"}
+# marble.osl:12
+#         freqVal = 2 * freqVal;
+	mul		freqVal $const12 freqVal 	%line{12} %argrw{"wrr"}
+# marble.osl:9
+#     for (int i = 0; i < 6; i++) 
+	assign		$tmp9 ___317_i 	%line{9} %argrw{"wr"}
+	add		___317_i ___317_i $const6 	%argrw{"wrr"}
+# marble.osl:14
+#     Cout = Cin * sum;
+	mul		Cout Cin sum 	%line{14} %argrw{"wrr"}
+	end

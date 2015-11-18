@@ -1,0 +1,70 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+surface randommap
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	1 1 1		%read{2147483647,-1} %write{0,20}
+global	float	u	%read{0,14} %write{2147483647,-1} %derivs
+global	float	v	%read{0,15} %write{2147483647,-1} %derivs
+local	float	repeatCount	%read{2,15} %write{1,1} %derivs
+local	float	s	%read{19,20} %write{7,7} %derivs
+local	float	t	%read{19,20} %write{13,13} %derivs
+const	string	$const1	"Flower_pattern_pxr128.tx"		%read{0,19} %write{2147483647,-1}
+const	int	$const2	2		%read{1,1} %write{2147483647,-1}
+temp	float	$tmp1	%read{4,7} %write{2,2} %derivs
+const	float	$const4	1		%read{4,12} %write{2147483647,-1}
+const	string	$const5	"mod"		%read{3,9} %write{2147483647,-1}
+temp	float	$tmp2	%read{6,6} %write{5,5} %derivs
+temp	float	$tmp3	%read{5,5} %write{4,4} %derivs
+temp	float	$tmp4	%read{7,7} %write{6,6} %derivs
+temp	float	$tmp5	%read{10,13} %write{8,8} %derivs
+temp	float	$tmp6	%read{12,12} %write{11,11} %derivs
+temp	float	$tmp7	%read{11,11} %write{10,10} %derivs
+temp	float	$tmp8	%read{13,13} %write{12,12} %derivs
+temp	float	$tmp9	%read{17,17} %write{16,16}
+const	string	$const6	"cell"		%read{16,16} %write{2147483647,-1}
+temp	float	$tmp10	%read{16,16} %write{14,14}
+temp	float	$tmp11	%read{16,16} %write{15,15}
+const	float	$const7	0.5		%read{17,17} %write{2147483647,-1}
+temp	int	$tmp12	%read{18,18} %write{17,17}
+const	string	$const8	"Wild_flowers_pxr128.tx"		%read{20,20} %write{2147483647,-1}
+code ___main___
+# randommap.osl:6
+#     Cout=(color)texture("Flower_pattern_pxr128.tx",u,v);
+	texture		Cout $const1 u v 	%filename{"randommap.osl"} %line{6} %argrw{"wrrr"} %argderivs{2,3}
+# randommap.osl:7
+#     float repeatCount=2;
+	assign		repeatCount $const2 	%line{7} %argrw{"wr"}
+# randommap.osl:8
+#     float s=mod(u*repeatCount,1);
+	mul		$tmp1 u repeatCount 	%line{8} %argrw{"wrr"}
+	functioncall	$const5 8 	%argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:135
+# point  mod (point  a, point  b) { return a - b*floor(a/b); }
+	div		$tmp3 $tmp1 $const4 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp2 $tmp3 	%argrw{"wr"}
+	mul		$tmp4 $const4 $tmp2 	%argrw{"wrr"}
+	sub		s $tmp1 $tmp4 	%argrw{"wrr"}
+# randommap.osl:9
+#     float t=mod(v*repeatCount,1);
+	mul		$tmp5 v repeatCount 	%filename{"randommap.osl"} %line{9} %argrw{"wrr"}
+	functioncall	$const5 14 	%argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:135
+# int    mod (int    a, int    b) { return a - b*(int)floor(a/b); }
+	div		$tmp7 $tmp5 $const4 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp6 $tmp7 	%argrw{"wr"}
+	mul		$tmp8 $const4 $tmp6 	%argrw{"wrr"}
+	sub		t $tmp5 $tmp8 	%argrw{"wrr"}
+# randommap.osl:12
+#     if((float)noise("cell",u*repeatCount,v*repeatCount)>0.5)
+	mul		$tmp10 u repeatCount 	%filename{"randommap.osl"} %line{12} %argrw{"wrr"}
+	mul		$tmp11 v repeatCount 	%argrw{"wrr"}
+	noise		$tmp9 $const6 $tmp10 $tmp11 	%argrw{"wrrr"}
+	gt		$tmp12 $tmp9 $const7 	%argrw{"wrr"}
+	if		$tmp12 20 21 	%argrw{"r"}
+# randommap.osl:13
+# 	    Cout=(color) texture("Flower_pattern_pxr128.tx",s,t);
+	texture		Cout $const1 s t 	%line{13} %argrw{"wrrr"} %argderivs{2,3}
+# randommap.osl:15
+# 	    Cout=(color) texture("Wild_flowers_pxr128.tx",s,t);
+	texture		Cout $const8 s t 	%line{15} %argrw{"wrrr"} %argderivs{2,3}
+	end

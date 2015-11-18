@@ -1,0 +1,9 @@
+shader repeat (
+	color Cin=1,
+output	color Cout=1
+)
+{
+    // txmake -smode periodic -tmode periodic Flower_pattern_pxr128.tif Flower_pattern_pxr128.tx	
+    Cout=(color)texture("Flower_pattern_pxr128.tx",u*2,v*2);
+}
+

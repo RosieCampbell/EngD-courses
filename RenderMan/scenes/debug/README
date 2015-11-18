@@ -1,0 +1,5 @@
+Examples of rendering with the PxrDebugShadingContext integrator:
+
+1) mindbg.rib - A minimal scene with one sphere. Change the integrator
+line to display different elements of the shading context.
+

@@ -1,0 +1,14 @@
+Examples of rerendering with RIS:
+
+All examples use the same simple scene, a sphere and a subdiv on a plane
+with an environment light and an arealight. 
+
+1) rerender_arealight.py - rotates the area light about the y axis.
+
+2) rerender_envlight.py - rotates the environment light about the y axis.
+
+3) rerender_camera.py - rotates the camera about the y axis.
+
+4) rerender_bxdf.py - animates the roughness of the spehere from 0 to 1.
+
+5) bxdfInstEdit.py - animates roughess of chrome, via instance edits.

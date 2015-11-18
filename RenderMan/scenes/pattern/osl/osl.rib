@@ -1,0 +1,60 @@
+
+
+Display "osl.tif" "framebuffer" "rgba"
+
+Option "searchpath" "string shader" ["./shaders:@"]
+
+Projection "orthographic"
+ScreenWindow -6 1 -1 1 
+Format 768 256 1
+
+PixelVariance 0
+Hider "raytrace" "int incremental" [1] "int maxsamples" [16]
+
+Integrator "PxrDefault" "def"
+
+Translate 0 0 5
+
+WorldBegin
+
+    ArchiveBegin "wall"
+      Patch "bilinear" "P" [ -1 1 0  1 1 0  -1 -1 0  1 -1 0]
+    ArchiveEnd
+
+    Pattern "PxrOSL" "expr1" "string shader" "marble" 
+            "color Cin" [0.635 0.243 0.047] "float freq" .2
+
+    Pattern "PxrOSL" "expr2" "string shader" "voronoi"
+    Pattern "PxrOSL" "expr3" "string shader" "colorselect" 
+            "reference float select" ["expr2:Fout"] 
+
+    Pattern "PxrOSL" "mixnetwork" "string network" "mixnetwork" 
+
+    Color 1 1 1
+
+    AttributeBegin
+      TransformBegin
+      Translate  -5 0 1
+      Bxdf "PxrDiffuse" "diffuse"  "reference color diffuseColor" ["expr1:Cout"]
+      ReadArchive "wall"
+      TransformEnd
+    AttributeEnd
+
+    AttributeBegin
+      TransformBegin
+      Translate  -2.5 0 1
+      Bxdf "PxrDiffuse" "diffuse"  "reference color diffuseColor" ["expr3:Cout"]
+      ReadArchive "wall"
+      TransformEnd
+    AttributeEnd
+
+    AttributeBegin
+      TransformBegin
+      Translate  0 0 1
+      Bxdf "PxrDiffuse" "diffuse"  "reference color diffuseColor" ["mixnetwork:C.Cout"]
+      ReadArchive "wall"
+      TransformEnd
+    AttributeEnd
+
+WorldEnd
+

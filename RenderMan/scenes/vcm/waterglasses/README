@@ -1,0 +1,25 @@
+# $Revision: #1 $
+
+This example shows how Attribute "trace" "intersectpriority" can be used 
+in conjunction with Attribute  "shade" "indexofrefraction" to simplify the 
+modeling of "nested dielectric" scenes. 
+
+In such scenes, a ray encounters a number of different media boundaries 
+(air/glass, glass/water, water/air) and each boundary requires computation 
+of the relative index of refraction to determine the refraction direction.  
+The renderer tracks the priorities of objects encountered as the ray
+transits the scene.  Only the current highest priority object is actually
+shaded. When a ray exits a material, the new highest priority object depends
+on the path the ray has taken through the scene.  This information is
+coupled with the indexofrefraction to respond to the glass shader's request
+for the "outside IOR" which forms the basis of the refraction direction
+computation.
+
+In this example, PxrGlass is used to model three different materials (glass,
+water and airbubble). The settings for these materials are found in
+waterglasses.look.rib.
+
+To run this example simply type:
+
+prman waterglasses.rib
+

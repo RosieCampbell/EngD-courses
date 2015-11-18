@@ -1,0 +1,31 @@
+// Adpated from vRay OSL examples
+
+normal getBumpedNormal(color centerColor, color uColor, color vColor, float amount)
+{
+    vector avg = vector(0.333333);
+    float c = dot(avg, vector(centerColor));
+    float ddu = c - dot(avg, vector(uColor));
+    float ddv = c - dot(avg, vector(vColor));
+    return normalize(normal("shader", ddu, -ddv, (1.000000 / amount)));
+}
+ 
+surface
+carbonfiber (
+        string diffuseTexture = "diffuse.png",
+        string bumpTexture = "bump.png",
+        float bumpAmount = 2.0,
+        float s = 0 [[int lockgeom = 0]],
+        float t = 0 [[int lockgeom = 0]],
+        output normal bumpN = 0,
+        output color diffuseColor = 0
+    )
+{
+    float ss = s*4;
+    float tt = t*4;
+    diffuseColor = .08 * texture(diffuseTexture, ss, tt);
+
+    color center = texture(bumpTexture, ss, tt);
+    color uColor = texture(bumpTexture, ss + 0.004, tt);
+    color vColor = texture(bumpTexture, ss, tt + 0.004);
+    bumpN = getBumpedNormal(center, uColor, vColor, bumpAmount);
+}

@@ -1,0 +1,91 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader repeat
+param	color	Cin	1 1 1		%read{18,18} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{24,24} %write{18,24}
+global	float	u	%read{4,4} %write{2147483647,-1}
+global	float	v	%read{10,10} %write{2147483647,-1}
+local	color	red	%read{2147483647,-1} %write{0,0}
+local	color	green	%read{2147483647,-1} %write{1,1}
+local	color	blue	%read{24,24} %write{2,2}
+local	float	fuzz	%read{20,21} %write{3,3}
+local	float	dist	%read{22,22} %write{19,19}
+local	float	inDisk	%read{24,24} %write{23,23}
+local	float	s	%read{17,17} %write{9,9}
+local	float	t	%read{17,17} %write{15,15}
+local	point	centre	%read{19,19} %write{16,16}
+local	point	here	%read{19,19} %write{17,17}
+const	string	$const1	"rgb"		%read{0,2} %write{2147483647,-1}
+const	float	$const3	1		%read{0,23} %write{2147483647,-1}
+const	float	$const5	0		%read{0,17} %write{2147483647,-1}
+const	float	$const6	0.025		%read{3,3} %write{2147483647,-1}
+temp	float	$tmp1	%read{6,9} %write{4,4}
+const	float	$const8	5		%read{4,10} %write{2147483647,-1}
+const	string	$const9	"mod"		%read{5,11} %write{2147483647,-1}
+temp	float	$tmp2	%read{8,8} %write{7,7}
+temp	float	$tmp3	%read{7,7} %write{6,6}
+temp	float	$tmp4	%read{9,9} %write{8,8}
+temp	float	$tmp5	%read{12,15} %write{10,10}
+temp	float	$tmp6	%read{14,14} %write{13,13}
+temp	float	$tmp7	%read{13,13} %write{12,12}
+temp	float	$tmp8	%read{15,15} %write{14,14}
+const	point	$const10	0.5 0.5 0		%read{16,16} %write{2147483647,-1}
+temp	float	$tmp9	%read{23,23} %write{22,22}
+const	float	$const11	0.30000001		%read{20,21} %write{2147483647,-1}
+temp	float	$tmp10	%read{22,22} %write{20,20}
+temp	float	$tmp11	%read{22,22} %write{21,21}
+code ___main___
+# repeat.osl:6
+#     color red=color("rgb",1,0,0);
+	color		red $const1 $const3 $const5 $const5 	%filename{"repeat.osl"} %line{6} %argrw{"wrrrr"}
+# repeat.osl:7
+#     color green=color("rgb",0,1,0);
+	color		green $const1 $const5 $const3 $const5 	%line{7} %argrw{"wrrrr"}
+# repeat.osl:8
+#     color blue=color("rgb",0,0,1);
+	color		blue $const1 $const5 $const5 $const3 	%line{8} %argrw{"wrrrr"}
+# repeat.osl:9
+#     float fuzz=0.025;
+	assign		fuzz $const6 	%line{9} %argrw{"wr"}
+# repeat.osl:13
+#     float s=mod(u*5,1);
+	mul		$tmp1 u $const8 	%line{13} %argrw{"wrr"}
+	functioncall	$const9 10 	%argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:135
+# PERCOMP1 (round)
+	div		$tmp3 $tmp1 $const3 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp2 $tmp3 	%argrw{"wr"}
+	mul		$tmp4 $const3 $tmp2 	%argrw{"wrr"}
+	sub		s $tmp1 $tmp4 	%argrw{"wrr"}
+# repeat.osl:14
+#     float t=mod(v*5,1);
+	mul		$tmp5 v $const8 	%filename{"repeat.osl"} %line{14} %argrw{"wrr"}
+	functioncall	$const9 16 	%argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:135
+# PERCOMP1 (ceil)
+	div		$tmp7 $tmp5 $const3 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp6 $tmp7 	%argrw{"wr"}
+	mul		$tmp8 $const3 $tmp6 	%argrw{"wrr"}
+	sub		t $tmp5 $tmp8 	%argrw{"wrr"}
+# repeat.osl:15
+#     point centre=point (0.5,0.5,0);
+	assign		centre $const10 	%filename{"repeat.osl"} %line{15} %argrw{"wr"}
+# repeat.osl:16
+#     point here=point (s,t,0);
+	point		here s t $const5 	%line{16} %argrw{"wrrr"}
+# repeat.osl:18
+#     Cout=Cin;
+	assign		Cout Cin 	%line{18} %argrw{"wr"}
+# repeat.osl:20
+#     dist=distance(centre,here);
+	distance	dist centre here 	%line{20} %argrw{"wrr"}
+# repeat.osl:21
+#     inDisk=1-smoothstep(0.3-fuzz,0.3+fuzz,dist);
+	sub		$tmp10 $const11 fuzz 	%line{21} %argrw{"wrr"}
+	add		$tmp11 $const11 fuzz 	%argrw{"wrr"}
+	smoothstep	$tmp9 $tmp10 $tmp11 dist 	%argrw{"wrrr"}
+	sub		inDisk $const3 $tmp9 	%argrw{"wrr"}
+# repeat.osl:22
+#     Cout=mix(Cout,blue,inDisk);
+	mix		Cout Cout blue inDisk 	%line{22} %argrw{"wrrr"}
+	end

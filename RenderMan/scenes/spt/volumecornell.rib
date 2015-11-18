@@ -1,0 +1,70 @@
+##RenderMan RIB
+version 3.04
+Option "ribparse" "string varsubst" [""]
+Option "ribparse" "string varsubst" ["$"]
+Option "searchpath" "string procedural" [".:${RMANTREE}/etc:@"]
+Option "ribparse" "string varsubst" ["!"]
+Attribute "trace" "int maxspeculardepth" [10] "int maxdiffusedepth" [10]
+PixelFilter "box" 1 1
+Option "limits" "bucketsize" [16 16] 
+Format 512 512 1
+ShadingInterpolation "smooth"
+Hider "raytrace"
+    "int incremental" [1]
+    "int minsamples" [2048] "int maxsamples" [4096] 
+Display "volumecornell.tif" "framebuffer" "rgba" 
+Integrator "PxrPathTracer" "handle" "int maxPathLength" [4]
+Projection "perspective" "fov" [30]
+FrameBegin 1
+	Shutter 0 1
+	Translate 0 0 5
+	ShadingRate 1
+	WorldBegin 
+		Attribute "visibility" "int transmission" [1]
+		AttributeBegin 
+			AreaLightSource "PxrAreaLight" "Light0" "float intensity" [60] 
+            "float areaNormalize" [1]
+			# Lights currently can't be camera visable
+			Attribute "visibility" "int indirect" [0] "int transmission" [0] 
+            "int camera" [0]
+			ShadingRate 1000
+			Sides 1
+                        Translate 0 2 0
+                        Rotate 90 1 0 0
+                        Scale 0.5 0.5 0.5
+                        Geometry "rectlight"
+		AttributeEnd 
+		AttributeBegin 
+			Color [0.8 0.2 0.2]
+			Bxdf "PxrDiffuse" "smooth" "color diffuseColor" [0.8 0.2 0.2]
+			Polygon "P" [-1 1 -2 -1 1 1 -1 -1 1 -1 -1 -2]
+			Color [0.2 0.2 0.8]
+			Bxdf "PxrDiffuse" "smooth" "color diffuseColor" [0.2 0.2 0.8]
+			Polygon "P" [1 -1 -2 1 -1 1 1 1 1 1 1 -2]
+			Color [0.8 0.8 0.8]
+			Bxdf "PxrDiffuse" "smooth" "color diffuseColor" [0.8 0.8 0.8]
+			Polygon "P" [-1 -1 1 1 -1 1 1 -1 -2 -1 -1 -2]
+			Bxdf "PxrDiffuse" "smooth" "color diffuseColor" [0.95 0.95 0.95]
+			GeneralPolygon [4 4] "P" [-1 1 -2 1 1 -2 1 1 1 -1 1 1 -0.25 1 -0.25 0.25 1 -0.25 0.25 1 0.25 -0.25 1 0.25]
+			Bxdf "PxrDiffuse" "smooth" "color diffuseColor" [0.8 0.8 0.8]
+			Polygon "P" [-1 1 1 1 1 1 1 -1 1 -1 -1 1]
+		AttributeEnd 
+		AttributeBegin 
+			Translate 0 -0.82 0
+			Bxdf "PxrDiffuse" "smooth" "color diffuseColor" [0.9 0.1 0]
+			Scale 0.18 0.18 0.18
+			ReadArchive "sdivball.rib" 
+		AttributeEnd 
+		AttributeBegin 
+	        	Pattern "PxrPrimvar" "primvar" "string type" ["float"] "string varname" ["density"]
+                        Pattern "PxrSeExpr" "biasdensity" "reference float density" ["primvar:resultF"] "string expression" ["$density * 25"]
+			Bxdf "PxrVolume" "smooth" "color diffuseColor" [0 1 0] 
+                            "reference float densityFloat" ["biasdensity:resultF"]
+			    "float maxDensity" [25]
+			Translate 0 -0.75 0
+			Scale 0.018 0.018 0.018
+			Rotate 45 0 1 0
+			Volume "blobbydso:impl_openvdb" [-33.5714 18.8095 -12.1429 93.0952 -25.9524 26.9048] [0 0 0] "constant string[2] blobbydso:stringargs" ["smoke.vdb" "density"] "constant float blobbydso:threshold" [0.01] "varying float density" []
+		AttributeEnd 
+	WorldEnd 
+FrameEnd 

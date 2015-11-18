@@ -1,0 +1,41 @@
+#pointlight.rib
+Display "pointlight.tiff" "it" "rgb"
+Format 640 480 1.0
+
+Hider "raytrace" "int incremental" [1]
+PixelVariance 0.01
+Integrator "PxrDefault" "integrator"
+Integrator "PxrVCM" "integrator"
+Integrator "PxrDirectlighting" "integrator"
+Integrator "PxrPathTracer" "integrator"
+
+Projection "perspective" "fov" [ 30 ]
+
+Translate 0 0 5
+
+WorldBegin
+AttributeBegin
+	AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [0.5]
+			"float enableEmissionMap" [1]
+			"string rman__EmissionMap" ["studio2.tx"]
+			"float linearizeEmissionMap" [1]
+	Rotate -90 1 0 0 
+	Geometry "envsphere" "constant float radius" [5]
+AttributeEnd
+#Illuminate "theLight" 1
+
+	AttributeBegin
+	Rotate -90 1 0 0
+	Scale 0.4 0.4 0.4
+	Translate -1 0 -1
+	Rotate -90 0 1 0
+	Pattern "PxrTexture" "myTexture" "string filename" "Flower_pattern_pxr128.tx"
+	Bxdf "PxrDisney" "forTheTeapot" "reference float metallic" ["myTexture:resultG"] "float roughness" [0.1]
+	Rotate 90 0 1 0
+	TransformBegin
+	Rotate -40 1 0 0
+	Geometry "teapot"
+	TransformEnd
+	AttributeEnd
+
+WorldEnd

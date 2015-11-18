@@ -1,0 +1,64 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+surface layer
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{8,15} %write{4,15}
+global	float	u	%read{9,9} %write{2147483647,-1}
+global	float	v	%read{7,7} %write{2147483647,-1}
+local	color	red	%read{8,8} %write{0,0}
+local	color	green	%read{4,4} %write{1,1}
+local	color	blue	%read{15,15} %write{2,2}
+local	float	fuzz	%read{5,12} %write{3,3}
+local	float	inTop	%read{8,8} %write{7,7}
+local	float	inLine	%read{15,15} %write{14,14}
+local	float	dist	%read{13,13} %write{10,10}
+const	string	$const1	"rgb"		%read{0,2} %write{2147483647,-1}
+const	float	$const3	1		%read{0,14} %write{2147483647,-1}
+const	float	$const5	0		%read{0,2} %write{2147483647,-1}
+const	float	$const6	0.025		%read{3,3} %write{2147483647,-1}
+const	float	$const7	0.5		%read{5,9} %write{2147483647,-1}
+temp	float	$tmp1	%read{7,7} %write{5,5}
+temp	float	$tmp2	%read{7,7} %write{6,6}
+temp	float	$tmp3	%read{10,10} %write{9,9}
+temp	float	$tmp4	%read{14,14} %write{13,13}
+const	float	$const8	0.1		%read{11,12} %write{2147483647,-1}
+temp	float	$tmp5	%read{13,13} %write{11,11}
+temp	float	$tmp6	%read{13,13} %write{12,12}
+code ___main___
+# layer.osl:6
+#     color red=color  ("rgb",1,0,0);
+	color		red $const1 $const3 $const5 $const5 	%filename{"layer.osl"} %line{6} %argrw{"wrrrr"}
+# layer.osl:7
+#     color green=color  ("rgb",0,1,0);
+	color		green $const1 $const5 $const3 $const5 	%line{7} %argrw{"wrrrr"}
+# layer.osl:8
+#     color blue=color  ("rgb",0,0,1);
+	color		blue $const1 $const5 $const5 $const3 	%line{8} %argrw{"wrrrr"}
+# layer.osl:9
+#     float fuzz=0.025;
+	assign		fuzz $const6 	%line{9} %argrw{"wr"}
+# layer.osl:14
+#     Cout=green;
+	assign		Cout green 	%line{14} %argrw{"wr"}
+# layer.osl:15
+#     inTop=smoothstep(0.5-fuzz,0.5+fuzz,v);
+	sub		$tmp1 $const7 fuzz 	%line{15} %argrw{"wrr"}
+	add		$tmp2 $const7 fuzz 	%argrw{"wrr"}
+	smoothstep	inTop $tmp1 $tmp2 v 	%argrw{"wrrr"}
+# layer.osl:16
+#     Cout=mix(Cout,red,inTop);
+	mix		Cout Cout red inTop 	%line{16} %argrw{"wrrr"}
+# layer.osl:18
+#     dist=abs(u-0.5);
+	sub		$tmp3 u $const7 	%line{18} %argrw{"wrr"}
+	abs		dist $tmp3 	%argrw{"wr"}
+# layer.osl:19
+#     inLine=1-smoothstep(0.1-fuzz,0.1+fuzz,dist);
+	sub		$tmp5 $const8 fuzz 	%line{19} %argrw{"wrr"}
+	add		$tmp6 $const8 fuzz 	%argrw{"wrr"}
+	smoothstep	$tmp4 $tmp5 $tmp6 dist 	%argrw{"wrrr"}
+	sub		inLine $const3 $tmp4 	%argrw{"wrr"}
+# layer.osl:20
+#     Cout=mix(Cout,blue,inLine);
+	mix		Cout Cout blue inLine 	%line{20} %argrw{"wrrr"}
+	end

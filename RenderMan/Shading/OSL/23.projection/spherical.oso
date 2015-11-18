@@ -1,0 +1,60 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+surface spherical
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{14,14}
+global	point	P	%read{1,1} %write{2147483647,-1}
+local	point	PP	%read{2,2} %write{1,1}
+local	vector	d	%read{4,10} %write{2,2}
+local	float	repeatCount	%read{9,13} %write{3,3}
+local	float	s	%read{14,14} %write{9,9}
+local	float	t	%read{14,14} %write{13,13}
+const	string	$const1	"object"		%read{1,1} %write{2147483647,-1}
+const	string	$const2	"transform"		%read{0,0} %write{2147483647,-1}
+const	string	$const3	"common"		%read{1,1} %write{2147483647,-1}
+const	int	$const4	10		%read{3,3} %write{2147483647,-1}
+temp	float	$tmp1	%read{8,8} %write{6,6}
+const	int	$const5	0		%read{4,4} %write{2147483647,-1}
+temp	float	$tmp2	%read{6,6} %write{4,4}
+const	int	$const6	1		%read{5,5} %write{2147483647,-1}
+temp	float	$tmp3	%read{6,6} %write{5,5}
+const	int	$const7	2		%read{10,10} %write{2147483647,-1}
+const	float	$const8	3.1415927		%read{7,12} %write{2147483647,-1}
+temp	float	$tmp4	%read{8,8} %write{7,7}
+const	float	$const9	2		%read{7,7} %write{2147483647,-1}
+temp	float	$tmp5	%read{9,9} %write{8,8}
+temp	float	$tmp6	%read{12,12} %write{11,11}
+temp	float	$tmp7	%read{11,11} %write{10,10}
+temp	float	$tmp8	%read{13,13} %write{12,12}
+const	string	$const10	"cell"		%read{14,14} %write{2147483647,-1}
+code ___main___
+# spherical.osl:6
+#     point PP=transform("object",P);
+	functioncall	$const2 2 	%filename{"spherical.osl"} %line{6} %argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:243
+# point  transform (matrix Mto, point p) BUILTIN;
+	transform	PP $const3 $const1 P 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{243} %argrw{"wrrr"}
+# spherical.osl:7
+#     vector d=normalize(PP);
+	normalize	d PP 	%filename{"spherical.osl"} %line{7} %argrw{"wr"}
+# spherical.osl:8
+#     float repeatCount=10;
+	assign		repeatCount $const4 	%line{8} %argrw{"wr"}
+# spherical.osl:9
+#     float s=atan2(d[0],d[1])/(2*M_PI)*repeatCount;
+	compref		$tmp2 d $const5 	%line{9} %argrw{"wrr"}
+	compref		$tmp3 d $const6 	%argrw{"wrr"}
+	atan2		$tmp1 $tmp2 $tmp3 	%argrw{"wrr"}
+	mul		$tmp4 $const9 $const8 	%argrw{"wrr"}
+	div		$tmp5 $tmp1 $tmp4 	%argrw{"wrr"}
+	mul		s $tmp5 repeatCount 	%argrw{"wrr"}
+# spherical.osl:10
+#     float t=acos(d[2])/M_PI*repeatCount;
+	compref		$tmp7 d $const7 	%line{10} %argrw{"wrr"}
+	acos		$tmp6 $tmp7 	%argrw{"wr"}
+	div		$tmp8 $tmp6 $const8 	%argrw{"wrr"}
+	mul		t $tmp8 repeatCount 	%argrw{"wrr"}
+# spherical.osl:11
+#     Cout=(color) noise("cell",s,t);;
+	noise		Cout $const10 s t 	%line{11} %argrw{"wrrr"}
+	end

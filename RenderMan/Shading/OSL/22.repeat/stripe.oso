@@ -1,0 +1,29 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+surface stripe
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{6,6}
+global	float	u	%read{1,1} %write{2147483647,-1}
+local	float	repeatCount	%read{1,1} %write{0,0}
+local	int	whichStripe	%read{4,4} %write{3,3}
+const	int	$const1	6		%read{0,0} %write{2147483647,-1}
+temp	float	$tmp1	%read{3,3} %write{2,2}
+temp	float	$tmp2	%read{2,2} %write{1,1}
+const	int	$const2	2		%read{4,4} %write{2147483647,-1}
+temp	int	$tmp3	%read{5,5} %write{4,4}
+temp	float	$tmp4	%read{6,6} %write{5,5}
+code ___main___
+# stripe.osl:6
+#     float repeatCount=6;
+	assign		repeatCount $const1 	%filename{"stripe.osl"} %line{6} %argrw{"wr"}
+# stripe.osl:7
+#     int whichStripe=(int)floor(u*repeatCount);
+	mul		$tmp2 u repeatCount 	%line{7} %argrw{"wrr"}
+	floor		$tmp1 $tmp2 	%argrw{"wr"}
+	assign		whichStripe $tmp1 	%argrw{"wr"}
+# stripe.osl:8
+#     Cout=(float)(whichStripe%2);
+	mod		$tmp3 whichStripe $const2 	%line{8} %argrw{"wrr"}
+	assign		$tmp4 $tmp3 	%argrw{"wr"}
+	assign		Cout $tmp4 	%argrw{"wr"}
+	end

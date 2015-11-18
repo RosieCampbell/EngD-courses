@@ -1,0 +1,45 @@
+This directory contains examples of RPS 19's new RIS rendering mode.
+These examples employ PxrPathTracer.
+
+dinosaur: see dinosaur/README
+
+prometheus_marble:
+    > prman prometheus_marble.rib
+
+    Demonstrates subsurface scattering.
+
+volumecornell:
+    > shader volumedensity.sl
+    > prman volumecornell.rib
+
+    Demonstrates volume rendering using path tracing. The maximum ray
+    depth is set to 3; in PxrSimplePathTracer, the ray depth is
+    incremented only after a surface interaction, so all indirect
+    illumination rays in this scene originate from an interaction with
+    the cornell box, not the volume. Hence, PxrSimplePathTracer does
+    not perform indirect illumination of the volume itself (there is
+    no volumetric multiple scattering) as this would generally be
+    prohibitive in cost. Every indirect ray does however perform
+    integration of single scattered light through the volume.
+
+    The volume density is controlled by a shader written in RSL
+    (volumedensity.sl) which simply maps the density grid from the
+    OpenVDB file to Oi after multiplying by a scale. Opacity caching
+    efficiently ensures that there is no RSL interpreter overhead
+    incurred per ray.
+
+firecornell:
+    > shader firedensity.sl
+    > prman firecornell.rib
+
+    Demonstrates rendering of an emissive volume using path tracing;
+    there is no light source in the scene. All illumination is
+    therefore acquired via indirect sampling by the path tracing
+    integrator (note that numLightSamples and numBxdfSamples are 0).
+
+    The emissive color of the volume is controlled by a SeExpr
+    expression which takes as input the temperature data from the
+    OpenVDB file. The density of the volume is controlled by a shader
+    written in RSL (firedensity.sl). Again, opacity caching
+    efficiently ensures that there is no RSL overhead per ray.
+	

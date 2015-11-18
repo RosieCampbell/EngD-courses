@@ -1,0 +1,91 @@
+shader_obj 5.0 1 0
+SimpleDisp 31 3 15 11 20 0 2 2 0 2 15 1
+12 184
+rgb
+current
+object
+/opt/pixar/RenderManProServer-19.0/lib/examples/RIS/scenes/spt/ssshead/shaders
+.:
+SimpleDisp.sl
+input
+magnitude
+displacement
+
+$meta_1900
+$meta___PRMAN_RELEASE__1900
+3
+0
+1
+2
+0
+31
+$meta___PRMAN_RELEASE__ 6 2 -1 10 3 0 0 0 0 0 0
+$meta___PRMAN_RELEASE_TAG__ 6 2 -1 11 3 0 0 0 0 0 0
+$S0 6 2 -1 0 3 0 0 0 0 0 0
+$S2 6 2 -1 1 3 0 0 0 0 0 0
+$S3 6 2 -1 2 3 0 0 0 0 4 4
+$srcDir 6 2 -1 3 3 0 0 0 0 0 0
+$includePath 6 2 -1 4 3 0 0 0 0 0 0
+$S7 6 2 -1 5 3 0 0 0 0 1 20
+$C0 4 2 -1 0 3 0 0 0 0 1 4
+$C1 4 2 -1 1 3 0 0 0 0 4 11
+$S8 6 2 -1 6 3 0 0 0 0 8 8
+$S9 6 2 -1 7 3 0 0 0 0 9 9
+$C2 4 2 -1 2 3 0 0 0 0 10 10
+$S11 6 2 -1 8 3 0 0 3 3 0 0
+$S12 6 2 -1 9 3 0 0 20 20 0 0
+input 4 5 -1 15 3 1 1 1 1 6 6
+magnitude 4 5 -1 16 3 1 2 2 2 7 7
+$result_displacement 0 15 -1 0 3 0 0 0 0 0 0
+Ps 2 10 1 0 2 0 0 17 17 17 19
+N 22 10 1 0 2 0 0 19 19 14 14
+$2_unit 21 3 1 0 2 0 0 4 4 5 5
+$2_scale 4 3 -1 0 2 0 0 5 5 13 13
+$2_evalInput 4 3 -1 0 2 0 0 6 11 8 12
+$2_evalMag 4 3 -1 0 2 0 0 7 9 9 12
+displacement 15 8 -1 0 2 1 17 0 0 2 20
+$T0 4 4 -1 0 1 0 0 8 8 0 0
+$T1 4 4 -1 0 1 0 0 9 9 0 0
+$T2 4 4 -1 0 2 0 0 10 12 11 13
+$T4 4 4 -1 0 2 0 0 13 13 15 15
+$T5 22 4 1 0 2 0 0 14 14 15 15
+$T6 22 4 1 0 2 0 0 15 15 17 17
+45
+15 8 
+16 8 
+13 
+20 4 9 8 8 
+21 20 
+22 15 
+23 16 
+25 10 22 
+26 11 23 
+27 12 22 
+22 27 9 
+27 22 23 
+28 27 21 
+29 19 
+30 28 29 
+18 18 30 
+19 18 
+14 
+_assign 	2 0  5 2 0
+_assign 	2 2  5 3 0
+_enterproc 	1 4  5 2 1
+_vectortransform 5 5  5 5 2
+length		2 10  5 6 2
+_assign 	2 12  5 7 2
+_assign 	2 14  5 8 2
+evalparam 	3 16  5 10 2
+evalparam 	3 19  5 11 2
+_multiply 	3 22  5 13 2
+_subtract 	3 25  5 13 2
+_multiply 	3 28  5 14 2
+_multiply 	3 31  5 14 2
+normalize 	2 34  5 14 2
+_scale		3 36  5 14 2
+$Pprechg 	0 -1  5 14 2
+_add		3 39  5 14 2
+$Nprechg 	0 -1  5 15 2
+calculatenormal 2 42  5 15 2
+_enterproc 	1 44  5 2 1

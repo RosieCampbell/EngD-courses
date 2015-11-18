@@ -1,0 +1,15 @@
+
+prman ssshead.rib
+
+PRMan incremental path tracing of a head with subsurface scattering.
+The subsurface scattering type is beam diffusion and single-scatter.
+The head is a single subdivision surface and has large displacement
+and texture maps.  It is illuminated by two area lights and a bounce
+card.  If the skin color looks funny, switch your display to EXR mode.
+Render time is less than two minutes on an 8-core machine.
+
+Head geometry and textures from Infinite Realities (http://ir-ltd.net/)
+under a Creative Commons Attribution license.
+Thanks to Lee Perry-Smith for making this data set freely available.
+
+

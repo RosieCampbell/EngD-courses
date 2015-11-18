@@ -1,0 +1,13 @@
+shader smoothstep (
+	color Cin = 1,
+output	color Cout=0
+	)
+
+{
+    color red=color ("rgb",1,0,0); 
+    color green=color ("rgb",0,1,0); 
+    float inZone=smoothstep(0.4,0.6,u);
+
+    Cout=mix(green,red,inZone);
+}
+

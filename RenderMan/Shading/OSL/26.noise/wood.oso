@@ -1,0 +1,89 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader wood
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+param	float	scale	1		%read{4,4} %write{2147483647,-1}
+param	float	freq	5		%read{5,5} %write{2147483647,-1}
+param	float	variation	0.050000001		%read{7,7} %write{2147483647,-1}
+oparam	color	Cout	1 1 1		%read{2147483647,-1} %write{23,23}
+global	point	P	%read{3,3} %write{2147483647,-1}
+local	color	lightWood	%read{23,23} %write{0,0}
+local	color	darkWood	%read{23,23} %write{1,1}
+local	point	PP	%read{5,13} %write{4,8}
+local	float	l	%read{17,17} %write{16,16}
+const	string	$const1	"rgb"		%read{0,1} %write{2147483647,-1}
+const	int	$const2	1		%read{12,13} %write{2147483647,-1}
+const	float	$const3	1		%read{0,21} %write{2147483647,-1}
+const	float	$const4	0.60000002		%read{0,0} %write{2147483647,-1}
+const	float	$const5	0.5		%read{0,0} %write{2147483647,-1}
+const	float	$const6	0.30000001		%read{1,1} %write{2147483647,-1}
+const	float	$const7	0.2		%read{1,1} %write{2147483647,-1}
+temp	point	$tmp1	%read{4,4} %write{3,3}
+const	string	$const8	"shader"		%read{3,3} %write{2147483647,-1}
+const	string	$const9	"transform"		%read{2,2} %write{2147483647,-1}
+const	string	$const10	"common"		%read{3,3} %write{2147483647,-1}
+temp	vector	$tmp2	%read{7,7} %write{6,6}
+const	string	$const11	"perlin"		%read{6,6} %write{2147483647,-1}
+temp	point	$tmp3	%read{6,6} %write{5,5}
+temp	vector	$tmp4	%read{8,8} %write{7,7}
+const	int	$const12	0		%read{9,10} %write{2147483647,-1}
+temp	float	$tmp5	%read{11,11} %write{9,9}
+temp	float	$tmp6	%read{11,11} %write{10,10}
+temp	float	$tmp7	%read{15,15} %write{11,11}
+temp	float	$tmp8	%read{14,14} %write{12,12}
+temp	float	$tmp9	%read{14,14} %write{13,13}
+temp	float	$tmp10	%read{15,15} %write{14,14}
+temp	float	$tmp11	%read{16,16} %write{15,15}
+temp	float	$tmp12	%read{23,23} %write{22,22}
+temp	float	$tmp13	%read{19,22} %write{17,17}
+const	float	$const14	8		%read{17,17} %write{2147483647,-1}
+const	string	$const15	"mod"		%read{18,18} %write{2147483647,-1}
+temp	float	$tmp14	%read{21,21} %write{20,20}
+temp	float	$tmp15	%read{20,20} %write{19,19}
+temp	float	$tmp16	%read{22,22} %write{21,21}
+code ___main___
+# wood.osl:9
+#     color lightWood=color("rgb",1,0.6,0.5);
+	color		lightWood $const1 $const3 $const4 $const5 	%filename{"wood.osl"} %line{9} %argrw{"wrrrr"}
+# wood.osl:10
+#     color darkWood=color("rgb",0.3,0.2,0.2);
+	color		darkWood $const1 $const6 $const7 $const7 	%line{10} %argrw{"wrrrr"}
+# wood.osl:15
+#     PP=transform("shader",P)*scale;
+	functioncall	$const9 4 	%line{15} %argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:243
+#               output float Kr, output float Kt)
+	transform	$tmp1 $const10 $const8 P 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{243} %argrw{"wrrr"}
+# wood.osl:15
+#     PP=transform("shader",P)*scale;
+	mul		PP $tmp1 scale 	%filename{"wood.osl"} %line{15} %argrw{"wrr"}
+# wood.osl:16
+#     PP=PP+(vector)noise("perlin",PP*freq)*variation;
+	mul		$tmp3 PP freq 	%line{16} %argrw{"wrr"}
+	noise		$tmp2 $const11 $tmp3 	%argrw{"wrr"}
+	mul		$tmp4 $tmp2 variation 	%argrw{"wrr"}
+	add		PP PP $tmp4 	%argrw{"wrr"}
+# wood.osl:17
+#     l=sqrt(PP[0]*PP[0]+PP[1]*PP[1]);
+	compref		$tmp5 PP $const12 	%line{17} %argrw{"wrr"}
+	compref		$tmp6 PP $const12 	%argrw{"wrr"}
+	mul		$tmp7 $tmp5 $tmp6 	%argrw{"wrr"}
+	compref		$tmp8 PP $const2 	%argrw{"wrr"}
+	compref		$tmp9 PP $const2 	%argrw{"wrr"}
+	mul		$tmp10 $tmp8 $tmp9 	%argrw{"wrr"}
+	add		$tmp11 $tmp7 $tmp10 	%argrw{"wrr"}
+	sqrt		l $tmp11 	%argrw{"wr"}
+# wood.osl:18
+#     Cout=mix(darkWood,lightWood,mod(l*8,1));
+	mul		$tmp13 l $const14 	%line{18} %argrw{"wrr"}
+	functioncall	$const15 23 	%argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:135
+# PERCOMP1 (fabs)
+	div		$tmp15 $tmp13 $const3 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp14 $tmp15 	%argrw{"wr"}
+	mul		$tmp16 $const3 $tmp14 	%argrw{"wrr"}
+	sub		$tmp12 $tmp13 $tmp16 	%argrw{"wrr"}
+# wood.osl:18
+#     Cout=mix(darkWood,lightWood,mod(l*8,1));
+	mix		Cout darkWood lightWood $tmp12 	%filename{"wood.osl"} %line{18} %argrw{"wrrr"}
+	end

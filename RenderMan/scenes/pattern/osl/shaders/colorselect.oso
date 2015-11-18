@@ -1,0 +1,26 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.0dev
+shader colorselect
+param	float	select	0 		 %read{4,4} %write{2147483647,-1}
+oparam	color	Cout	0 0 0 		 %read{2147483647,-1} %write{4,4}
+local	color[4]	colors	 %read{4,4} %write{0,3}
+const	color	$const1	0.141 0.059 0.050999999		 %read{0,0} %write{2147483647,-1}
+const	int	$const2	0		 %read{0,0} %write{2147483647,-1}
+const	color	$const3	0.30199999 0.176 0.122		 %read{1,1} %write{2147483647,-1}
+const	int	$const4	1		 %read{1,1} %write{2147483647,-1}
+const	color	$const5	0.65100002 0.447 0.16500001		 %read{2,2} %write{2147483647,-1}
+const	int	$const6	2		 %read{2,2} %write{2147483647,-1}
+const	color	$const7	0.97600001 0.97600001 0.97600001		 %read{3,3} %write{2147483647,-1}
+const	int	$const8	3		 %read{3,3} %write{2147483647,-1}
+const	string	$const9	"linear"		 %read{4,4} %write{2147483647,-1}
+code ___main___
+# colorselect.osl:7
+#                          color (0.976, 0.976, 0.976) };
+	aassign		colors $const2 $const1 	%filename{"colorselect.osl"} %line{7} %argrw{"wrr"}
+	aassign		colors $const4 $const3 	%argrw{"wrr"}
+	aassign		colors $const6 $const5 	%argrw{"wrr"}
+	aassign		colors $const8 $const7 	%argrw{"wrr"}
+# colorselect.osl:9
+#     Cout = spline("linear", select, colors);
+	spline		Cout $const9 select colors 	%line{9} %argrw{"wrrr"}
+	end

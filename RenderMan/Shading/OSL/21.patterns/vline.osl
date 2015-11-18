@@ -1,0 +1,15 @@
+shader vline (
+	color Cin = 1,
+output	color Cout=0
+)
+{
+    color red=color  ("rgb",1,0,0);
+    color green=color ("rgb",0,1,0);
+    float fuzz=0.025;
+
+    float dist=abs(u-0.5);
+    float inLine=1-smoothstep(0.1-fuzz,0.1+fuzz,dist);
+
+    Cout=mix(red,green,inLine);
+}
+

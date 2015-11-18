@@ -1,0 +1,31 @@
+
+float 
+voronoi1D (point Pv,
+           float jitter)
+{
+    point thiscell = point (floor(Pv[0])+0.5, floor(Pv[1])+0.5,
+                            floor(Pv[2])+0.5);
+    float f1 = 1000;
+    int i, j, k;
+    for (i = -1;  i <= 1;  i += 1) {
+        for (j = -1;  j <= 1;  j += 1) {
+            for (k = -1;  k <= 1;  k += 1) {
+                point testcell = thiscell + vector(i,j,k);
+                point pos = testcell +
+                            jitter * (cellnoise (testcell) - 0.5);
+                vector offset = pos - Pv;
+                float dist = dot (offset , offset); /* actually dist^2 */
+                if (dist < f1) {
+                    f1 = dist;
+                }
+            }
+        }
+    }
+    return sqrt(f1);
+}
+
+shader voronoi(output float Fout = 0)
+{
+    float result = voronoi1D(P, .5); 
+    Fout = result * result;
+}

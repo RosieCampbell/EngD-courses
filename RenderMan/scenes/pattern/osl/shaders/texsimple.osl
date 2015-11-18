@@ -1,0 +1,6 @@
+shader
+texsimple (string filename = "invalid.tex",
+           output color Cout = 0)
+{
+    Cout = (color) texture (filename, u, v);
+}

@@ -1,0 +1,22 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader param
+param	color	Cin	1 1 1		%read{3,3} %write{2147483647,-1}
+param	string	mapname	""		%read{0,2} %write{2147483647,-1}
+oparam	color	Cout	1 1 1		%read{2147483647,-1} %write{2,3}
+global	float	u	%read{2,2} %write{2147483647,-1} %derivs
+global	float	v	%read{2,2} %write{2147483647,-1} %derivs
+const	string	$const1	""		%read{0,0} %write{2147483647,-1}
+temp	int	$tmp1	%read{1,1} %write{0,0}
+code ___main___
+# param.osl:7
+#     if(mapname != "")
+	neq		$tmp1 mapname $const1 	%filename{"param.osl"} %line{7} %argrw{"wrr"}
+	if		$tmp1 3 4 	%argrw{"r"}
+# param.osl:8
+# 	Cout=(color) texture(mapname,u,v);
+	texture		Cout mapname u v 	%line{8} %argrw{"wrrr"} %argderivs{2,3}
+# param.osl:10
+# 	Cout=Cin;
+	assign		Cout Cin 	%line{10} %argrw{"wr"}
+	end

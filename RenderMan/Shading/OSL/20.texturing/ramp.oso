@@ -1,0 +1,23 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+surface ramp
+param	int	orientation	0		%read{0,0} %write{2147483647,-1}
+param	color	Cin	0.89999998 0.1 0.1		%read{2,3} %write{2147483647,-1}
+param	color	Cin2	0.1 0.1 0.89999998		%read{2,3} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{2,3}
+global	float	u	%read{2,2} %write{2147483647,-1}
+global	float	v	%read{3,3} %write{2147483647,-1}
+const	int	$const1	0		%read{0,0} %write{2147483647,-1}
+temp	int	$tmp1	%read{1,1} %write{0,0}
+code ___main___
+# ramp.osl:9
+#     if(orientation==0)
+	eq		$tmp1 orientation $const1 	%filename{"ramp.osl"} %line{9} %argrw{"wrr"}
+	if		$tmp1 3 4 	%argrw{"r"}
+# ramp.osl:10
+# 	    Cout=mix(Cin,Cin2,u);
+	mix		Cout Cin Cin2 u 	%line{10} %argrw{"wrrr"}
+# ramp.osl:12
+# 	    Cout=mix(Cin,Cin2,v);
+	mix		Cout Cin Cin2 v 	%line{12} %argrw{"wrrr"}
+	end

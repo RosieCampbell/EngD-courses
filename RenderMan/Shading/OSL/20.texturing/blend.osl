@@ -1,0 +1,12 @@
+surface blend (
+	color Cin = 1,
+output	color Cout=0
+	)
+
+{
+    color green;
+
+    green=color("rgb",0,1,0);
+    Cout=(1-u)*Cin+u*green;
+}
+

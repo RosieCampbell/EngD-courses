@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<RenderManLookFile Version="1" Format="RenderMan Look Data" AssemblyName="bottles_indirect">
+    <InjectablePayloads>
+        <Payload Id="sodaBottle2Shape" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	#slim shader: 00000u7o___sjNUK
+	#slim ribbox Bottles (ribbox) 
+	Bxdf "PxrGlass" "glass" "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1]
+	#slim shader: 00000u7o__VwNXUK
+	#slim ribbox Bottles_b (ribbox) 
+	Bxdf "PxrGlass" "glass" "color transmissionColor" [.8 .96 .985] "color reflectionColor" [1 1 1]
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+        <Payload Id="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape501" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	#slim shader: 00000u7o__F_iNUK
+	#slim ribbox Table (ribbox) 
+	Bxdf "PxrDisney" "table" "color baseColor" [.684 .575 .346] "float roughness" 0.15
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+        <Payload Id="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape521" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	#slim shader: 00000u7o__V2jNUK
+	#slim ribbox Chair (ribbox) 
+	Bxdf "PxrDisney" "chair" "color baseColor" [.8 .1 .1] "float roughness" 0.5
+	
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+        <Payload Id="polySurfaceShape1" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	#slim shader: 00000u7o__VviNUK
+	#slim ribbox BlueWall (ribbox) 
+	Bxdf "PxrDiffuse" "redwall" "color diffuseColor" [.25 .35 .5]
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+        <Payload Id="polySurfaceShape4" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	#slim shader: 00000u7o__VviNUK
+	#slim ribbox BlueWall (ribbox) 
+	Bxdf "PxrDiffuse" "redwall" "color diffuseColor" [.25 .35 .5]
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+        <Payload Id="polySurfaceShape5" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	#slim shader: 00000u7o__FsiNUK
+	#slim ribbox WhiteWall (ribbox) 
+	Bxdf "PxrDiffuse" "whitewall" "color diffuseColor" [0.956 0.896 0.893]
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+        <Payload Id="siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface4SG" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	Displacement "null" 
+	Surface "shaders/siggraph_glassBottlesOnCakeStand_v03_RMSGPSurface4_rfm" "color surfaceColor" [1 1 1] "float diffuseGain" [0.5] "color translucentColor" [0 0 0] "color emission" [0 0 0] "float __computesOpacity" [0] "float diffuseRoughness" [0.1] 
+		"float purity" [0.0020000001] "float distributionAngle" [0] "float emissionExposure" [0] "float refractionAmount" [0] "string glass" [""] "float roughness" [0.0080000004] "float specularGain" [1] "color specularColor" [1 1 1] "float anisotropy" [0] "float indirectSpecularScale" [1] "float metallic" [0] 
+		"float flakeAmount" [0] "float flakeScale" [10] "float ior" [1.5] "float specularBlend" [0] "float roughnessB" [0.0080000004] "float specularGainB" [1] "float anisotropyB" [0] "color specColorB" [1 1 1] "float indirectSpecularScaleB" [1] "integer specularConeAngleSamples" [1] "integer maxSpecularSamples" [16] 
+		"integer lightConeAngleSamples" [4] "integer maxLightSamples" [16] "float dispMode" [1] "float compositionRule" [1] "color sssTint" [1 1 1] "color sssMix" [0 0 0] "float sssDmfpScale" [1] "color sssDmfp" [1 1 1] 
+		"integer sssSamples" [16] "string sssPassID" ["RenderCam_SSRender"] "string sssConversionClass" ["SSDiffuse"] "string sssOutputFile" [""] "string sssMap" [""] "string sssMapConnection" [""] "string sssSpace" ["world"] "string __group" [""] "string __category" ["RMSGPLayer,stdrsl_plausible"] "string SurfaceMap" [""] "string SpecularMap" [""] "string SpecularMapB" [""] "string RoughnessMap" [""] "string DisplacementMap" [""] "string MaskMap" [""] "string shadowname" [""] "float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "float bias" [-1] 
+		"float mapbias" [1] "float mapbias2" [1] "__instanceid" ["siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface4"]
+	VPInterior "null" 
+	Interior "null" 
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+        <Payload Id="00000u7o__Fw0HUK" Label="" Source="1" Content="1"><![CDATA[#slim ribbox Diffuse_3 (ribbox) 
+Bxdf "PxrDiffuse" "myDiffuse" "color diffuseColor" [0.5 0.5 0.5]
+
+]]></Payload>
+        <Payload Id="siggraph_glassBottlesOnCakeStand_v03:asset_sodaBottle_v01:sodaBottleShape" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	#slim shader: 00000u7o___sjNUK
+	#slim ribbox Bottles (ribbox) 
+	Bxdf "PxrGlass" "glass" "color transmissionColor" [.9 .3 .4] "color reflectionColor" [1 1 1]
+	#slim shader: 00000u7o__FuOXUK
+	#slim ribbox Bottles_g (ribbox) 
+	Bxdf "PxrGlass" "glass" "color transmissionColor" [.8 .985 .8] "color reflectionColor" [1 1 1]
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+        <Payload Id="sodaBottleShape" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	#slim shader: 00000u7o___sjNUK
+	#slim ribbox Bottles (ribbox) 
+	Bxdf "PxrGlass" "glass" "color transmissionColor" [.9 .3 .4] "color reflectionColor" [1 1 1]
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+        <Payload Id="siggraph_glassBottlesOnCakeStand_v03:RMSMatte5SG" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	Displacement "null" 
+	Surface "shaders/siggraph_glassBottlesOnCakeStand_v03_RMSMatte5_rfm" "color surfaceColor" [1 1 1] "float diffuseGain" [0.5] "color translucentColor" [0 0 0] "float diffuseRoughness" [0] "color emission" [0 0 0] "float emissionExposure" [0] 
+		"float distributionAngle" [90] "float __computesOpacity" [0] "float dispMode" [1] "float compositionRule" [1] "color sssTint" [1 1 1] "color sssMix" [0 0 0] "float sssDmfpScale" [1] "color sssDmfp" [1 1 1] 
+		"integer sssSamples" [16] "float ior" [1.5] "string sssPassID" ["RenderCam_SSRender"] "string sssConversionClass" ["SSDiffuse"] "string sssOutputFile" [""] "string sssMap" [""] "string sssMapConnection" [""] "string sssSpace" ["world"] "string __group" [""] "string __category" ["RMSGPLayer,stdrsl_plausible"] "string SurfaceMap" [""] "string DisplacementMap" [""] "string MaskMap" [""] "string shadowname" [""] "float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "float bias" [-1] "float mapbias" [1] 
+		"float mapbias2" [1] "__instanceid" ["siggraph_glassBottlesOnCakeStand_v03:RMSMatte5"]
+	VPInterior "null" 
+	Interior "null" 
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+        <Payload Id="sodaBottle5Shape" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	#slim shader: 00000u7o___sjNUK
+	#slim ribbox Bottles (ribbox) 
+	Bxdf "PxrGlass" "glass" "color transmissionColor" [.9 .3 .4] "color reflectionColor" [1 1 1]
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+        <Payload Id="sodaBottle6Shape" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	#slim shader: 00000u7o___sjNUK
+	#slim ribbox Bottles (ribbox) 
+	Bxdf "PxrGlass" "glass" "color transmissionColor" [.9 .3 .4] "color reflectionColor" [1 1 1]
+	#slim shader: 00000u7o__FuOXUK
+	#slim ribbox Bottles_g (ribbox) 
+	Bxdf "PxrGlass" "glass" "color transmissionColor" [.8 .985 .8] "color reflectionColor" [1 1 1]
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+        <Payload Id="siggraph_glassBottlesOnCakeStand_v03:polySurfaceShape4" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	#slim shader: 00000u7o__VviNUK
+	#slim ribbox BlueWall (ribbox) 
+	Bxdf "PxrDiffuse" "redwall" "color diffuseColor" [0.5 0.5 0.5] "color transmissionColor" [.25 .35 .5]
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+        <Payload Id="sodaBottle1Shape" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	#slim shader: 00000u7o___sjNUK
+	#slim ribbox Bottles (ribbox) 
+	Bxdf "PxrGlass" "glass" "color transmissionColor" [.9 .3 .4] "color reflectionColor" [1 1 1]
+	#slim shader: 00000u7o__luOXUK
+	#slim ribbox Bottles_brown (ribbox) 
+	Bxdf "PxrGlass" "glass" "color transmissionColor" [.9 .75 .65] "color reflectionColor" [1 1 1]
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+        <Payload Id="nurbsPlaneShape1" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	#slim shader: 00000Ou___VxlXUK
+	#slim ribbox Poster (ribbox) 
+	
+	Pattern "PxrTexture" "texturenode" "string filename" "grid.tex" "int invertT" [0]
+	Bxdf "PxrDiffuse" "poster" "reference color diffuseColor" "texturenode:resultRGB"
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+        <Payload Id="nurbsPlaneShape2" Label="" Source="1" Content="1"><![CDATA[##RenderMan RIB
+version 3.04
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+	#slim shader: 00000u7o__VviNUK
+	#slim ribbox BlueWall (ribbox) 
+	Bxdf "PxrDiffuse" "redwall" "color diffuseColor" [.25 .35 .5]
+	Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+]]></Payload>
+    </InjectablePayloads>
+    <EditPayloads>
+        <ParameterValue Id=""><![CDATA[Empty]]></ParameterValue>
+    </EditPayloads>
+    <TightBindings>
+        <Binding Key="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Table/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:tableLegs/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface321/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape321" PayloadId="siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface4SG"/>
+        <Binding Key="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Chair/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:chairLegs/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface318/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape318" PayloadId="siggraph_glassBottlesOnCakeStand_v03:RMSMatte5SG"/>
+        <Binding Key="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Chair/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:chairFeet/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface326/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape326" PayloadId="siggraph_glassBottlesOnCakeStand_v03:RMSMatte5SG"/>
+        <Binding Key="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Table/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:tableTop/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface501/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape501" PayloadId="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape501"/>
+        <Binding Key="sodaBottle5/sodaBottle5Shape" PayloadId="sodaBottle5Shape"/>
+        <Binding Key="siggraph_glassBottlesOnCakeStand_v03:pCube62/polySurface1/polySurfaceShape1" PayloadId="polySurfaceShape1"/>
+        <Binding Key="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Table/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:tableLegs/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface324/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape324" PayloadId="siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface4SG"/>
+        <Binding Key="polySurface3/polySurface4/polySurfaceShape4" PayloadId="polySurfaceShape4"/>
+        <Binding Key="sodaBottle1/sodaBottle1Shape" PayloadId="sodaBottle1Shape"/>
+        <Binding Key="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Table/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:tableLegs/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface322/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape322" PayloadId="siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface4SG"/>
+        <Binding Key="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Chair/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:chairLegs/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface319/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape319" PayloadId="siggraph_glassBottlesOnCakeStand_v03:RMSMatte5SG"/>
+        <Binding Key="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Chair/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:chairFeet/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface327/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape327" PayloadId="siggraph_glassBottlesOnCakeStand_v03:RMSMatte5SG"/>
+        <Binding Key="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Chair/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:chairFeet/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface325/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape325" PayloadId="siggraph_glassBottlesOnCakeStand_v03:RMSMatte5SG"/>
+        <Binding Key="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Chair/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:chairSeatsh/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface521/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape521" PayloadId="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape521"/>
+        <Binding Key="siggraph_glassBottlesOnCakeStand_v03:pCube62/siggraph_glassBottlesOnCakeStand_v03:polySurface1/siggraph_glassBottlesOnCakeStand_v03:polySurfaceShape4" PayloadId="siggraph_glassBottlesOnCakeStand_v03:polySurfaceShape4"/>
+        <Binding Key="nurbsPlane1/nurbsPlaneShape1" PayloadId="nurbsPlaneShape1"/>
+        <Binding Key="sodaBottle6/sodaBottle6Shape" PayloadId="sodaBottle6Shape"/>
+        <Binding Key="polySurface3/polySurface5/polySurfaceShape5" PayloadId="polySurfaceShape5"/>
+        <Binding Key="sodaBottle2/sodaBottle2Shape" PayloadId="sodaBottle2Shape"/>
+        <Binding Key="sodaBottle/sodaBottleShape" PayloadId="sodaBottleShape"/>
+        <Binding Key="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Table/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:tableLegs/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface323/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape323" PayloadId="siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface4SG"/>
+        <Binding Key="siggraph_glassBottlesOnCakeStand_v03:asset_sodaBottle_v01:sodaBottle/siggraph_glassBottlesOnCakeStand_v03:asset_sodaBottle_v01:sodaBottleShape" PayloadId="siggraph_glassBottlesOnCakeStand_v03:asset_sodaBottle_v01:sodaBottleShape"/>
+        <Binding Key="nurbsPlane2/nurbsPlaneShape2" PayloadId="nurbsPlaneShape2"/>
+        <Binding Key="siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Chair/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:chairFeet/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface328/siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape328" PayloadId="siggraph_glassBottlesOnCakeStand_v03:RMSMatte5SG"/>
+    </TightBindings>
+</RenderManLookFile>

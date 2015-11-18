@@ -1,0 +1,18 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader repeat
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	1 1 1		%read{2147483647,-1} %write{2,2}
+global	float	u	%read{0,0} %write{2147483647,-1} %derivs
+global	float	v	%read{1,1} %write{2147483647,-1} %derivs
+const	string	$const1	"Flower_pattern_pxr128.tx"		%read{2,2} %write{2147483647,-1}
+temp	float	$tmp1	%read{2,2} %write{0,0} %derivs
+const	float	$const3	2		%read{0,1} %write{2147483647,-1}
+temp	float	$tmp2	%read{2,2} %write{1,1} %derivs
+code ___main___
+# repeat.osl:7
+#     Cout=(color)texture("Flower_pattern_pxr128.tx",u*2,v*2);
+	mul		$tmp1 u $const3 	%filename{"repeat.osl"} %line{7} %argrw{"wrr"}
+	mul		$tmp2 v $const3 	%argrw{"wrr"}
+	texture		Cout $const1 $tmp1 $tmp2 	%argrw{"wrrr"} %argderivs{2,3}
+	end

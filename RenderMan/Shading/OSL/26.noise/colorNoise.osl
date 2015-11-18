@@ -1,0 +1,9 @@
+shader colorNoise (
+	color Cin=1,
+output	color Cout=1
+)
+{
+    point PP=transform("shader",P);
+    Cout=(color)noise("uperlin",PP*10);
+}
+

@@ -1,0 +1,14 @@
+shader tile  (
+	color Cin = 1,
+	float repeatCount=10,
+output	color Cout = 1
+	)
+{
+    float s=(u*repeatCount+v);
+    float t=(v*repeatCount-u);
+
+    int sTile=(int)floor(s);
+    int tTile=(int)floor(t);
+    Cout=(sTile+tTile)%2;
+}
+

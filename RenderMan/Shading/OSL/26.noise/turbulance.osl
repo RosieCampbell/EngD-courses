@@ -1,0 +1,17 @@
+shader turbulance (
+	color Cin=1,
+output	color Cout=1
+	)
+{
+    float i;
+    float mag=0;
+    float freq=1;
+
+    for(i=0;i<6;i+=1)
+	{
+	mag+=abs((float)noise("perlin",P*freq))/freq;
+	freq*=2.1;
+	}
+    Cout=mag;
+}
+

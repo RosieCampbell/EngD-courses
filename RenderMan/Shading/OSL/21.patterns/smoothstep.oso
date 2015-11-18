@@ -1,0 +1,28 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader smoothstep
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{3,3}
+global	float	u	%read{2,2} %write{2147483647,-1}
+local	color	red	%read{3,3} %write{0,0}
+local	color	green	%read{3,3} %write{1,1}
+local	float	inZone	%read{3,3} %write{2,2}
+const	string	$const1	"rgb"		%read{0,1} %write{2147483647,-1}
+const	float	$const3	1		%read{0,1} %write{2147483647,-1}
+const	float	$const5	0		%read{0,1} %write{2147483647,-1}
+const	float	$const6	0.40000001		%read{2,2} %write{2147483647,-1}
+const	float	$const7	0.60000002		%read{2,2} %write{2147483647,-1}
+code ___main___
+# smoothstep.osl:7
+#     color red=color ("rgb",1,0,0); 
+	color		red $const1 $const3 $const5 $const5 	%filename{"smoothstep.osl"} %line{7} %argrw{"wrrrr"}
+# smoothstep.osl:8
+#     color green=color ("rgb",0,1,0); 
+	color		green $const1 $const5 $const3 $const5 	%line{8} %argrw{"wrrrr"}
+# smoothstep.osl:9
+#     float inZone=smoothstep(0.4,0.6,u);
+	smoothstep	inZone $const6 $const7 u 	%line{9} %argrw{"wrrr"}
+# smoothstep.osl:11
+#     Cout=mix(green,red,inZone);
+	mix		Cout green red inZone 	%line{11} %argrw{"wrrr"}
+	end

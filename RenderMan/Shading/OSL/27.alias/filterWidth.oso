@@ -1,0 +1,56 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader filterWidth
+param	color	Cin	1 1 1		%read{9,14} %write{2147483647,-1}
+oparam	color	Cout	1 1 1		%read{2147483647,-1} %write{8,14}
+global	float	u	%read{1,1} %write{2147483647,-1} %derivs
+global	float	v	%read{0,4} %write{2147483647,-1} %derivs
+local	float	ss	%read{2,12} %write{1,1} %derivs
+local	float	filterWidth	%read{10,11} %write{3,3}
+local	float	___318_onRight	%read{14,14} %write{12,12}
+const	float	$const1	0.1		%read{0,0} %write{2147483647,-1}
+temp	float	$tmp1	%read{1,1} %write{0,0} %derivs
+temp	float	$tmp2	%read{3,3} %write{2,2}
+const	float	$const3	2		%read{3,3} %write{2147483647,-1}
+const	float	$const4	0.5		%read{4,11} %write{2147483647,-1}
+temp	int	$tmp3	%read{5,5} %write{4,4}
+temp	int	$tmp4	%read{7,7} %write{6,6}
+const	string	$const5	"rgb"		%read{8,13} %write{2147483647,-1}
+const	float	$const7	0		%read{8,13} %write{2147483647,-1}
+const	float	$const9	1		%read{8,13} %write{2147483647,-1}
+temp	float	$tmp5	%read{12,12} %write{10,10}
+temp	float	$tmp6	%read{12,12} %write{11,11}
+temp	color	$tmp7	%read{14,14} %write{13,13}
+code ___main___
+# filterwidth.osl:9
+#     float ss=u+0.1*v;
+	mul		$tmp1 $const1 v 	%filename{"filterwidth.osl"} %line{9} %argrw{"wrr"}
+	add		ss u $tmp1 	%argrw{"wrr"}
+# filterwidth.osl:11
+#     float filterWidth=2*filterwidth(ss);
+	filterwidth	$tmp2 ss 	%line{11} %argrw{"wr"} %argderivs{1}
+	mul		filterWidth $const3 $tmp2 	%argrw{"wrr"}
+# filterwidth.osl:15
+#     if(v>0.5)
+	gt		$tmp3 v $const4 	%line{15} %argrw{"wrr"}
+	if		$tmp3 10 15 	%argrw{"r"}
+# filterwidth.osl:17
+# 		if(ss>0.5)
+	gt		$tmp4 ss $const4 	%line{17} %argrw{"wrr"}
+	if		$tmp4 9 10 	%argrw{"r"}
+# filterwidth.osl:18
+# 			Cout=color( "rgb",0,1,0);
+	color		Cout $const5 $const7 $const9 $const7 	%line{18} %argrw{"wrrrr"}
+# filterwidth.osl:20
+# 			Cout=Cin;
+	assign		Cout Cin 	%line{20} %argrw{"wr"}
+# filterwidth.osl:25
+# 	onRight=smoothstep(0.5-filterWidth,0.5+filterWidth,ss);
+	sub		$tmp5 $const4 filterWidth 	%line{25} %argrw{"wrr"}
+	add		$tmp6 $const4 filterWidth 	%argrw{"wrr"}
+	smoothstep	___318_onRight $tmp5 $tmp6 ss 	%argrw{"wrrr"}
+# filterwidth.osl:26
+# 	Cout=mix(Cin,color("rgb",0,1,0),onRight);
+	color		$tmp7 $const5 $const7 $const9 $const7 	%line{26} %argrw{"wrrrr"}
+	mix		Cout Cin $tmp7 ___318_onRight 	%argrw{"wrrr"}
+	end

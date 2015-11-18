@@ -1,0 +1,63 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader stripes
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	1 1 1		%read{2147483647,-1} %write{17,17}
+global	float	u	%read{1,1} %write{2147483647,-1} %derivs
+global	float	v	%read{2,2} %write{2147483647,-1} %derivs
+local	float	repeatCount	%read{1,1} %write{0,0} %derivs
+local	float	ss	%read{3,15} %write{2,9} %derivs
+local	float	filterWidthSS	%read{10,14} %write{4,4}
+local	float	smag	%read{16,17} %write{12,16}
+const	int	$const1	10		%read{0,0} %write{2147483647,-1}
+temp	float	$tmp1	%read{2,2} %write{1,1} %derivs
+temp	float	$tmp2	%read{4,4} %write{3,3}
+const	float	$const3	5		%read{4,4} %write{2147483647,-1}
+const	float	$const5	2		%read{6,8} %write{2147483647,-1}
+const	string	$const6	"mod"		%read{5,5} %write{2147483647,-1}
+temp	float	$tmp3	%read{8,8} %write{7,7} %derivs
+temp	float	$tmp4	%read{7,7} %write{6,6} %derivs
+temp	float	$tmp5	%read{9,9} %write{8,8} %derivs
+const	float	$const7	0.5		%read{10,11} %write{2147483647,-1}
+temp	float	$tmp6	%read{12,12} %write{10,10}
+temp	float	$tmp7	%read{12,12} %write{11,11}
+temp	float	$tmp8	%read{16,16} %write{15,15}
+const	float	$const8	1.5		%read{13,14} %write{2147483647,-1}
+temp	float	$tmp9	%read{15,15} %write{13,13}
+temp	float	$tmp10	%read{15,15} %write{14,14}
+code ___main___
+# stripes.osl:6
+#     float repeatCount=10;
+	assign		repeatCount $const1 	%filename{"stripes.osl"} %line{6} %argrw{"wr"}
+# stripes.osl:7
+#     float ss=u*repeatCount+v;
+	mul		$tmp1 u repeatCount 	%line{7} %argrw{"wrr"}
+	add		ss $tmp1 v 	%argrw{"wrr"}
+# stripes.osl:9
+#     float filterWidthSS=5*filterwidth(ss);
+	filterwidth	$tmp2 ss 	%line{9} %argrw{"wr"} %argderivs{1}
+	mul		filterWidthSS $const3 $tmp2 	%argrw{"wrr"}
+# stripes.osl:12
+#     ss=mod(ss,2);
+	functioncall	$const6 10 	%line{12} %argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:135
+# PERCOMP1 (trunc)
+	div		$tmp4 ss $const5 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp3 $tmp4 	%argrw{"wr"}
+	mul		$tmp5 $const5 $tmp3 	%argrw{"wrr"}
+	sub		ss ss $tmp5 	%argrw{"wrr"}
+# stripes.osl:13
+#     smag =smoothstep(0.5-filterWidthSS,0.5+filterWidthSS,ss);
+	sub		$tmp6 $const7 filterWidthSS 	%filename{"stripes.osl"} %line{13} %argrw{"wrr"}
+	add		$tmp7 $const7 filterWidthSS 	%argrw{"wrr"}
+	smoothstep	smag $tmp6 $tmp7 ss 	%argrw{"wrrr"}
+# stripes.osl:14
+#     smag-=smoothstep(1.5-filterWidthSS,1.5+filterWidthSS,ss);
+	sub		$tmp9 $const8 filterWidthSS 	%line{14} %argrw{"wrr"}
+	add		$tmp10 $const8 filterWidthSS 	%argrw{"wrr"}
+	smoothstep	$tmp8 $tmp9 $tmp10 ss 	%argrw{"wrrr"}
+	sub		smag smag $tmp8 	%argrw{"wrr"}
+# stripes.osl:16
+#     Cout=smag;
+	assign		Cout smag 	%line{16} %argrw{"wr"}
+	end

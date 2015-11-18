@@ -1,0 +1,139 @@
+# A motion blurred propeller distorted by a rolling shutter.
+#
+# This example shows how a RixProjection plugin can be used to create
+# special shutter effects.  The simple/PxrRollingShutter plugin leaves the
+# ray origins and directions alone and instead modifies the ray times.  In
+# this example, a propeller spins a full circle during the frame.  Each
+# pixel on the sensor is exposed for 1/32 of the frame, but with the start
+# of the interval varying from top to bottom of the image.  Switch the
+# IfBegin to see the same exposure with traditional motion blur.
+
+Display "propeller.tiff" "framebuffer" "rgba"
+Format 512 512 1
+
+PixelVariance 0
+Hider "raytrace" "int incremental" 1 "int maxsamples" 512
+
+Integrator "PxrPathTracer" "handle"
+Attribute "trace" "int maxdiffusedepth" 9 "int maxspeculardepth" 9
+
+Attribute "visibility"
+          "int indirect" 1
+          "int transmission" 1
+          "int camera" 1
+
+Projection "perspective" "fov" 30
+IfBegin "1"
+  # Rolling shutter
+  Shutter 0 1
+  Projection "simple/PxrRollingShutter" "float angle" 11.25
+Else
+  # Standard shutter
+  Shutter 0 0.03125
+IfEnd
+
+Translate 0 0 5
+
+WorldBegin
+
+  AttributeBegin
+    Attribute "visibility"
+              "int indirect" 0
+              "int transmission" 0
+              "int camera" 0
+    Attribute "trace" "bias" 0.001
+    ShadingRate 1000
+    Sides 1
+    Translate 0 0.99 0
+    Rotate 90 1 0 0
+    Scale 0.5 0.5 0.5
+    AreaLightSource "PxrAreaLight" "light0" "intensity" 35
+    Geometry "rectlight"
+  AttributeEnd
+
+  # Matte box
+  AttributeBegin
+    # left wall
+    Bxdf "PxrDiffuse" "smooth" "color diffuseColor" [1 0.625 0.625]
+    Patch "bilinear" "P" [ -1 1 -1  -1 1 1  -1 -1 -1  -1 -1 1]
+    # right wall
+    Bxdf "PxrDiffuse" "smooth" "color diffuseColor" [0.625 0.625 1]
+    Patch "bilinear" "P" [ 1 1 1  1 1 -1  1 -1 1  1 -1 -1 ]
+    # floor
+    Bxdf "PxrDiffuse" "smooth" "color diffuseColor" [0.75 0.75 0.75]
+    Patch "bilinear" "P" [ -1 -1 1  1 -1 1  -1 -1 -1  1 -1 -1 ]
+    # ceiling
+    Bxdf "PxrDiffuse" "smooth" "color diffuseColor" [0.75 0.75 0.75]
+    Patch "bilinear" "P" [ -1 1 -1  1 1 -1  -1 1 1  1 1 1 ]
+    # back wall
+    Bxdf "PxrDiffuse" "smooth" "color diffuseColor" [0.75 0.75 0.75]
+    Patch "bilinear" "P" [ -1 1 1  1 1 1  -1 -1 1  1 -1 1 ]
+  AttributeEnd
+
+  # Back sphere (chrome)
+  AttributeBegin
+    Translate 0.3 -0.7 0.3
+    Bxdf "PxrDisney" "chrome"
+         "color baseColor" [1 1 1] "float roughness" 0.03
+         "float metallic" 1.0
+    Sphere 0.3 -0.3 0.3 360
+  AttributeEnd
+
+  # Front sphere (glass)
+  AttributeBegin
+    Translate -0.3 -0.7 -0.1
+    Bxdf "PxrGlass" "glass" "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1]
+    Sphere 0.3 -0.3 0.3 360
+  AttributeEnd
+
+  # Propeller
+  AttributeBegin
+    Translate 0.4 0.15 -0.2
+    Rotate 90 1 0 0
+    MotionBegin [0.0 0.03125 0.0625 0.09375 0.125 0.15625 0.1875 0.21875 0.25 0.28125 0.3125 0.34375 0.375 0.40625 0.4375 0.46875 0.5 0.53125 0.5625 0.59375 0.625 0.65625 0.6875 0.71875 0.75 0.78125 0.8125 0.84375 0.875 0.90625 0.9375 0.96875 1.0]
+        Rotate 0.0 0 1 0
+        Rotate 11.25 0 1 0
+        Rotate 22.5 0 1 0
+        Rotate 33.75 0 1 0
+        Rotate 45.0 0 1 0
+        Rotate 56.25 0 1 0
+        Rotate 67.5 0 1 0
+        Rotate 78.75 0 1 0
+        Rotate 90.0 0 1 0
+        Rotate 101.25 0 1 0
+        Rotate 112.5 0 1 0
+        Rotate 123.75 0 1 0
+        Rotate 135.0 0 1 0
+        Rotate 146.25 0 1 0
+        Rotate 157.5 0 1 0
+        Rotate 168.75 0 1 0
+        Rotate 180.0 0 1 0
+        Rotate 191.25 0 1 0
+        Rotate 202.5 0 1 0
+        Rotate 213.75 0 1 0
+        Rotate 225.0 0 1 0
+        Rotate 236.25 0 1 0
+        Rotate 247.5 0 1 0
+        Rotate 258.75 0 1 0
+        Rotate 270.0 0 1 0
+        Rotate 281.25 0 1 0
+        Rotate 292.5 0 1 0
+        Rotate 303.75 0 1 0
+        Rotate 315.0 0 1 0
+        Rotate 326.25 0 1 0
+        Rotate 337.5 0 1 0
+        Rotate 348.75 0 1 0
+        Rotate 360.0 0 1 0
+    MotionEnd
+    Bxdf "PxrDiffuse" "propeller"
+         "color diffuseColor" [0.5 0.5 0.5]
+    Cylinder 0.05 -0.6 0.6 360
+    Rotate 45 0 1 0
+    Cylinder 0.05 -0.6 0.6 360
+    Rotate 45 0 1 0
+    Cylinder 0.05 -0.6 0.6 360
+    Rotate 45 0 1 0
+    Cylinder 0.05 -0.6 0.6 360
+  AttributeEnd
+
+WorldEnd

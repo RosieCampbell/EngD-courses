@@ -1,0 +1,86 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.0dev
+surface carbonfiber
+param	string	diffuseTexture	"diffuse.png" 		 %read{2,2} %write{2147483647,-1}
+param	string	bumpTexture	"bump.png" 		 %read{4,8} %write{2147483647,-1}
+param	float	bumpAmount	2 		 %read{20,20} %write{2147483647,-1}
+param	float	s	0 		%meta{int,lockgeom,0}  %read{0,0} %write{2147483647,-1} %derivs
+param	float	t	0 		%meta{int,lockgeom,0}  %read{1,1} %write{2147483647,-1} %derivs
+oparam	normal	bumpN	0 0 0 		 %read{2147483647,-1} %write{22,22}
+oparam	color	diffuseColor	0 0 0 		 %read{2147483647,-1} %write{3,3}
+local	vector	___317_avg	 %read{12,17} %write{10,10}
+local	float	___317_c	 %read{15,18} %write{12,12}
+local	float	___317_ddu	 %read{21,21} %write{15,15}
+local	float	___317_ddv	 %read{19,19} %write{18,18}
+local	float	ss	 %read{2,8} %write{0,0} %derivs
+local	float	tt	 %read{2,7} %write{1,1} %derivs
+local	color	center	 %read{11,11} %write{4,4}
+local	color	uColor	 %read{13,13} %write{6,6}
+local	color	vColor	 %read{16,16} %write{8,8}
+const	float	$const2	4		 %read{0,1} %write{2147483647,-1}
+const	float	$const3	0.079999998		 %read{3,3} %write{2147483647,-1}
+temp	color	$tmp1	 %read{3,3} %write{2,2}
+const	float	$const4	0.0040000002		 %read{5,7} %write{2147483647,-1}
+temp	float	$tmp2	 %read{6,6} %write{5,5} %derivs
+temp	float	$tmp3	 %read{8,8} %write{7,7} %derivs
+const	string	$const5	"getBumpedNormal"		 %read{9,9} %write{2147483647,-1}
+const	vector	$const6	0.33333299 0.33333299 0.33333299		 %read{10,10} %write{2147483647,-1}
+temp	vector	$tmp4	 %read{12,12} %write{11,11}
+temp	float	$tmp5	 %read{15,15} %write{14,14}
+temp	vector	$tmp6	 %read{14,14} %write{13,13}
+temp	float	$tmp7	 %read{18,18} %write{17,17}
+temp	vector	$tmp8	 %read{17,17} %write{16,16}
+temp	normal	$tmp9	 %read{22,22} %write{21,21}
+const	string	$const7	"shader"		 %read{21,21} %write{2147483647,-1}
+temp	float	$tmp10	 %read{21,21} %write{19,19}
+const	float	$const8	1		 %read{20,20} %write{2147483647,-1}
+temp	float	$tmp11	 %read{21,21} %write{20,20}
+code ___main___
+# carbonfiber.osl:23
+#     float ss = s*4;
+	mul		ss s $const2 	%filename{"carbonfiber.osl"} %line{23} %argrw{"wrr"}
+# carbonfiber.osl:24
+#     float tt = t*4;
+	mul		tt t $const2 	%line{24} %argrw{"wrr"}
+# carbonfiber.osl:25
+#     diffuseColor = .08 * texture(diffuseTexture, ss, tt);
+	texture		$tmp1 diffuseTexture ss tt 	%line{25} %argrw{"wrrr"} %argderivs{2,3}
+	mul		diffuseColor $const3 $tmp1 	%argrw{"wrr"}
+# carbonfiber.osl:27
+#     color center = texture(bumpTexture, ss, tt);
+	texture		center bumpTexture ss tt 	%line{27} %argrw{"wrrr"} %argderivs{2,3}
+# carbonfiber.osl:28
+#     color uColor = texture(bumpTexture, ss + 0.004, tt);
+	add		$tmp2 ss $const4 	%line{28} %argrw{"wrr"}
+	texture		uColor bumpTexture $tmp2 tt 	%argrw{"wrrr"} %argderivs{2,3}
+# carbonfiber.osl:29
+#     color vColor = texture(bumpTexture, ss, tt + 0.004);
+	add		$tmp3 tt $const4 	%line{29} %argrw{"wrr"}
+	texture		vColor bumpTexture ss $tmp3 	%argrw{"wrrr"} %argderivs{2,3}
+# carbonfiber.osl:30
+#     bumpN = getBumpedNormal(center, uColor, vColor, bumpAmount);
+	functioncall	$const5 23 	%line{30} %argrw{"r"}
+# carbonfiber.osl:5
+#     vector avg = vector(0.333333);
+	assign		___317_avg $const6 	%line{5} %argrw{"wr"}
+# carbonfiber.osl:6
+#     float c = dot(avg, vector(centerColor));
+	assign		$tmp4 center 	%line{6} %argrw{"wr"}
+	dot		___317_c ___317_avg $tmp4 	%argrw{"wrr"}
+# carbonfiber.osl:7
+#     float ddu = c - dot(avg, vector(uColor));
+	assign		$tmp6 uColor 	%line{7} %argrw{"wr"}
+	dot		$tmp5 ___317_avg $tmp6 	%argrw{"wrr"}
+	sub		___317_ddu ___317_c $tmp5 	%argrw{"wrr"}
+# carbonfiber.osl:8
+#     float ddv = c - dot(avg, vector(vColor));
+	assign		$tmp8 vColor 	%line{8} %argrw{"wr"}
+	dot		$tmp7 ___317_avg $tmp8 	%argrw{"wrr"}
+	sub		___317_ddv ___317_c $tmp7 	%argrw{"wrr"}
+# carbonfiber.osl:9
+#     return normalize(normal("shader", ddu, -ddv, (1.000000 / amount)));
+	neg		$tmp10 ___317_ddv 	%line{9} %argrw{"wr"}
+	div		$tmp11 $const8 bumpAmount 	%argrw{"wrr"}
+	normal		$tmp9 $const7 ___317_ddu $tmp10 $tmp11 	%argrw{"wrrrr"}
+	normalize	bumpN $tmp9 	%argrw{"wr"}
+	end

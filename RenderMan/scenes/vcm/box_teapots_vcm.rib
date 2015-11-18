@@ -1,0 +1,77 @@
+# box_teapots_vcm.rib
+# An RIS version of the common Cornell-box-with-teapots scene.
+# One teapot is chrome, the other glass.
+# This scene has many complex light paths even though the geometry is simple:
+# multibounce color bleeding, specular reflections and refractions, caustics,
+# reflections and refractions of caustics, ...
+
+
+FrameBegin 1
+
+  PixelVariance 0
+  Hider "raytrace" "int incremental" 1 "int maxsamples" 256
+  Integrator "PxrVCM" "handle" "int maxPathLength" 6
+
+  Display "box_teapots_vcm" "it" "rgba"
+
+  Format 1024 1024 1
+  Projection "perspective" "fov" 30
+  Translate 0 0 5
+
+  WorldBegin
+    
+    Attribute "trace" "maxspeculardepth" 5   # 1 less than maxPathLength
+    Attribute "trace" "maxdiffusedepth" 5    # ditto
+
+    # A square area light source
+    AttributeBegin 
+      Bxdf "PxrConstant" "constant" "color emitColor" [1 1 1]
+      AreaLightSource "PxrAreaLight" "Light1"
+        "float intensity" 65
+      ShadingRate 10000
+      Sides 1
+      Translate 0 0.999 0
+      Rotate 90 1 0 0
+      Scale 0.4 0.4 0.4
+      Geometry "rectlight"
+    AttributeEnd
+
+    # Matte box
+    AttributeBegin
+      Bxdf "PxrDiffuse" "matte" "color diffuseColor"  [0.8 0 0]
+      Polygon "P" [ -1 1 -1  -1 1 1  -1 -1 1  -1 -1 -1 ]   # left wall
+      Bxdf "PxrDiffuse" "matte" "color diffuseColor"  [0 0 0.8]
+      Polygon "P" [ 1 -1 -1  1 -1 1  1 1 1  1 1 -1 ]   # right wall
+      Bxdf "PxrDiffuse" "matte" "color diffuseColor"  [0.8 0.8 0.8] 
+      Polygon "P" [ -1 -1 1  1 -1 1  1 -1 -1  -1 -1 -1 ]   # floor
+      Polygon "P" [ -1 1 -1  1 1 -1  1 1 1  -1 1 1 ]   # ceiling
+      Polygon "P" [ -1 1 1  1 1 1  1 -1 1  -1 -1 1 ]   # back wall
+    AttributeEnd
+
+    # Left teapot: mirror
+    AttributeBegin
+      Bxdf "PxrDisney" "mirror" "color baseColor" [1 1 1]
+        "float metallic" [1.0] "float roughness" [.03]
+      Translate -0.35 -0.999 0.35
+      Scale 0.18 0.18 0.18
+      Rotate -30 0 1 0
+      Rotate -90 1 0 0
+      #Geometry "teapot"
+      ReverseOrientation
+      ReadArchive "teapotgeom.rib" # has closed lid
+    AttributeEnd
+
+    # Right teapot: glass
+    AttributeBegin
+      Bxdf "PxrGlass" "glass" "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1]
+      Translate 0.35 -0.999 -0.35
+      Scale 0.18 0.18 0.18
+      Rotate 30 0 1 0
+      Rotate -90 1 0 0
+      #Geometry "teapot"
+      ReverseOrientation
+      ReadArchive "teapotgeom.rib" # has closed lid
+    AttributeEnd
+    
+  WorldEnd
+FrameEnd

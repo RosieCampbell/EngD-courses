@@ -1,0 +1,55 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader fbm
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	1 1 1		%read{2147483647,-1} %write{13,13}
+global	point	P	%read{6,6} %write{2147483647,-1}
+local	float	i	%read{3,12} %write{3,12}
+local	float	mag	%read{3,13} %write{0,12}
+local	float	baseF	%read{6,6} %write{1,1}
+local	float	freq	%read{3,12} %write{2,12}
+const	float	$const1	0.5		%read{0,0} %write{2147483647,-1}
+const	int	$const2	2		%read{1,1} %write{2147483647,-1}
+const	int	$const3	1		%read{2,2} %write{2147483647,-1}
+const	int	$const4	0		%read{4,4} %write{2147483647,-1}
+const	int	$const5	6		%read{5,5} %write{2147483647,-1}
+temp	int	$tmp1	%read{3,12} %write{3,12}
+temp	float	$tmp2	%read{9,9} %write{8,8}
+const	string	$const6	"perlin"		%read{8,8} %write{2147483647,-1}
+temp	point	$tmp3	%read{7,7} %write{6,6}
+temp	point	$tmp4	%read{8,8} %write{7,7}
+temp	float	$tmp5	%read{10,10} %write{9,9}
+const	float	$const7	2.0999999		%read{11,11} %write{2147483647,-1}
+const	float	$const8	1		%read{12,12} %write{2147483647,-1}
+code ___main___
+# fbm.osl:7
+#     float mag=0.5;
+	assign		mag $const1 	%filename{"fbm.osl"} %line{7} %argrw{"wr"}
+# fbm.osl:8
+#     float baseF=2;
+	assign		baseF $const2 	%line{8} %argrw{"wr"}
+# fbm.osl:9
+#     float freq=1;
+	assign		freq $const3 	%line{9} %argrw{"wr"}
+# fbm.osl:11
+#     for(i=0;i<6;i+=1)
+	for		$tmp1 5 6 12 13 	%line{11} %argrw{"r"}
+	assign		i $const4 	%argrw{"wr"}
+	lt		$tmp1 i $const5 	%argrw{"wrr"}
+# fbm.osl:13
+# 	mag+=((float)noise("perlin",P*baseF*freq))/freq;
+	mul		$tmp3 P baseF 	%line{13} %argrw{"wrr"}
+	mul		$tmp4 $tmp3 freq 	%argrw{"wrr"}
+	noise		$tmp2 $const6 $tmp4 	%argrw{"wrr"}
+	div		$tmp5 $tmp2 freq 	%argrw{"wrr"}
+	add		mag mag $tmp5 	%argrw{"wrr"}
+# fbm.osl:14
+#         freq*=2.1;
+	mul		freq freq $const7 	%line{14} %argrw{"wrr"}
+# fbm.osl:11
+#     for(i=0;i<6;i+=1)
+	add		i i $const8 	%line{11} %argrw{"wrr"}
+# fbm.osl:16
+#     Cout=mag;
+	assign		Cout mag 	%line{16} %argrw{"wr"}
+	end

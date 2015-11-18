@@ -1,0 +1,67 @@
+#
+# $Revision: #1 $
+#
+# fractalize:  a simple validation of fractalize pattern node
+#
+Option "ribparse" "string varsubst" ["$"]
+FrameBegin 1
+ShadingInterpolation "smooth"
+ShadingRate 1
+Integrator "PxrPathTracer" "dflt" # this integrator supports emitLocal
+PixelVariance 0
+Hider "raytrace" "int incremental" 1 "int maxsamples" 25
+Display "fractalize.exr" "framebuffer" "rgba"
+Projection "orthographic"
+ScreenWindow -3.5 3.5 -1 1
+Format 768 256 1
+Translate 0 0 5
+Option "ribparse" "string varsubst" [""]
+WorldBegin
+    ArchiveBegin "wall"
+      Patch "bilinear" "P" [ -1 1 0  1 1 0  -1 -1 0  1 -1 0]
+    ArchiveEnd
+
+    AttributeBegin
+      Scale .2 -.2 .2
+      Rotate 11 0 0 1
+      CoordinateSystem "mycoordsys"
+    AttributeEnd
+
+    Pattern "PxrManifold3D" "m3dcs" "float scale" .25 
+                "string coordsys" "mycoordsys"
+
+    Pattern "PxrTexture" "one" "string filename" "boundingR.tex" "int invertT" [0]
+            "reference struct manifold" "m3dcs:result" # (struct connection)
+
+    AttributeBegin
+      TransformBegin
+          Bxdf "PxrConstant" "b" "reference color emitColor" "one:resultRGB"
+          Translate  -2.5 0 1
+          ReadArchive "wall"
+      TransformEnd
+    AttributeEnd
+
+    AttributeBegin
+      TransformBegin
+          Pattern "PxrFractalize" "f" 
+                        "int style" 1 "int iterations" 3
+                        "reference color inputRGB" "one:resultRGB"
+          Bxdf "PxrConstant" "b" "reference color emitColor" "f:resultRGB"
+          Translate  0 0 1
+          ReadArchive "wall"
+      TransformEnd
+    AttributeEnd
+
+    AttributeBegin
+      TransformBegin
+          Pattern "PxrFractalize" "f" 
+                        "int style" 1 "int iterations" 5
+                        "reference color inputRGB" "one:resultRGB"
+          Bxdf "PxrConstant" "b" "reference color emitColor" "f:resultRGB"
+          Translate   2.5 0 1
+          ReadArchive "wall"
+      TransformEnd
+    AttributeEnd
+
+WorldEnd
+FrameEnd

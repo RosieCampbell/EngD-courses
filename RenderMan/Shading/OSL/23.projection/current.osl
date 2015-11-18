@@ -1,0 +1,11 @@
+shader current (
+	color Cin = 1,
+output	color Cout=0
+)
+{
+    float repeatCount=6;
+    float s=P[0]*repeatCount;
+    float t=P[1]*repeatCount;
+    Cout=(color)noise("cell",s,t);
+}
+

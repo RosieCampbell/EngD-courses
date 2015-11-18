@@ -1,0 +1,8 @@
+shader map (
+	color Cin=1,
+output	color Cout=1
+)
+{
+    Cout=(color)texture("Flower_pattern_pxr128.tx",u,v);
+}
+

@@ -1,0 +1,136 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader check
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	1 1 1		%read{2147483647,-1} %write{46,46}
+global	float	u	%read{1,4} %write{2147483647,-1} %derivs
+global	float	v	%read{2,3} %write{2147483647,-1} %derivs
+local	float	repeatCount	%read{1,3} %write{0,0} %derivs
+local	float	ss	%read{5,24} %write{2,13} %derivs
+local	float	tt	%read{7,36} %write{4,18} %derivs
+local	float	filterWidthSS	%read{19,28} %write{6,6}
+local	float	filterWidthTT	%read{31,40} %write{8,8}
+local	float	smag	%read{25,43} %write{21,30}
+local	float	tmag	%read{37,43} %write{33,42}
+const	int	$const1	40		%read{0,0} %write{2147483647,-1}
+temp	float	$tmp1	%read{2,2} %write{1,1} %derivs
+temp	float	$tmp2	%read{4,4} %write{3,3} %derivs
+temp	float	$tmp3	%read{6,6} %write{5,5}
+const	float	$const3	2		%read{6,44} %write{2147483647,-1}
+temp	float	$tmp4	%read{8,8} %write{7,7}
+const	string	$const4	"mod"		%read{9,14} %write{2147483647,-1}
+temp	float	$tmp5	%read{12,12} %write{11,11} %derivs
+temp	float	$tmp6	%read{11,11} %write{10,10} %derivs
+temp	float	$tmp7	%read{13,13} %write{12,12} %derivs
+temp	float	$tmp8	%read{17,17} %write{16,16} %derivs
+temp	float	$tmp9	%read{16,16} %write{15,15} %derivs
+temp	float	$tmp10	%read{18,18} %write{17,17} %derivs
+const	float	$const5	0.5		%read{19,45} %write{2147483647,-1}
+temp	float	$tmp11	%read{21,21} %write{19,19}
+temp	float	$tmp12	%read{21,21} %write{20,20}
+temp	float	$tmp13	%read{25,25} %write{24,24}
+const	float	$const6	1.5		%read{22,35} %write{2147483647,-1}
+temp	float	$tmp14	%read{24,24} %write{22,22}
+temp	float	$tmp15	%read{24,24} %write{23,23}
+temp	float	$tmp16	%read{27,27} %write{26,26}
+const	float	$const8	1		%read{27,41} %write{2147483647,-1}
+temp	float	$tmp17	%read{29,29} %write{28,28}
+const	float	$const9	0.40000001		%read{28,40} %write{2147483647,-1}
+const	float	$const10	1.2		%read{28,40} %write{2147483647,-1}
+temp	float	$tmp18	%read{30,30} %write{29,29}
+temp	float	$tmp19	%read{33,33} %write{31,31}
+temp	float	$tmp20	%read{33,33} %write{32,32}
+temp	float	$tmp21	%read{37,37} %write{36,36}
+temp	float	$tmp22	%read{36,36} %write{34,34}
+temp	float	$tmp23	%read{36,36} %write{35,35}
+temp	float	$tmp24	%read{39,39} %write{38,38}
+temp	float	$tmp25	%read{41,41} %write{40,40}
+temp	float	$tmp26	%read{42,42} %write{41,41}
+temp	float	$tmp27	%read{44,44} %write{43,43}
+temp	float	$tmp28	%read{45,45} %write{44,44}
+temp	float	$tmp29	%read{46,46} %write{45,45}
+code ___main___
+# check.osl:8
+#     float repeatCount=40;
+	assign		repeatCount $const1 	%filename{"check.osl"} %line{8} %argrw{"wr"}
+# check.osl:9
+#     float ss=u*repeatCount+v;
+	mul		$tmp1 u repeatCount 	%line{9} %argrw{"wrr"}
+	add		ss $tmp1 v 	%argrw{"wrr"}
+# check.osl:10
+#     float tt=v*repeatCount-u;
+	mul		$tmp2 v repeatCount 	%line{10} %argrw{"wrr"}
+	sub		tt $tmp2 u 	%argrw{"wrr"}
+# check.osl:11
+#     float filterWidthSS=2*filterwidth(ss);
+	filterwidth	$tmp3 ss 	%line{11} %argrw{"wr"} %argderivs{1}
+	mul		filterWidthSS $const3 $tmp3 	%argrw{"wrr"}
+# check.osl:12
+#     float filterWidthTT=2*filterwidth(tt);
+	filterwidth	$tmp4 tt 	%line{12} %argrw{"wr"} %argderivs{1}
+	mul		filterWidthTT $const3 $tmp4 	%argrw{"wrr"}
+# check.osl:15
+#     ss=mod(ss,2);
+	functioncall	$const4 14 	%line{15} %argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:135
+# PERCOMP1 (floor)
+	div		$tmp6 ss $const3 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp5 $tmp6 	%argrw{"wr"}
+	mul		$tmp7 $const3 $tmp5 	%argrw{"wrr"}
+	sub		ss ss $tmp7 	%argrw{"wrr"}
+# check.osl:16
+#     tt=mod(tt,2);
+	functioncall	$const4 19 	%filename{"check.osl"} %line{16} %argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:135
+# PERCOMP1 (sign)
+	div		$tmp9 tt $const3 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp8 $tmp9 	%argrw{"wr"}
+	mul		$tmp10 $const3 $tmp8 	%argrw{"wrr"}
+	sub		tt tt $tmp10 	%argrw{"wrr"}
+# check.osl:18
+#     smag =smoothstep(0.5-filterWidthSS,0.5+filterWidthSS,ss);
+	sub		$tmp11 $const5 filterWidthSS 	%filename{"check.osl"} %line{18} %argrw{"wrr"}
+	add		$tmp12 $const5 filterWidthSS 	%argrw{"wrr"}
+	smoothstep	smag $tmp11 $tmp12 ss 	%argrw{"wrrr"}
+# check.osl:19
+#     smag-=smoothstep(1.5-filterWidthSS,1.5+filterWidthSS,ss);
+	sub		$tmp14 $const6 filterWidthSS 	%line{19} %argrw{"wrr"}
+	add		$tmp15 $const6 filterWidthSS 	%argrw{"wrr"}
+	smoothstep	$tmp13 $tmp14 $tmp15 ss 	%argrw{"wrrr"}
+	sub		smag smag $tmp13 	%argrw{"wrr"}
+# check.osl:20
+#     smag=smag*2-1;
+	mul		$tmp16 smag $const3 	%line{20} %argrw{"wrr"}
+	sub		smag $tmp16 $const8 	%argrw{"wrr"}
+# check.osl:21
+#     smag*=1-smoothstep(0.4,1.2,filterWidthSS);
+	smoothstep	$tmp17 $const9 $const10 filterWidthSS 	%line{21} %argrw{"wrrr"}
+	sub		$tmp18 $const8 $tmp17 	%argrw{"wrr"}
+	mul		smag smag $tmp18 	%argrw{"wrr"}
+# check.osl:23
+#     tmag =smoothstep(0.5-filterWidthTT,0.5+filterWidthTT,tt);
+	sub		$tmp19 $const5 filterWidthTT 	%line{23} %argrw{"wrr"}
+	add		$tmp20 $const5 filterWidthTT 	%argrw{"wrr"}
+	smoothstep	tmag $tmp19 $tmp20 tt 	%argrw{"wrrr"}
+# check.osl:24
+#     tmag-=smoothstep(1.5-filterWidthTT,1.5+filterWidthTT,tt);
+	sub		$tmp22 $const6 filterWidthTT 	%line{24} %argrw{"wrr"}
+	add		$tmp23 $const6 filterWidthTT 	%argrw{"wrr"}
+	smoothstep	$tmp21 $tmp22 $tmp23 tt 	%argrw{"wrrr"}
+	sub		tmag tmag $tmp21 	%argrw{"wrr"}
+# check.osl:25
+#     tmag=tmag*2-1;
+	mul		$tmp24 tmag $const3 	%line{25} %argrw{"wrr"}
+	sub		tmag $tmp24 $const8 	%argrw{"wrr"}
+# check.osl:26
+#     tmag*=1-smoothstep(0.4,1.2,filterWidthTT);
+	smoothstep	$tmp25 $const9 $const10 filterWidthTT 	%line{26} %argrw{"wrrr"}
+	sub		$tmp26 $const8 $tmp25 	%argrw{"wrr"}
+	mul		tmag tmag $tmp26 	%argrw{"wrr"}
+# check.osl:29
+#     Cout=(smag*tmag)/2+0.5;
+	mul		$tmp27 smag tmag 	%line{29} %argrw{"wrr"}
+	div		$tmp28 $tmp27 $const3 	%argrw{"wrr"}
+	add		$tmp29 $tmp28 $const5 	%argrw{"wrr"}
+	assign		Cout $tmp29 	%argrw{"wr"}
+	end

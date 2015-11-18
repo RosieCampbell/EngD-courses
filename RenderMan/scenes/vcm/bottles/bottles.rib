@@ -1,0 +1,869 @@
+##RenderMan RIB
+#Created by RenderMan for Maya 5.5b2 (@1222788 Sep 11 2013)
+#Wed Sep 25 13:42:59 PDT 2013
+version 3.04
+Option "ribparse" "string varsubst" [""]
+Option "ribparse" "string varsubst" ["$"]
+IfBegin "!defined(RMSPROJ_FROM_ENV)" 
+Option "user" "string RMSPROJ" ["./"]
+IfEnd 
+IfBegin "!defined(RMSTREE)" 
+Option "user" "string RMSTREE" ["/Applications/Pixar/RenderManStudio-18.0b2-maya2014/"]
+IfEnd 
+Option "searchpath" "string resource" ["./:@"]
+Option "searchpath" "string archive" ["./:@"]
+Option "searchpath" "string shader" ["./:@"]
+Option "searchpath" "string procedural" [".:@"]
+FrameBegin 1
+Identity 
+Option "user" "string pass_id" ["perspShape4_Final"] "string pass_phase" ["/Job/Frames/Images"] "string pass_class" ["Final"] "string pass_flavor" [""] "string pass_crew" [""] "string pass_camera_name" ["perspShape4"] "string pass_camera_flavor" [""] "string pass_layer" ["defaultRenderLayer"] "int pass_features_trace" [1]
+Option "shading" "int directlightingsamples" [100]
+Option "trace" "float decimationrate" [1]
+PixelVariance 0.0005
+Option "bucket" "string order" ["spiral"]
+Option "limits" "int[2] bucketsize" [13 13]
+Option "limits" "int gridsize" [289]
+Option "limits" "color zthreshold" [0.996 0.996 0.996]
+Option "limits" "color othreshold" [0.996 0.996 0.996]
+Option "limits" "float vprelativeshadingrate" [1]
+Option "limits" "int texturememory" [102400]
+Option "limits" "int deepshadowtiles" [1000]
+Option "limits" "int deepshadowmemory" [102400]
+Option "limits" "int geocachememory" [204800]
+Option "limits" "int proceduralmemory" [0]
+Option "limits" "int brickmemory" [10240]
+Option "hair" "float minwidth" [0.5]
+Option "statistics" "int endofframe" [0]
+Option "statistics" "string filename" ["stdout"]
+Option "statistics" "string xmlfilename" ["beerBottles.xml"]
+Option "polygon" "int reducedmemory" [1]
+CropWindow 0 1 0 1
+Option "photon" "string lifetime" ["transient"]
+Option "photon" "int emit" [0]
+Hider "raytrace" "int minsamples" [64] "int maxsamples" [512] "int incremental" [1]
+#	"int noisesuppressor" 1
+
+
+Format 1024 768 1
+Display "bottles" "framebuffer" "rgba" "string filter" ["gaussian"] "float[2] filterwidth" [2 2] "int[4] quantize" [0 0 0 0] "float dither" [0] "float[2] exposure" [1 1] "int merge" [0] "string connection" ["-launchURI /Applications/Pixar/RenderManStudio-18.0b2-maya2014/bin/it.app/Contents/bin/it"] "string dspyParams" [" dspyRender -renderer preview -time 1 -crop 0 1 0 1 -port 53006 -context \"beerBottles\" -notes \"(Wed Sep 25 13:42:59 PDT 2013)\""]
+#Camera perspShape4
+Clipping 0.1 10000
+Projection "perspective" "fov" [54.4322]
+ScreenWindow -1 1 -0.75 0.75
+Shutter 0 0
+ConcatTransform [ 0.999994 -0.00176316 -0.00301252 3.47343e-12  -1.88416e-08 0.863058 -0.505105 -1.26715e-09  -0.00349064 -0.505102 -0.863052 9.95023e-10  3.65586 -2.35229 17.167 1 ]
+Camera "world" "float[2] shutteropening" [0 1]
+Option "user" "color camera_bg" [0 0 0] "float camera_bga" [0]
+Imager "background" "color color" [0 0 0] "float alpha" [0]
+ResourceBegin 
+#slim shader: _Frame
+#slim ribbox Frame (ribbox) 
+Integrator "PxrVCM" "handle" "int maxPathLength" [13] "int mergePaths" [1]
+#Integrator "PxrPathTracer" "handle" 
+WorldBegin 
+ScopedCoordinateSystem "world_ref"
+Attribute "visibility" "int indirect" [1] "int transmission" [1]
+Surface "defaultsurface" 
+Attribute "user" "int shader_bindingstrength" [0]
+Attribute "dice" "string referencecamera" ["worldcamera"] "float minlength" [-1]
+Attribute "trace" "int samplemotion" [1] "int maxdiffusedepth" [12] "int maxspeculardepth" [12] "float bias" [0.001]
+ShadingRate 1
+GeometricApproximation "motionfactor" 3
+GeometricApproximation "focusfactor" 3
+Attribute "volume" "float depthrelativeshadingrate" [3] "string depthinterpolation" ["constant"]
+Attribute "displacementbound" "string coordinatesystem" ["shader"] "float sphere" [0]
+Attribute "stochastic" "int sigma" [1]
+Attribute "photon" "string causticmap" [""] "string globalmap" [""]
+Attribute "user" "string irRenderCam" ["false,-3.60827,10.7013,13.6406"]
+Attribute "user" "string irRenderCamFOV" ["54.4322"]
+Attribute "user" "string irRenderCamXform" ["0.999994,1.0842e-19,-0.00349065,0,-0.00176315,0.863058,-0.505102,0,0.00301263,0.505105,0.863052,0,-3.60827,10.7013,13.6406,1"]
+Attribute "user" "string irRenderCamRatio" ["1"]
+#slim shader: _World
+#slim ribbox World (ribbox) 
+Bxdf "PxrDiffuse" "null" "color diffuseColor" [0 0 0]
+AttributeBegin 
+Attribute "identifier" "string name" ["RMSGeoAreaLightShape2"]
+Transform [ 1.85293 0.206868 9.82466 0  5.46676 8.28621 -1.20551 0  -8.16585 5.59428 1.42229 0  -15.4511 8.86913 1.32799 1 ]
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+Surface "shaders/RMSGeoAreaLightShape2_rfm" "string shape" ["rect"] "float intensity" [8] "color lightcolor" [1 1 1] "float temperature" [7775.28] "color specAmount" [1 1 1] "color diffAmount" [1 1 1] "color shadowColor" [0 0 0] 
+"string __group" [""] "float coneangle" [90] "float penumbraangle" [5] "float penumbraexponent" [0] "string profilemap" [""] "string iesprofile" [""] "float distributionAngle" [20] "float angularVisibility" [1] "float rmsDisplayBarnDoors" [0] "float rmsBarnT" [0] "float rmsBarnB" [0] "float rmsBarnL" [0] "float rmsBarnR" [0] "string barnDoorMap" ["default.tex"] 
+"float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "string shadowname" [""] "float samplebase" [0.5] "float bias" [-1] "float mapbias" [1] "float mapbias2" [1] "float sides" [0] "float areaNormalize" [1] "string photonTarget" [""] "string __category" ["stdrsl_plausible,RMSGeoAreaLightShape2"] "__instanceid" ["RMSGeoAreaLightShape2"]
+AreaLightSource "shaders/RMSGeoAreaLightShape2_rfm" "RMSGeoAreaLightShape2" "string shape" ["rect"] "float intensity" [8] "color lightcolor" [1 1 1] "float temperature" [7775.28] "color specAmount" [1 1 1] "color diffAmount" [1 1 1] "color shadowColor" [0 0 0] 
+"string __group" [""] "float coneangle" [90] "float penumbraangle" [5] "float penumbraexponent" [0] "string profilemap" [""] "string iesprofile" [""] "float distributionAngle" [20] "float angularVisibility" [1] "float rmsDisplayBarnDoors" [0] "float rmsBarnT" [0] "float rmsBarnB" [0] "float rmsBarnL" [0] "float rmsBarnR" [0] "string barnDoorMap" ["default.tex"] 
+"float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "string shadowname" [""] "float samplebase" [0.5] "float bias" [-1] "float mapbias" [1] "float mapbias2" [1] "float sides" [0] "float areaNormalize" [1] "string photonTarget" [""] "string __category" ["stdrsl_plausible,RMSGeoAreaLightShape2"] "__instanceid" ["RMSGeoAreaLightShape2"]
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+Attribute "visibility" "int camera" [0]
+Attribute "visibility" "int indirect" [0] "int transmission" [0] 
+ShadingRate 10000
+Sides 1
+Attribute "dice" "string offscreenstrategy" ["sphericalprojection"]
+ReverseOrientation 
+Geometry "rectlight"
+AttributeEnd 
+Illuminate "RMSGeoAreaLightShape2" 1
+AttributeBegin 
+Attribute "identifier" "string name" ["RMSGeoAreaLightShape3"]
+Transform [ 1.95081e-15 0 -17.5713 0  -1.03737 10.7465 -1.49831e-16 0  5.81802 0.561619 6.48933e-16 0  11.3986 6.74211 1.11425 1 ]
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+Surface "shaders/RMSGeoAreaLightShape3_rfm" "string shape" ["rect"] "float intensity" [6] "color lightcolor" [1 1 1] "float temperature" [5500] "color specAmount" [1 1 1] "color diffAmount" [1 1 1] "color shadowColor" [0 0 0] 
+"string __group" [""] "float coneangle" [90] "float penumbraangle" [5] "float penumbraexponent" [0] "string profilemap" [""] "string iesprofile" [""] "float distributionAngle" [90] "float angularVisibility" [1] "float rmsDisplayBarnDoors" [0] "float rmsBarnT" [0] "float rmsBarnB" [0] "float rmsBarnL" [0] "float rmsBarnR" [0] "string barnDoorMap" ["default.tex"] 
+"float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "string shadowname" [""] "float samplebase" [0.5] "float bias" [-1] "float mapbias" [1] "float mapbias2" [1] "float sides" [0] "float areaNormalize" [1] "string photonTarget" [""] "string __category" ["stdrsl_plausible,RMSGeoAreaLightShape3"] "__instanceid" ["RMSGeoAreaLightShape3"]
+AreaLightSource "shaders/RMSGeoAreaLightShape3_rfm" "RMSGeoAreaLightShape3" "string shape" ["rect"] "float intensity" [6] "color lightcolor" [1 1 1] "float temperature" [5500] "color specAmount" [1 1 1] "color diffAmount" [1 1 1] "color shadowColor" [0 0 0] 
+"string __group" [""] "float coneangle" [90] "float penumbraangle" [5] "float penumbraexponent" [0] "string profilemap" [""] "string iesprofile" [""] "float distributionAngle" [90] "float angularVisibility" [1] "float rmsDisplayBarnDoors" [0] "float rmsBarnT" [0] "float rmsBarnB" [0] "float rmsBarnL" [0] "float rmsBarnR" [0] "string barnDoorMap" ["default.tex"] 
+"float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "string shadowname" [""] "float samplebase" [0.5] "float bias" [-1] "float mapbias" [1] "float mapbias2" [1] "float sides" [0] "float areaNormalize" [1] "string photonTarget" [""] "string __category" ["stdrsl_plausible,RMSGeoAreaLightShape3"] "__instanceid" ["RMSGeoAreaLightShape3"]
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+Attribute "visibility" "int camera" [0]
+Attribute "visibility" "int indirect" [0] "int transmission" [0]
+ShadingRate 100000
+Sides 1
+Attribute "dice" "string offscreenstrategy" ["sphericalprojection"]
+ReverseOrientation 
+Geometry "rectlight"
+AttributeEnd 
+Illuminate "RMSGeoAreaLightShape3" 1
+AttributeBegin 
+Attribute "identifier" "string name" ["groundPlane_transform"]
+ConcatTransform [ 12 0 0 0  0 2.66454e-15 12 0  0 -1 2.22045e-16 0  0 0 0 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["Manipulator1"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["UniversalManip"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["persp"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  5.00394e-15 -4.06709e-15 -2.53137e-12 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["RMSGeoAreaLight2"]
+ConcatTransform [ 1.85293 0.206868 9.82466 0  5.46676 8.28621 -1.20551 0  -8.16585 5.59428 1.42229 0  -15.4511 8.86913 1.32799 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle"]
+ConcatTransform [ 0.513722 0 0.567763 0  0.567763 4.25037e-16 -0.513722 0  -2.12519e-16 0.765679 3.4003e-16 0  -9.86594 0.917253 2.63996 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottleShape"]
+Attribute "identifier" "float id" [160]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+#slim shader: 00000u7o___sjNUK
+#slim ribbox Bottles (ribbox) 
+Bxdf "PxrGlass" "glass" "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1]
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/sodaBottleShape.job.rib"] "float[6] bound" [-1.26013 1.26013 0.00398267 7.8361 -1.26013 1.26013] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00000.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle1"]
+ConcatTransform [ 0.765679 0 0 0  0 0.765679 0 0  0 0 0.765679 0  -2.50578 0.0331297 -2.93752 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle1Shape"]
+Attribute "identifier" "float id" [154]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+#slim shader: 00000u7o___sjNUK
+#slim ribbox Bottles (ribbox) 
+Bxdf "PxrGlass" "glass" "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1] 
+#slim shader: 00000u7o__luOXUK
+#slim ribbox Bottles_brown (ribbox) 
+Bxdf "PxrGlass" "glass" "color transmissionColor" [0.9 0.75 0.65] "color reflectionColor" [1 1 1]
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/sodaBottle1Shape.job.rib"] "float[6] bound" [-1.26013 1.26013 0.00398267 7.8361 -1.26013 1.26013] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00001.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle2"]
+ConcatTransform [ 0.0117375 0.765495 -0.0120261 0  -0.510729 -0.00113082 -0.570455 0  -0.570335 0.0167666 0.510589 0  4.34084 0.828745 -0.580927 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle2Shape"]
+Attribute "identifier" "float id" [155]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+#slim shader: 00000u7o___sjNUK
+#slim ribbox Bottles (ribbox) 
+Bxdf "PxrGlass" "glass" "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1]
+#slim shader: 00000u7o__VwNXUK
+#slim ribbox Bottles_b (ribbox) 
+Bxdf "PxrGlass" "glass" "color transmissionColor" [0.8 0.96 0.985] "color reflectionColor" [1 1 1]
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/sodaBottle2Shape.job.rib"] "float[6] bound" [-1.26013 1.26013 0.00398267 7.8361 -1.26013 1.26013] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00002.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle5"]
+ConcatTransform [ 0.464435 -0.0154266 0.608545 0  0.586544 0.216153 -0.442164 0  -0.162885 0.734374 0.142928 0  -1.47294 0.792332 -1.15268 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle5Shape"]
+Attribute "identifier" "float id" [158]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+#slim shader: 00000u7o___sjNUK
+#slim ribbox Bottles (ribbox) 
+Bxdf "PxrGlass" "glass" "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1]
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/sodaBottle5Shape.job.rib"] "float[6] bound" [-1.26013 1.26013 0.00398267 7.8361 -1.26013 1.26013] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00003.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["RMSGeoAreaLight3"]
+ConcatTransform [ 1.95081e-15 0 -17.5713 0  -1.03737 10.7465 -1.49831e-16 0  5.81802 0.561619 6.48933e-16 0  11.3986 6.74211 1.11425 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["group1"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -2.98452 -1.77636e-15 8.18493 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["persp2"]
+ConcatTransform [ -0.693684 0.292237 -0.658331 0  -0.229581 0.776615 0.586653 0  0.682711 0.558092 -0.471633 0  25.8646 22.1612 -17.8127 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle6"]
+ConcatTransform [ 0.765679 0 0 0  0 0.765679 0 0  0 0 0.765679 0  -9.7074 -0.0148281 -1.61471 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle6Shape"]
+Attribute "identifier" "float id" [159]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+#slim shader: 00000u7o___sjNUK
+#slim ribbox Bottles (ribbox) 
+Bxdf "PxrGlass" "glass" "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1]
+#slim shader: 00000u7o__FuOXUK
+#slim ribbox Bottles_g (ribbox) 
+Bxdf "PxrGlass" "glass" "color transmissionColor" [0.8 0.985 0.8] "color reflectionColor" [1 1 1]
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/sodaBottle6Shape.job.rib"] "float[6] bound" [-1.26013 1.26013 0.00398267 7.8361 -1.26013 1.26013] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00004.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["nurbsPlane1"]
+ConcatTransform [ -24 0 -2.93915e-15 0  4.3475e-15 7.88258e-15 -35.5 0  8.75143e-31 -35.5 -7.88258e-15 0  -10.5728 11.7546 63.7844 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["nurbsPlaneShape1"]
+Attribute "identifier" "float id" [4]
+Sides 2
+ReverseOrientation 
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+#slim shader: 00000Ou___VxlXUK
+#slim ribbox Poster (ribbox) 
+Pattern "PxrTexture" "texturenode" "string filename" ["grid.tex"] "int invertT" [0]
+Bxdf "PxrDiffuse" "poster" "reference color diffuseColor" ["texturenode:resultRGB"]
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/nurbsPlaneShape1.job.rib"] "float[6] bound" [-0.5 0.5 -3.06162e-17 3.06162e-17 -0.5 0.5] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00005.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:pCube62"]
+ConcatTransform [ 181.89 0 0 0  0 181.89 0 0  0 0 181.89 0  0 0 0 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:polySurface1"]
+ConcatTransform [ 1 0 0 0  0 0.593766 0 0  0 0 1 0  0.148425 0.0976518 -0.14852 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:polySurfaceShape4"]
+Attribute "identifier" "float id" [152]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+#slim shader: 00000u7o__VviNUK
+#slim ribbox BlueWall (ribbox) 
+Bxdf "PxrDiffuse" "redwall" "color diffuseColor" [0.25 0.35 0.5]
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/siggraph_glassBottlesOnCakeStand_v03_polySurfaceShape4.job.rib"] "float[6] bound" [-0.5 -0.5 -0.5 0.5 -0.5 0.5] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00006.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:polySurface2"]
+ConcatTransform [ 1 0 0 0  0 0.593766 0 0  0 0 1 0  0.148425 0.0979152 -0.14852 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:polySurfaceShape5"]
+Attribute "identifier" "float id" [153]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+#slim shader: 00000u7o__FsiNUK
+#slim ribbox WhiteWall (ribbox) 
+Bxdf "PxrDiffuse" "whitewall" "color diffuseColor" [0.956 0.896 0.893]
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/siggraph_glassBottlesOnCakeStand_v03_polySurfaceShape5.job.rib"] "float[6] bound" [-0.543983 0.543983 -0.543983 0.543983 -0.543983 0.543983] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00007.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:transform1"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:persp1"]
+ConcatTransform [ -0.903335 1.38778e-17 -0.428935 0  -0.243188 0.823747 0.512153 0  0.353334 0.566958 -0.74412 0  17.8062 29.8011 -37.4402 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:persp2"]
+ConcatTransform [ -0.980271 1.21431e-16 -0.197657 0  -0.044256 0.974612 0.219485 0  0.192639 0.223903 -0.955384 0  3.02774 8.5118 -14.0902 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Table"]
+ConcatTransform [ 9.32106e-15 0 41.9783 0  0 41.9783 0 0  -41.9783 0 9.32106e-15 0  -27.221 -36.5259 -6.62126 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:tableTop"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface501"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.219884 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape501"]
+Attribute "identifier" "float id" [21]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+#slim shader: 00000u7o__F_iNUK
+#slim ribbox Table (ribbox) 
+Bxdf "PxrDisney" "table" "color baseColor" [0.684 0.575 0.346] "float roughness" [0.15]
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape501.job.rib"] "float[6] bound" [12.5146 13.3177 1.0385 1.0893 -1.55404 0.257134] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00008.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:tableLegs"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface323"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape323"]
+Attribute "identifier" "float id" [15]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+Displacement "null" 
+Surface "shaders/siggraph_glassBottlesOnCakeStand_v03_RMSGPSurface4_rfm" "color surfaceColor" [1 1 1] "float diffuseGain" [0.5] "color translucentColor" [0 0 0] "color emission" [0 0 0] "float __computesOpacity" [0] "float diffuseRoughness" [0.1] 
+"float purity" [0.002] "float distributionAngle" [0] "float emissionExposure" [0] "float refractionAmount" [0] "string glass" [""] "float roughness" [0.008] "float specularGain" [1] "color specularColor" [1 1 1] "float anisotropy" [0] "float indirectSpecularScale" [1] "float metallic" [0] 
+"float flakeAmount" [0] "float flakeScale" [10] "float ior" [1.5] "float specularBlend" [0] "float roughnessB" [0.008] "float specularGainB" [1] "float anisotropyB" [0] "color specColorB" [1 1 1] "float indirectSpecularScaleB" [1] "integer specularConeAngleSamples" [1] "integer maxSpecularSamples" [16] 
+"integer lightConeAngleSamples" [4] "integer maxLightSamples" [16] "float dispMode" [1] "float compositionRule" [1] "color sssTint" [1 1 1] "color sssMix" [0 0 0] "float sssDmfpScale" [1] "color sssDmfp" [1 1 1] 
+"integer sssSamples" [16] "string sssPassID" ["RenderCam_SSRender"] "string sssConversionClass" ["SSDiffuse"] "string sssOutputFile" [""] "string sssMap" [""] "string sssMapConnection" [""] "string sssSpace" ["world"] "string __group" [""] "string __category" ["RMSGPLayer,stdrsl_plausible"] "string SurfaceMap" [""] "string SpecularMap" [""] "string SpecularMapB" [""] "string RoughnessMap" [""] "string DisplacementMap" [""] "string MaskMap" [""] "string shadowname" [""] "float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "float bias" [-1] 
+"float mapbias" [1] "float mapbias2" [1] "__instanceid" ["siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface4"]
+VPInterior "null" 
+Interior "null" 
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape323.job.rib"] "float[6] bound" [12.5146 13.3177 0.23676 1.02802 -1.55404 0.180049] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00009.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface322"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape322"]
+Attribute "identifier" "float id" [14]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+Displacement "null" 
+Surface "shaders/siggraph_glassBottlesOnCakeStand_v03_RMSGPSurface4_rfm" "color surfaceColor" [1 1 1] "float diffuseGain" [0.5] "color translucentColor" [0 0 0] "color emission" [0 0 0] "float __computesOpacity" [0] "float diffuseRoughness" [0.1] 
+"float purity" [0.002] "float distributionAngle" [0] "float emissionExposure" [0] "float refractionAmount" [0] "string glass" [""] "float roughness" [0.008] "float specularGain" [1] "color specularColor" [1 1 1] "float anisotropy" [0] "float indirectSpecularScale" [1] "float metallic" [0] 
+"float flakeAmount" [0] "float flakeScale" [10] "float ior" [1.5] "float specularBlend" [0] "float roughnessB" [0.008] "float specularGainB" [1] "float anisotropyB" [0] "color specColorB" [1 1 1] "float indirectSpecularScaleB" [1] "integer specularConeAngleSamples" [1] "integer maxSpecularSamples" [16] 
+"integer lightConeAngleSamples" [4] "integer maxLightSamples" [16] "float dispMode" [1] "float compositionRule" [1] "color sssTint" [1 1 1] "color sssMix" [0 0 0] "float sssDmfpScale" [1] "color sssDmfp" [1 1 1] 
+"integer sssSamples" [16] "string sssPassID" ["RenderCam_SSRender"] "string sssConversionClass" ["SSDiffuse"] "string sssOutputFile" [""] "string sssMap" [""] "string sssMapConnection" [""] "string sssSpace" ["world"] "string __group" [""] "string __category" ["RMSGPLayer,stdrsl_plausible"] "string SurfaceMap" [""] "string SpecularMap" [""] "string SpecularMapB" [""] "string RoughnessMap" [""] "string DisplacementMap" [""] "string MaskMap" [""] "string shadowname" [""] "float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "float bias" [-1] 
+"float mapbias" [1] "float mapbias2" [1] "__instanceid" ["siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface4"]
+VPInterior "null" 
+Interior "null" 
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape322.job.rib"] "float[6] bound" [12.5916 13.2407 0.998021 1.02802 0.180049 0.237133] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00010.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface324"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape324"]
+Attribute "identifier" "float id" [16]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+Displacement "null" 
+Surface "shaders/siggraph_glassBottlesOnCakeStand_v03_RMSGPSurface4_rfm" "color surfaceColor" [1 1 1] "float diffuseGain" [0.5] "color translucentColor" [0 0 0] "color emission" [0 0 0] "float __computesOpacity" [0] "float diffuseRoughness" [0.1] 
+"float purity" [0.002] "float distributionAngle" [0] "float emissionExposure" [0] "float refractionAmount" [0] "string glass" [""] "float roughness" [0.008] "float specularGain" [1] "color specularColor" [1 1 1] "float anisotropy" [0] "float indirectSpecularScale" [1] "float metallic" [0] 
+"float flakeAmount" [0] "float flakeScale" [10] "float ior" [1.5] "float specularBlend" [0] "float roughnessB" [0.008] "float specularGainB" [1] "float anisotropyB" [0] "color specColorB" [1 1 1] "float indirectSpecularScaleB" [1] "integer specularConeAngleSamples" [1] "integer maxSpecularSamples" [16] 
+"integer lightConeAngleSamples" [4] "integer maxLightSamples" [16] "float dispMode" [1] "float compositionRule" [1] "color sssTint" [1 1 1] "color sssMix" [0 0 0] "float sssDmfpScale" [1] "color sssDmfp" [1 1 1] 
+"integer sssSamples" [16] "string sssPassID" ["RenderCam_SSRender"] "string sssConversionClass" ["SSDiffuse"] "string sssOutputFile" [""] "string sssMap" [""] "string sssMapConnection" [""] "string sssSpace" ["world"] "string __group" [""] "string __category" ["RMSGPLayer,stdrsl_plausible"] "string SurfaceMap" [""] "string SpecularMap" [""] "string SpecularMapB" [""] "string RoughnessMap" [""] "string DisplacementMap" [""] "string MaskMap" [""] "string shadowname" [""] "float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "float bias" [-1] 
+"float mapbias" [1] "float mapbias2" [1] "__instanceid" ["siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface4"]
+VPInterior "null" 
+Interior "null" 
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape324.job.rib"] "float[6] bound" [12.5146 12.5916 0.23676 1.02802 0.180049 0.257133] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00011.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface321"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape321"]
+Attribute "identifier" "float id" [13]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+Displacement "null" 
+Surface "shaders/siggraph_glassBottlesOnCakeStand_v03_RMSGPSurface4_rfm" "color surfaceColor" [1 1 1] "float diffuseGain" [0.5] "color translucentColor" [0 0 0] "color emission" [0 0 0] "float __computesOpacity" [0] "float diffuseRoughness" [0.1] 
+"float purity" [0.002] "float distributionAngle" [0] "float emissionExposure" [0] "float refractionAmount" [0] "string glass" [""] "float roughness" [0.008] "float specularGain" [1] "color specularColor" [1 1 1] "float anisotropy" [0] "float indirectSpecularScale" [1] "float metallic" [0] 
+"float flakeAmount" [0] "float flakeScale" [10] "float ior" [1.5] "float specularBlend" [0] "float roughnessB" [0.008] "float specularGainB" [1] "float anisotropyB" [0] "color specColorB" [1 1 1] "float indirectSpecularScaleB" [1] "integer specularConeAngleSamples" [1] "integer maxSpecularSamples" [16] 
+"integer lightConeAngleSamples" [4] "integer maxLightSamples" [16] "float dispMode" [1] "float compositionRule" [1] "color sssTint" [1 1 1] "color sssMix" [0 0 0] "float sssDmfpScale" [1] "color sssDmfp" [1 1 1] 
+"integer sssSamples" [16] "string sssPassID" ["RenderCam_SSRender"] "string sssConversionClass" ["SSDiffuse"] "string sssOutputFile" [""] "string sssMap" [""] "string sssMapConnection" [""] "string sssSpace" ["world"] "string __group" [""] "string __category" ["RMSGPLayer,stdrsl_plausible"] "string SurfaceMap" [""] "string SpecularMap" [""] "string SpecularMapB" [""] "string RoughnessMap" [""] "string DisplacementMap" [""] "string MaskMap" [""] "string shadowname" [""] "float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "float bias" [-1] 
+"float mapbias" [1] "float mapbias2" [1] "__instanceid" ["siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface4"]
+VPInterior "null" 
+Interior "null" 
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape321.job.rib"] "float[6] bound" [13.2407 13.3177 0.23676 1.02802 0.180049 0.257133] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00012.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Chair"]
+ConcatTransform [ 32.1005 0 -27.0506 0  0 41.9783 0 0  27.0506 0 32.1005 0  -20.2992 -36.4079 65.5075 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:chairSeatsh"]
+ConcatTransform [ 0.97172 0 -0.236137 0  0 1 0 0  0.236137 0 0.97172 0  -0.0150214 0 0.196815 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface521"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape521"]
+Attribute "identifier" "float id" [22]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+#slim shader: 00000u7o__V2jNUK
+#slim ribbox Chair (ribbox) 
+Bxdf "PxrDisney" "chair" "color baseColor" [0.8 0.1 0.1] "float roughness" [0.5]
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape521.job.rib"] "float[6] bound" [13.4932 14.1486 0.68737 1.18053 -0.289519 0.327882] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00013.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:chairLegs"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface318"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape318"]
+Attribute "identifier" "float id" [11]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+Displacement "null" 
+Surface "shaders/siggraph_glassBottlesOnCakeStand_v03_RMSMatte5_rfm" "color surfaceColor" [1 1 1] "float diffuseGain" [0.5] "color translucentColor" [0 0 0] "float diffuseRoughness" [0] "color emission" [0 0 0] "float emissionExposure" [0] 
+"float distributionAngle" [90] "float __computesOpacity" [0] "float dispMode" [1] "float compositionRule" [1] "color sssTint" [1 1 1] "color sssMix" [0 0 0] "float sssDmfpScale" [1] "color sssDmfp" [1 1 1] 
+"integer sssSamples" [16] "float ior" [1.5] "string sssPassID" ["RenderCam_SSRender"] "string sssConversionClass" ["SSDiffuse"] "string sssOutputFile" [""] "string sssMap" [""] "string sssMapConnection" [""] "string sssSpace" ["world"] "string __group" [""] "string __category" ["RMSGPLayer,stdrsl_plausible"] "string SurfaceMap" [""] "string DisplacementMap" [""] "string MaskMap" [""] "string shadowname" [""] "float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "float bias" [-1] "float mapbias" [1] 
+"float mapbias2" [1] "__instanceid" ["siggraph_glassBottlesOnCakeStand_v03:RMSMatte5"]
+VPInterior "null" 
+Interior "null" 
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape318.job.rib"] "float[6] bound" [13.4722 13.8086 0.262604 0.734591 -0.299166 0.31707] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00014.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface319"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape319"]
+Attribute "identifier" "float id" [12]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+Displacement "null" 
+Surface "shaders/siggraph_glassBottlesOnCakeStand_v03_RMSMatte5_rfm" "color surfaceColor" [1 1 1] "float diffuseGain" [0.5] "color translucentColor" [0 0 0] "float diffuseRoughness" [0] "color emission" [0 0 0] "float emissionExposure" [0] 
+"float distributionAngle" [90] "float __computesOpacity" [0] "float dispMode" [1] "float compositionRule" [1] "color sssTint" [1 1 1] "color sssMix" [0 0 0] "float sssDmfpScale" [1] "color sssDmfp" [1 1 1] 
+"integer sssSamples" [16] "float ior" [1.5] "string sssPassID" ["RenderCam_SSRender"] "string sssConversionClass" ["SSDiffuse"] "string sssOutputFile" [""] "string sssMap" [""] "string sssMapConnection" [""] "string sssSpace" ["world"] "string __group" [""] "string __category" ["RMSGPLayer,stdrsl_plausible"] "string SurfaceMap" [""] "string DisplacementMap" [""] "string MaskMap" [""] "string shadowname" [""] "float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "float bias" [-1] "float mapbias" [1] 
+"float mapbias2" [1] "__instanceid" ["siggraph_glassBottlesOnCakeStand_v03:RMSMatte5"]
+VPInterior "null" 
+Interior "null" 
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape319.job.rib"] "float[6] bound" [13.8317 14.1681 0.262604 0.734591 -0.299165 0.31707] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00015.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:chairFeet"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface325"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape325"]
+Attribute "identifier" "float id" [17]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+Displacement "null" 
+Surface "shaders/siggraph_glassBottlesOnCakeStand_v03_RMSMatte5_rfm" "color surfaceColor" [1 1 1] "float diffuseGain" [0.5] "color translucentColor" [0 0 0] "float diffuseRoughness" [0] "color emission" [0 0 0] "float emissionExposure" [0] 
+"float distributionAngle" [90] "float __computesOpacity" [0] "float dispMode" [1] "float compositionRule" [1] "color sssTint" [1 1 1] "color sssMix" [0 0 0] "float sssDmfpScale" [1] "color sssDmfp" [1 1 1] 
+"integer sssSamples" [16] "float ior" [1.5] "string sssPassID" ["RenderCam_SSRender"] "string sssConversionClass" ["SSDiffuse"] "string sssOutputFile" [""] "string sssMap" [""] "string sssMapConnection" [""] "string sssSpace" ["world"] "string __group" [""] "string __category" ["RMSGPLayer,stdrsl_plausible"] "string SurfaceMap" [""] "string DisplacementMap" [""] "string MaskMap" [""] "string shadowname" [""] "float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "float bias" [-1] "float mapbias" [1] 
+"float mapbias2" [1] "__instanceid" ["siggraph_glassBottlesOnCakeStand_v03:RMSMatte5"]
+VPInterior "null" 
+Interior "null" 
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape325.job.rib"] "float[6] bound" [13.4635 13.4979 0.23426 0.266869 -0.308539 -0.275527] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00016.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface326"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape326"]
+Attribute "identifier" "float id" [18]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+Displacement "null" 
+Surface "shaders/siggraph_glassBottlesOnCakeStand_v03_RMSMatte5_rfm" "color surfaceColor" [1 1 1] "float diffuseGain" [0.5] "color translucentColor" [0 0 0] "float diffuseRoughness" [0] "color emission" [0 0 0] "float emissionExposure" [0] 
+"float distributionAngle" [90] "float __computesOpacity" [0] "float dispMode" [1] "float compositionRule" [1] "color sssTint" [1 1 1] "color sssMix" [0 0 0] "float sssDmfpScale" [1] "color sssDmfp" [1 1 1] 
+"integer sssSamples" [16] "float ior" [1.5] "string sssPassID" ["RenderCam_SSRender"] "string sssConversionClass" ["SSDiffuse"] "string sssOutputFile" [""] "string sssMap" [""] "string sssMapConnection" [""] "string sssSpace" ["world"] "string __group" [""] "string __category" ["RMSGPLayer,stdrsl_plausible"] "string SurfaceMap" [""] "string DisplacementMap" [""] "string MaskMap" [""] "string shadowname" [""] "float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "float bias" [-1] "float mapbias" [1] 
+"float mapbias2" [1] "__instanceid" ["siggraph_glassBottlesOnCakeStand_v03:RMSMatte5"]
+VPInterior "null" 
+Interior "null" 
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape326.job.rib"] "float[6] bound" [13.4613 13.4957 0.234216 0.26679 0.293448 0.326459] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00017.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface327"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape327"]
+Attribute "identifier" "float id" [19]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+Displacement "null" 
+Surface "shaders/siggraph_glassBottlesOnCakeStand_v03_RMSMatte5_rfm" "color surfaceColor" [1 1 1] "float diffuseGain" [0.5] "color translucentColor" [0 0 0] "float diffuseRoughness" [0] "color emission" [0 0 0] "float emissionExposure" [0] 
+"float distributionAngle" [90] "float __computesOpacity" [0] "float dispMode" [1] "float compositionRule" [1] "color sssTint" [1 1 1] "color sssMix" [0 0 0] "float sssDmfpScale" [1] "color sssDmfp" [1 1 1] 
+"integer sssSamples" [16] "float ior" [1.5] "string sssPassID" ["RenderCam_SSRender"] "string sssConversionClass" ["SSDiffuse"] "string sssOutputFile" [""] "string sssMap" [""] "string sssMapConnection" [""] "string sssSpace" ["world"] "string __group" [""] "string __category" ["RMSGPLayer,stdrsl_plausible"] "string SurfaceMap" [""] "string DisplacementMap" [""] "string MaskMap" [""] "string shadowname" [""] "float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "float bias" [-1] "float mapbias" [1] 
+"float mapbias2" [1] "__instanceid" ["siggraph_glassBottlesOnCakeStand_v03:RMSMatte5"]
+VPInterior "null" 
+Interior "null" 
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape327.job.rib"] "float[6] bound" [14.1424 14.1768 0.23426 0.266869 -0.308538 -0.275527] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00018.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface328"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape328"]
+Attribute "identifier" "float id" [20]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+Displacement "null" 
+Surface "shaders/siggraph_glassBottlesOnCakeStand_v03_RMSMatte5_rfm" "color surfaceColor" [1 1 1] "float diffuseGain" [0.5] "color translucentColor" [0 0 0] "float diffuseRoughness" [0] "color emission" [0 0 0] "float emissionExposure" [0] 
+"float distributionAngle" [90] "float __computesOpacity" [0] "float dispMode" [1] "float compositionRule" [1] "color sssTint" [1 1 1] "color sssMix" [0 0 0] "float sssDmfpScale" [1] "color sssDmfp" [1 1 1] 
+"integer sssSamples" [16] "float ior" [1.5] "string sssPassID" ["RenderCam_SSRender"] "string sssConversionClass" ["SSDiffuse"] "string sssOutputFile" [""] "string sssMap" [""] "string sssMapConnection" [""] "string sssSpace" ["world"] "string __group" [""] "string __category" ["RMSGPLayer,stdrsl_plausible"] "string SurfaceMap" [""] "string DisplacementMap" [""] "string MaskMap" [""] "string shadowname" [""] "float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "float bias" [-1] "float mapbias" [1] 
+"float mapbias2" [1] "__instanceid" ["siggraph_glassBottlesOnCakeStand_v03:RMSMatte5"]
+VPInterior "null" 
+Interior "null" 
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape328.job.rib"] "float[6] bound" [14.1446 14.179 0.234216 0.26679 0.293448 0.32646] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00019.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:asset_sodaBottle_v01:sodaBottle"]
+ConcatTransform [ 0.765679 0 0 0  0 0.765679 0 0  0 0 0.765679 0  0.910518 -0.0267398 0.945542 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:asset_sodaBottle_v01:sodaBottleShape"]
+Attribute "identifier" "float id" [9]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RenderMan RIB
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+#slim shader: 00000u7o___sjNUK
+#slim ribbox Bottles (ribbox) 
+Bxdf "PxrGlass" "glass" "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1]
+#slim shader: 00000u7o__FuOXUK
+#slim ribbox Bottles_g (ribbox) 
+Bxdf "PxrGlass" "glass" "color transmissionColor" [0.8 0.985 0.8] "color reflectionColor" [1 1 1]
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["./bottlesStaticGeoCache.job.zip!renderman/bottles/rib/job/siggraph_glassBottlesOnCakeStand_v03_asset_sodaBottle_v01_sodaBottleShape.job.rib"] "float[6] bound" [-1.26013 1.26013 0.00398267 7.8361 -1.26013 1.26013] "int __immediatesubdivide" [0] "string filename" ["./procprims.plundarr.pixar.com.22459.00000/procprim-00020.rib"]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["persp3"]
+ConcatTransform [ 0.999994 1.0842e-19 -0.00349065 0  -0.00176315 0.863058 -0.505102 0  0.00301263 0.505105 0.863052 0  -3.60827 10.7013 13.6406 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["CubeCompass"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeEnd 
+WorldEnd 
+ResourceEnd 
+##streammarker 68
+FrameEnd 

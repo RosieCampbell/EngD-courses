@@ -1,0 +1,21 @@
+shader
+sblurpattern(
+        string texName = "",
+        float texOffsetUbegin = 0,  // initial U offset position at shutter begin
+        float texOffsetVbegin = 0,  // initial V offset position at shutter begin
+        float texOffsetUend = 0,  // amount of U offset at shutter end
+        float texOffsetVend = 0,  // amount of V offset at shutter end
+        output color Cout = 0)
+{
+    // move u & v coordinate to start position
+    float tu = u+texOffsetUbegin;
+    float tv = v+texOffsetVbegin;
+
+    // functionalize the offset in u & v, over the
+    // shutter interval using "time" shading context
+    float ou = (texOffsetUend-texOffsetUbegin)*time;
+    float ov = (texOffsetVend-texOffsetVbegin)*time;
+
+    // lookup the texture with texture position
+    Cout = (color)texture(texName, tu+ou, tv+ov);
+}

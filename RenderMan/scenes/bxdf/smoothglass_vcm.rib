@@ -1,0 +1,47 @@
+##RenderMan RIB
+version 3.04
+Display "smoothglass_vcm" "framebuffer" "rgba" 
+Projection "perspective" "float fov" [20]
+Format 640 480 1
+
+IfBegin "0"
+Integrator "PxrPathTracer" "ffo" 
+        "int numLightSamples" 4 "int numBxdfSamples" 4
+        "int numIndirectSamples" 4 "int allowCaustics" 1
+Else
+Integrator "PxrVCM" "vcm" "int maxPathLength" [7] 
+    "int numLightSamples" 4 "int numBxdfSamples" 4
+    "int mergePaths" [1]
+IfEnd
+
+Hider "raytrace" "int incremental" [1] 
+    "int maxsamples" [250] "int minsamples" [25]
+
+Translate 0 0 4.47846
+Scale 1 1 -1
+Rotate 30 0 1 0
+WorldBegin 
+	ReadArchive "lights.rib" 
+  Attribute "trace" "int maxspeculardepth" 5 "int maxdiffusedepth" 1
+	Attribute "visibility" "int transmission" [1]
+	AttributeBegin 
+		Attribute "identifier" "string name" ["rmanball 0.0"]
+		Translate 0 0 0
+    Pattern "PxrSeExpr" "tex1" "string expression" ["\
+        $c = cfbm(10*$P); \
+        $c \
+    "]
+		Bxdf "PxrGlass" "00" "float ior" [1.5] 
+            "float roughness" 0
+            "float transmissionGain" [1] "float reflectionGain" [1] 
+            "color reflectionColor" [1 1 1] 
+            "reference color transmissionColor" "tex1:resultRGB"
+    Sphere .5 -.5 .5 360
+	AttributeEnd 
+	AttributeBegin 
+		Translate 0 0 -.55
+    Pattern "PxrTexture" "tex1" "string filename" ["ratGrid.tex"] "int invertT" [0]
+		Bxdf "PxrDiffuse" "wall" "reference color diffuseColor" "tex1:resultRGB"
+		Patch "bilinear" "vertex point P" [-1 1 0 1 1 0 -1 -1 0 1 -1 0]
+	AttributeEnd 
+WorldEnd 

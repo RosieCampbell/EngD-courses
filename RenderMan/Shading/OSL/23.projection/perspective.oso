@@ -1,0 +1,50 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader perspective
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{11,11}
+global	point	P	%read{1,1} %write{2147483647,-1}
+local	point	PP	%read{3,8} %write{1,1}
+local	float	repeatCount	%read{6,10} %write{2,2}
+local	float	ss	%read{11,11} %write{6,6}
+local	float	tt	%read{11,11} %write{10,10}
+const	string	$const1	"camera"		%read{1,1} %write{2147483647,-1}
+const	string	$const2	"transform"		%read{0,0} %write{2147483647,-1}
+const	string	$const3	"common"		%read{1,1} %write{2147483647,-1}
+const	int	$const4	20		%read{2,2} %write{2147483647,-1}
+const	int	$const5	0		%read{3,3} %write{2147483647,-1}
+temp	float	$tmp1	%read{5,5} %write{3,3}
+const	int	$const6	2		%read{4,8} %write{2147483647,-1}
+temp	float	$tmp2	%read{5,5} %write{4,4}
+temp	float	$tmp3	%read{6,6} %write{5,5}
+const	int	$const7	1		%read{7,7} %write{2147483647,-1}
+temp	float	$tmp4	%read{9,9} %write{7,7}
+temp	float	$tmp5	%read{9,9} %write{8,8}
+temp	float	$tmp6	%read{10,10} %write{9,9}
+const	string	$const8	"cell"		%read{11,11} %write{2147483647,-1}
+code ___main___
+# perspective.osl:6
+#     point PP=transform("camera",P);
+	functioncall	$const2 2 	%filename{"perspective.osl"} %line{6} %argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:243
+# point  transform (matrix Mto, point p) BUILTIN;
+	transform	PP $const3 $const1 P 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{243} %argrw{"wrrr"}
+# perspective.osl:7
+#     float repeatCount=20;
+	assign		repeatCount $const4 	%filename{"perspective.osl"} %line{7} %argrw{"wr"}
+# perspective.osl:8
+#     float ss=PP[0]/PP[2]*repeatCount;
+	compref		$tmp1 PP $const5 	%line{8} %argrw{"wrr"}
+	compref		$tmp2 PP $const6 	%argrw{"wrr"}
+	div		$tmp3 $tmp1 $tmp2 	%argrw{"wrr"}
+	mul		ss $tmp3 repeatCount 	%argrw{"wrr"}
+# perspective.osl:9
+#     float tt=PP[1]/PP[2]*repeatCount;
+	compref		$tmp4 PP $const7 	%line{9} %argrw{"wrr"}
+	compref		$tmp5 PP $const6 	%argrw{"wrr"}
+	div		$tmp6 $tmp4 $tmp5 	%argrw{"wrr"}
+	mul		tt $tmp6 repeatCount 	%argrw{"wrr"}
+# perspective.osl:10
+#     Cout=(color)noise("cell",ss,tt);;
+	noise		Cout $const8 ss tt 	%line{10} %argrw{"wrrr"}
+	end

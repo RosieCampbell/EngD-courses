@@ -1,0 +1,15 @@
+surface wave (
+	color Cin = 1,
+output	color Cout=0
+)
+{
+    color green=color("rgb",0,1,0);
+    float fuzz=0.025;
+
+    float s=u+sin(v*2*M_PI)*0.4;
+    float dist=abs(s-0.5);
+    float inLine=1-smoothstep(0.1-fuzz,0.1+fuzz,dist);
+
+    Cout=mix(Cin,green,inLine);
+}
+

@@ -1,0 +1,26 @@
+surface integrate  
+(
+	color Cin=1,
+output	color Cout=1
+)
+
+{
+    float filterWidth;
+    float val;
+    float scale=pow(10,floor(v*4)+1)*2;
+    float ss=u*scale;
+    filterWidth=filterwidth(ss);
+
+    if(u>0.5)
+	{
+		val=cos(ss);
+	}
+    else
+	{
+		val=(sin(ss+filterWidth)-sin(ss))
+			/filterWidth;
+	}
+
+    Cout=val*0.5+0.5;
+}
+

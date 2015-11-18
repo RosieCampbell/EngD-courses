@@ -1,0 +1,24 @@
+#include <stdosl.h>
+
+shader ptlined (
+	color Cin = 1,
+output	color Cout=0
+)
+{
+    color red=color  ("rgb",1,0,0);
+    color green=color  ("rgb",0,1,0);
+    color blue=color  ("rgb",0,0,1);
+    float fuzz=0.025;
+    float dist;
+    float inLine;
+    point start=point (0.1,0.3,0);
+    point end=point (0.7,0.7,0);
+    point here=point(u,v,0);
+
+    Cout=Cin;
+
+    dist=ptlined(start,end,here);
+    inLine=1-smoothstep(0.1-fuzz,0.1+fuzz,dist);
+    Cout=mix(Cout,blue,inLine);
+}
+

@@ -1,0 +1,31 @@
+shader check  
+(
+	color Cin=1,
+output	color Cout=1
+)
+
+{
+    float repeatCount=10;
+    float ss=u*repeatCount+v;
+    float tt=v*repeatCount-u;
+    float filterWidthSS=2*filterwidth(ss);
+    float filterWidthTT=2*filterwidth(tt);
+    float smag,tmag;
+
+    ss=mod(ss,2);
+    tt=mod(tt,2);
+
+    smag =smoothstep(0.5-filterWidthSS,0.5+filterWidthSS,ss);
+    smag-=smoothstep(1.5-filterWidthSS,1.5+filterWidthSS,ss);
+    smag=smag*2-1;
+    smag*=1-smoothstep(0.4,1.2,filterWidthSS);
+    
+    tmag =smoothstep(0.5-filterWidthTT,0.5+filterWidthTT,tt);
+    tmag-=smoothstep(1.5-filterWidthTT,1.5+filterWidthTT,tt);
+    tmag=tmag*2-1;
+    tmag*=1-smoothstep(0.4,1.2,filterWidthTT);
+    
+    
+    Cout=(smag*tmag)/2+0.5;
+}
+

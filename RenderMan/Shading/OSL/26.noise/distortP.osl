@@ -1,0 +1,11 @@
+shader distortP (
+	color Cin=1,
+output  color Cout=1
+)
+{
+    float s=P[0]+(float)noise("uperlin",P*5)*0.5;
+    float t=P[1]+(float)noise("uperlin",P*5+point(100,100,100))*0.5;
+
+    Cout=(color)noise("cell",s*10,t*10);
+}
+

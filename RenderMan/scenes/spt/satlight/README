@@ -1,0 +1,17 @@
+prman satlight.rib
+
+An example of non-physical rendering for artistic purposes.
+
+This shows how to produce a light source that appears to alter the color
+saturation of any objects that are in shadow from it.  It combines several
+features -- light groups, light path expressions (LPEs), and an imager
+shader with the readaov() shadeop -- in order to achieve the effect.
+
+The result is shown in the it3 framebuffer with incremental rendering
+to demonstrate that all this works "live", rather simply as a final
+post-process effect.
+
+Try adjusting the shift parameter on the Imager line in the RIB to see
+different degrees of saturation adjustments.  Recommended values are
+between -2.0 and 2.0.
+

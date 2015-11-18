@@ -1,0 +1,96 @@
+<!--
+ This is a three node graph, two textures wired into a thing called a merge.
+ in DOT this would be:
+ 
+ digraph network2 {
+     C/mixcolor [label="merge it"];
+     B/texsimple [label="tex1"];
+     A/texsimple [label="texture 2"];
+
+     A/texsimple -> C/mixcolor;
+     B/texsimple -> C/mixcolor;
+ }
+
+-->
+<RenderManOSLNetwork Version="1">
+  <Label>texnetwork</Label>
+  <NodeList>
+      <Node>
+        <NodeId>shaders/texsimple</Id>
+        <NodeLayer>B</NodeLayer>
+        <Label>tex1</Label>
+        <Modified>1259106721</Modified>
+        <Properties>
+            <filename>
+              <Value>ratGrid.tex</Value>
+              <Type>string</Type>
+            </filename>
+            <Cout>
+              <Access>output</Access>
+              <Type>color</Type>
+            </Cout>
+          </Properties>
+      </Node>
+      <Node>
+        <NodeId>shaders/texsimple</Id>
+        <NodeLayer>A</NodeLayer>
+        <Label>texture 2</Label>
+        <Modified>1259106721</Modified>
+        <Properties>
+            <filename>
+              <Value>flowers.tex</Value>
+              <Type>string</Type>
+            </filename>
+            <Cout>
+              <Access>output</Access>
+              <Type>color</Type>
+            </Cout>
+          </Properties>
+      </Node>
+      <Node>
+        <NodeId>shaders/mixcolor</Id>
+        <NodeLayer>C</Layer>
+        <Label>merge it</Label>
+        <Properties>
+            <inC1>
+              <Visibility>internal</Visibility>
+              <Type>color</Type>
+            </inC1>
+            <inC2>
+              <Visibility>internal</Visibility>
+              <Type>color</Type>
+            </inC2>
+            <Cout>
+              <Access>output</Access>
+              <Type>color</Type>
+            </Cout>
+          </Properties>
+      </Node>
+  </NodeList>
+  <ConnectionList>
+    <Connection>
+       <Source>
+        <NodeId>shaders/texsimple</Id>
+        <NodeLayer>A</NodeLayer>
+        <ParameterName>Cout</ParameterName>
+       </Source>
+       <Destination>
+        <NodeId>shaders/mixcolor</Id>
+        <NodeLayer>C</NodeLayer>
+        <ParameterName>inC1</ParameterName>
+       </Destination>
+    </Connection>
+    <Connection>
+       <Source>
+        <NodeId>shaders/texsimple</Id>
+        <NodeLayer>B</NodeLayer>
+        <ParameterName>Cout</ParameterName>
+       </Source>
+       <Destination>
+        <NodeId>shaders/mixcolor</Id>
+        <NodeLayer>C</NodeLayer>
+        <ParameterName>inC2</ParameterName>
+       </Destination>
+    </Connection>
+  </ConnectionList>
+</RenderManOSLNetwork>

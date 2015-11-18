@@ -1,0 +1,14 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader rlramp
+param	color	Cin	1 1 1		%read{1,1} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{1,1}
+global	float	u	%read{0,0} %write{2147483647,-1}
+temp	float	$tmp1	%read{1,1} %write{0,0}
+const	float	$const2	1		%read{0,0} %write{2147483647,-1}
+code ___main___
+# rlramp.osl:6
+#     Cout=(1-u)*Cin;
+	sub		$tmp1 $const2 u 	%filename{"rlramp.osl"} %line{6} %argrw{"wrr"}
+	mul		Cout $tmp1 Cin 	%argrw{"wrr"}
+	end

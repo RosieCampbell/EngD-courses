@@ -1,0 +1,45 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader vline
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{9,9}
+global	float	u	%read{3,3} %write{2147483647,-1}
+local	color	red	%read{9,9} %write{0,0}
+local	color	green	%read{9,9} %write{1,1}
+local	float	fuzz	%read{5,6} %write{2,2}
+local	float	dist	%read{7,7} %write{4,4}
+local	float	inLine	%read{9,9} %write{8,8}
+const	string	$const1	"rgb"		%read{0,1} %write{2147483647,-1}
+const	float	$const3	1		%read{0,8} %write{2147483647,-1}
+const	float	$const5	0		%read{0,1} %write{2147483647,-1}
+const	float	$const6	0.025		%read{2,2} %write{2147483647,-1}
+const	float	$const7	0.5		%read{3,3} %write{2147483647,-1}
+temp	float	$tmp1	%read{4,4} %write{3,3}
+temp	float	$tmp2	%read{8,8} %write{7,7}
+const	float	$const8	0.1		%read{5,6} %write{2147483647,-1}
+temp	float	$tmp3	%read{7,7} %write{5,5}
+temp	float	$tmp4	%read{7,7} %write{6,6}
+code ___main___
+# vline.osl:6
+#     color red=color  ("rgb",1,0,0);
+	color		red $const1 $const3 $const5 $const5 	%filename{"vline.osl"} %line{6} %argrw{"wrrrr"}
+# vline.osl:7
+#     color green=color ("rgb",0,1,0);
+	color		green $const1 $const5 $const3 $const5 	%line{7} %argrw{"wrrrr"}
+# vline.osl:8
+#     float fuzz=0.025;
+	assign		fuzz $const6 	%line{8} %argrw{"wr"}
+# vline.osl:10
+#     float dist=abs(u-0.5);
+	sub		$tmp1 u $const7 	%line{10} %argrw{"wrr"}
+	abs		dist $tmp1 	%argrw{"wr"}
+# vline.osl:11
+#     float inLine=1-smoothstep(0.1-fuzz,0.1+fuzz,dist);
+	sub		$tmp3 $const8 fuzz 	%line{11} %argrw{"wrr"}
+	add		$tmp4 $const8 fuzz 	%argrw{"wrr"}
+	smoothstep	$tmp2 $tmp3 $tmp4 dist 	%argrw{"wrrr"}
+	sub		inLine $const3 $tmp2 	%argrw{"wrr"}
+# vline.osl:13
+#     Cout=mix(red,green,inLine);
+	mix		Cout red green inLine 	%line{13} %argrw{"wrrr"}
+	end

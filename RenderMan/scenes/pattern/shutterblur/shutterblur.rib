@@ -1,0 +1,96 @@
+# A motion blurred pattern using texture offset with shutter time sampling.
+#
+# This example shows how to leverage shutter time in a pattern to do motion
+# blur in shading.  The sblurpattern shader uses "time" shading context to
+# offset texture lookup.  Adjusting texture offset shader parameters will
+# provide different motion blurred results.
+
+Display "shutterblur.tiff" "framebuffer" "rgba"
+Format 640 640 1
+
+Option "searchpath" "string shader" "./shaders:@"
+                    "string texture" "./textures:@"
+
+Hider "raytrace" "int incremental" 1 "int maxsamples" 512
+
+Integrator "PxrPathTracer" "handle"
+Attribute "trace" "int maxdiffusedepth" 9 "int maxspeculardepth" 9
+
+Attribute "visibility"
+          "int indirect" 1
+          "int transmission" 1
+          "int camera" 1
+
+Projection "perspective" "fov" 30
+
+# Standard shutter
+Shutter 0 1
+
+Translate 0 0 5
+
+WorldBegin
+
+  AttributeBegin
+    Attribute "visibility"
+              "int indirect" 0
+              "int transmission" 0
+              "int camera" 0
+    Attribute "trace" "bias" 0.001
+    ShadingRate 1000
+    Sides 1
+    Translate 0 0.99 0
+    Rotate 90 1 0 0
+    Scale 0.5 0.5 0.5
+    AreaLightSource "PxrAreaLight" "light0" "intensity" 35
+    Geometry "rectlight"
+  AttributeEnd
+
+  # Matte box
+  AttributeBegin
+    # left wall
+    Bxdf "PxrDiffuse" "leftWall" "color diffuseColor" [1 0.625 0.625]
+    Patch "bilinear" "P" [ -1 1 -1  -1 1 1  -1 -1 -1  -1 -1 1]
+    # right wall
+    Bxdf "PxrDiffuse" "rightWall" "color diffuseColor" [0.625 0.625 1]
+    Patch "bilinear" "P" [ 1 1 1  1 1 -1  1 -1 1  1 -1 -1 ]
+    # floor
+    Bxdf "PxrDiffuse" "floor" "color diffuseColor" [0.75 0.75 0.75]
+    Patch "bilinear" "P" [ -1 -1 1  1 -1 1  -1 -1 -1  1 -1 -1 ]
+    # ceiling
+    Bxdf "PxrDiffuse" "ceiling" "color diffuseColor" [0.75 0.75 0.75]
+    Patch "bilinear" "P" [ -1 1 -1  1 1 -1  -1 1 1  1 1 1 ]
+    # back wall
+    Bxdf "PxrDiffuse" "backWall" "color diffuseColor" [0.75 0.75 0.75]
+    Patch "bilinear" "P" [ -1 1 1  1 1 1  -1 -1 1  1 -1 1 ]
+  AttributeEnd
+
+  # Front sphere (glass)
+  AttributeBegin
+    Translate -0.4 -0.5 -0.1
+    Bxdf "PxrGlass" "glass" "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1]
+    Sphere 0.3 -0.3 0.3 360
+  AttributeEnd
+
+  # Mirror plane (chrome)
+  AttributeBegin
+    Rotate -90 1 0 0
+    Translate 0.0 -0.1 -1.5
+    Bxdf "PxrDisney" "chrome"
+         "color baseColor" [1 1 1] "float roughness" 0.03
+         "float metallic" 1.0
+    Patch "bilinear" "P" [ -0.6 0.6 0.6  0.6 0.6 0.6  -0.6 -0.6 0.6  0.6 -0.6 0.6 ]
+  AttributeEnd
+
+  # Texture plane
+  AttributeBegin
+    Rotate 90 0 0 1
+    Translate 0.0 0.0 -0.2
+    Pattern "PxrOSL" "expr1" "string shader" "sblurpattern" "string texName" "sbpattern.tex"
+         "float texOffsetUbegin" [-0.0] "float texOffsetVbegin" [-0.06]
+         "float texOffsetUend" [0.2] "float texOffsetVend" [0.06]
+    Bxdf "PxrDiffuse" "diffuse"
+         "reference color diffuseColor" ["expr1:Cout"]
+    Patch "bilinear" "P" [ -0.9 0.45 0.9  0.9 0.45 0.9  -0.9 -0.45 0.9  0.9 -0.45 0.9 ]
+  AttributeEnd
+
+WorldEnd

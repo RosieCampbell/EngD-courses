@@ -1,0 +1,121 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader simplecheck
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	1 1 1		%read{2147483647,-1} %write{40,40}
+global	float	u	%read{1,4} %write{2147483647,-1} %derivs
+global	float	v	%read{2,3} %write{2147483647,-1} %derivs
+local	float	repeatCount	%read{1,3} %write{0,0} %derivs
+local	float	ss	%read{5,24} %write{2,13} %derivs
+local	float	tt	%read{7,33} %write{4,18} %derivs
+local	float	filterWidthSS	%read{19,23} %write{6,6}
+local	float	filterWidthTT	%read{28,32} %write{8,8}
+local	float	smag	%read{25,37} %write{21,27}
+local	float	tmag	%read{34,37} %write{30,36}
+const	int	$const1	10		%read{0,0} %write{2147483647,-1}
+temp	float	$tmp1	%read{2,2} %write{1,1} %derivs
+temp	float	$tmp2	%read{4,4} %write{3,3} %derivs
+temp	float	$tmp3	%read{6,6} %write{5,5}
+const	float	$const3	5		%read{6,8} %write{2147483647,-1}
+temp	float	$tmp4	%read{8,8} %write{7,7}
+const	float	$const5	2		%read{10,38} %write{2147483647,-1}
+const	string	$const6	"mod"		%read{9,14} %write{2147483647,-1}
+temp	float	$tmp5	%read{12,12} %write{11,11} %derivs
+temp	float	$tmp6	%read{11,11} %write{10,10} %derivs
+temp	float	$tmp7	%read{13,13} %write{12,12} %derivs
+temp	float	$tmp8	%read{17,17} %write{16,16} %derivs
+temp	float	$tmp9	%read{16,16} %write{15,15} %derivs
+temp	float	$tmp10	%read{18,18} %write{17,17} %derivs
+const	float	$const7	0.5		%read{19,39} %write{2147483647,-1}
+temp	float	$tmp11	%read{21,21} %write{19,19}
+temp	float	$tmp12	%read{21,21} %write{20,20}
+temp	float	$tmp13	%read{25,25} %write{24,24}
+const	float	$const8	1.5		%read{22,32} %write{2147483647,-1}
+temp	float	$tmp14	%read{24,24} %write{22,22}
+temp	float	$tmp15	%read{24,24} %write{23,23}
+temp	float	$tmp16	%read{27,27} %write{26,26}
+const	float	$const10	1		%read{27,36} %write{2147483647,-1}
+temp	float	$tmp17	%read{30,30} %write{28,28}
+temp	float	$tmp18	%read{30,30} %write{29,29}
+temp	float	$tmp19	%read{34,34} %write{33,33}
+temp	float	$tmp20	%read{33,33} %write{31,31}
+temp	float	$tmp21	%read{33,33} %write{32,32}
+temp	float	$tmp22	%read{36,36} %write{35,35}
+temp	float	$tmp23	%read{38,38} %write{37,37}
+temp	float	$tmp24	%read{39,39} %write{38,38}
+temp	float	$tmp25	%read{40,40} %write{39,39}
+code ___main___
+# simpleCheck.osl:7
+#     float repeatCount=10;
+	assign		repeatCount $const1 	%filename{"simpleCheck.osl"} %line{7} %argrw{"wr"}
+# simpleCheck.osl:8
+#     float ss=u*repeatCount+v;
+	mul		$tmp1 u repeatCount 	%line{8} %argrw{"wrr"}
+	add		ss $tmp1 v 	%argrw{"wrr"}
+# simpleCheck.osl:9
+#     float tt=v*repeatCount-u;
+	mul		$tmp2 v repeatCount 	%line{9} %argrw{"wrr"}
+	sub		tt $tmp2 u 	%argrw{"wrr"}
+# simpleCheck.osl:10
+#     float filterWidthSS=5*filterwidth(ss);
+	filterwidth	$tmp3 ss 	%line{10} %argrw{"wr"} %argderivs{1}
+	mul		filterWidthSS $const3 $tmp3 	%argrw{"wrr"}
+# simpleCheck.osl:11
+#     float filterWidthTT=5*filterwidth(tt);
+	filterwidth	$tmp4 tt 	%line{11} %argrw{"wr"} %argderivs{1}
+	mul		filterWidthTT $const3 $tmp4 	%argrw{"wrr"}
+# simpleCheck.osl:13
+#     ss=mod(ss,2);
+	functioncall	$const6 14 	%line{13} %argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:135
+# PERCOMP1 (round)
+	div		$tmp6 ss $const5 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp5 $tmp6 	%argrw{"wr"}
+	mul		$tmp7 $const5 $tmp5 	%argrw{"wrr"}
+	sub		ss ss $tmp7 	%argrw{"wrr"}
+# simpleCheck.osl:14
+#     tt=mod(tt,2);
+	functioncall	$const6 19 	%filename{"simpleCheck.osl"} %line{14} %argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:135
+# PERCOMP1 (ceil)
+	div		$tmp9 tt $const5 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp8 $tmp9 	%argrw{"wr"}
+	mul		$tmp10 $const5 $tmp8 	%argrw{"wrr"}
+	sub		tt tt $tmp10 	%argrw{"wrr"}
+# simpleCheck.osl:17
+#     smag =smoothstep(0.5-filterWidthSS,0.5+filterWidthSS,ss);
+	sub		$tmp11 $const7 filterWidthSS 	%filename{"simpleCheck.osl"} %line{17} %argrw{"wrr"}
+	add		$tmp12 $const7 filterWidthSS 	%argrw{"wrr"}
+	smoothstep	smag $tmp11 $tmp12 ss 	%argrw{"wrrr"}
+# simpleCheck.osl:18
+#     smag-=smoothstep(1.5-filterWidthSS,1.5+filterWidthSS,ss);
+	sub		$tmp14 $const8 filterWidthSS 	%line{18} %argrw{"wrr"}
+	add		$tmp15 $const8 filterWidthSS 	%argrw{"wrr"}
+	smoothstep	$tmp13 $tmp14 $tmp15 ss 	%argrw{"wrrr"}
+	sub		smag smag $tmp13 	%argrw{"wrr"}
+# simpleCheck.osl:19
+#     smag=smag*2-1;
+	mul		$tmp16 smag $const5 	%line{19} %argrw{"wrr"}
+	sub		smag $tmp16 $const10 	%argrw{"wrr"}
+# simpleCheck.osl:22
+#     tmag =smoothstep(0.5-filterWidthTT,0.5+filterWidthTT,tt);
+	sub		$tmp17 $const7 filterWidthTT 	%line{22} %argrw{"wrr"}
+	add		$tmp18 $const7 filterWidthTT 	%argrw{"wrr"}
+	smoothstep	tmag $tmp17 $tmp18 tt 	%argrw{"wrrr"}
+# simpleCheck.osl:23
+#     tmag-=smoothstep(1.5-filterWidthTT,1.5+filterWidthTT,tt);
+	sub		$tmp20 $const8 filterWidthTT 	%line{23} %argrw{"wrr"}
+	add		$tmp21 $const8 filterWidthTT 	%argrw{"wrr"}
+	smoothstep	$tmp19 $tmp20 $tmp21 tt 	%argrw{"wrrr"}
+	sub		tmag tmag $tmp19 	%argrw{"wrr"}
+# simpleCheck.osl:24
+#     tmag=tmag*2-1;
+	mul		$tmp22 tmag $const5 	%line{24} %argrw{"wrr"}
+	sub		tmag $tmp22 $const10 	%argrw{"wrr"}
+# simpleCheck.osl:27
+#     Cout=(smag*tmag)/2+0.5;
+	mul		$tmp23 smag tmag 	%line{27} %argrw{"wrr"}
+	div		$tmp24 $tmp23 $const5 	%argrw{"wrr"}
+	add		$tmp25 $tmp24 $const7 	%argrw{"wrr"}
+	assign		Cout $tmp25 	%argrw{"wr"}
+	end

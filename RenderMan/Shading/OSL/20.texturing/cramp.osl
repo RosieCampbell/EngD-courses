@@ -1,0 +1,9 @@
+surface cramp (
+	color Cin = 1,
+output	color Cout=0
+	)
+
+{
+    Cout=u*Cin;
+}
+

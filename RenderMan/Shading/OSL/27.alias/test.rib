@@ -1,0 +1,38 @@
+#pointlight.rib
+Display "pointlight.tiff" "it" "rgb"
+Format 640 480 1.0
+
+Hider "raytrace" "int incremental" [1] "int maxsamples" [ 1 ]
+Integrator "PxrVCM" "integrator"
+Integrator "PxrDirectlighting" "integrator"
+Integrator "PxrPathTracer" "integrator"
+Integrator "PxrDefault" "integrator"
+
+Projection "perspective" "fov" [ 30 ]
+
+Translate 0 0 5
+
+WorldBegin
+AttributeBegin
+	#LightSource "pointlight" "theLight" "from" [ -2 2 -2 ] "intensity" [ 7 ]
+	AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [6]
+	Translate -2 2 -2
+	Sphere 0.3 -0.3 0.3 360
+AttributeEnd
+#Illuminate "theLight" 1
+
+	AttributeBegin
+	Rotate -90 1 0 0
+	Scale 0.4 0.4 0.4
+	Translate -1 0 -1
+	Pattern "PxrOSL" "myShader" "string shader" "XXXX" "color Cin" [0.9 0.1 0.1]
+	Bxdf "PxrDisney" "forTheTeapot" "reference color baseColor" ["myShader:Cout"]
+	TransformBegin
+	Rotate -40 1 0 0
+	Geometry "teapot"
+	TransformEnd
+	AttributeEnd
+
+	Bxdf "PxrDisney" "forTheSphere" "color baseColor" [ 0.1 0.8 0.1 ]
+	Patch "bilinear" "P" [ 2 -10 10  2 -10 -10 2 10 10 2 10 -10 ]
+WorldEnd

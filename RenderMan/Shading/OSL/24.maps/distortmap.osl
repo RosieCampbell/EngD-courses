@@ -1,0 +1,11 @@
+shader distortmap (
+	color Cin = 1,
+output	color Cout=1
+)
+{
+    float s=mod(u*2+0.1*sin(v*10),1);
+    float t=v;
+
+    Cout=(color)texture("Flower_pattern_pxr128.tx",s,t);
+}
+

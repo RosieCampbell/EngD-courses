@@ -1,0 +1,10 @@
+surface stripe (
+	color Cin = 1,
+output	color Cout=0
+)
+{
+    float repeatCount=6;
+    int whichStripe=(int)floor(u*repeatCount);
+    Cout=(float)(whichStripe%2);
+}
+

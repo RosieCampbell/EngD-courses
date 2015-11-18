@@ -1,0 +1,102 @@
+# A wine glass, and a couple of spheres to demonstrate VCM
+
+Option "limits" "bucketsize" [16 16]
+Format 512 512 1
+
+ShadingInterpolation "smooth"
+
+PixelVariance 0
+Hider "raytrace"
+    "int incremental" [1]
+    "int maxsamples" [512]
+Integrator "PxrVCM" "handle"
+    "int maxPathLength" [16]
+    "int mergePaths" [1] 
+
+Attribute "trace" "maxspeculardepth" 15   # 1 less than maxPathLength
+Attribute "trace" "maxdiffusedepth" 15    # ditto
+
+Display "wineglass" "it" "rgba"
+
+Projection "perspective" "fov" 30
+
+FrameBegin 1
+  Shutter 0 1
+  Translate 0 0 5
+  ShadingRate 1
+  WorldBegin
+    
+  AttributeBegin 
+  AreaLightSource "PxrAreaLight" "Light0" "float intensity" [10] 
+  Attribute "visibility" "int indirect" [0] "int transmission" [0] 
+            "int camera" [0]
+  ShadingRate 1000
+  Sides 1
+  Translate 0 0.95 0
+  Scale 0.5 0.5 0.5
+  Rotate 90 1 0 0
+  Geometry "rectlight"
+  AttributeEnd
+
+  # Matte box
+  AttributeBegin
+    Color [0.8 .2 .2]
+    Bxdf "PxrDisney" "smooth" "color baseColor"  [.8 .2 .2]   
+      "float roughness" [.5]
+    Polygon "P" [ -1 1 -5  -1 1 1  -1 -1 1  -1 -1 -5 ]   # left wall
+
+    Color [.2 .2 0.8]
+    Bxdf "PxrDisney" "smooth" "color baseColor"  [.2 .2 .8]   
+      "float roughness" [.5]
+    Polygon "P" [ 1 -1 -5  1 -1 1  1 1 1  1 1 -5 ]   # right wall
+
+    Color [0.8 0.8 0.8]
+    Bxdf "PxrDisney" "smooth" "color baseColor"  [.8 .8 .8]   
+      "float roughness" [.1]
+    Polygon "P" [ -1 -1 1  1 -1 1  1 -1 -5  -1 -1 -5 ]   # floor
+
+    Bxdf "PxrDisney" "smooth" "color baseColor"  [.95 .95 .95]  
+      "float roughness" [.5]
+    Polygon "P" [ -1 1 -5  1 1 -5  1 1 1  -1 1 1 ]   # ceiling
+
+    # Below is a SUPER mirror
+    Bxdf "PxrDisney" "smooth" "color baseColor"  [.8 .8 .8]   
+      "float roughness" [.02] "float metallic" [.9]
+    Polygon "P" [ -1 1 1  1 1 1  1 -1 1  -1 -1 1 ]   # back wall
+  AttributeEnd
+  
+  # Front sphere 
+  AttributeBegin
+    Translate 0.3 -0.7 -0.3
+    Bxdf "PxrGlass" "glass" "float roughness" .1 "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1]
+    Sphere 0.3  -0.3 0.3  360
+  AttributeEnd
+
+  AttributeBegin
+    # This is the wine glass
+    Bxdf "PxrGlass" "glass" "color reflectionColor" [1 1 1] "color transmissionColor" [.8 .8 .8]       
+            "float roughness" .02
+    TransformBegin
+    Translate -.3 -1.0 -.3
+    Scale .1 .1 .1
+      Procedural2 "DelayedReadArchive" "SimpleBound" 
+      "string filename" ["./wineglass.zip!renderman/wineglass/rib/job/wineglass_Cylinder_Cylinder_GlassShape.job.rib"] 
+      "float[6] bound" [-1.66816 1.66817 0.007905 8.34525 -1.66817 1.66816] 
+      "int __immediatesubdivide" [0]
+      Procedural2 "DelayedReadArchive" "SimpleBound" 
+        "string filename" ["./wineglass.zip!renderman/wineglass/rib/job/wineglass_Cylinder_Cylinder_LegShape.job.rib"] 
+        "float[6] bound" [-1.49028 1.49028 0.007905 3.543 -1.49028 1.49028] 
+        "int __immediatesubdivide" [0]
+    TransformEnd
+  AttributeEnd
+
+  AttributeBegin  
+    Translate  0.5 0.75 0.15
+    Color [.9 .8 .1]
+    Bxdf "PxrDisney" "smooth" "color baseColor"  [.9 .8 .1]
+          "float metallic" [.95] "float roughness" [.1]
+    Sphere 0.2  -0.2 0.2  360
+  AttributeEnd
+
+  WorldEnd
+FrameEnd

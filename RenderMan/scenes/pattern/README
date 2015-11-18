@@ -1,0 +1,24 @@
+This directory contains examples of RPS 19's new RIS rendering mode.
+These examples employ pattern plugins.
+
+1) bump - shows an example of applying a bump map using the PxrProceduralBump
+pattern node. Here the procedural is simply a texture lookup of a heightmap.
+
+2) displacement - shows an example of using an RSL shader for displacement.
+Both types of displacement shader are provided. The displacement shader
+is parameterized by a pattern network. The same network also provides the
+diffuse color to a bxdf.
+
+3) fractalize.rib - shows an example of applications of "mutable" shading 
+contexts.  Also: its use of PxrManifold shows "struct dataflow".
+
+4) osl - a pair of examples showing OSL patterns; one shows them on a set
+of quads, the other on a shaderball.  Note that you must run oslc *.osl in
+the shaders subdirectory first.
+
+4) seexpr - shows 5 examples of SeExpr scripts. 3 procedural textures,
+false coloring texture coordinates, and texture compositing.
+
+5) shutterblur - shows how to leverage shutter time in a pattern to do
+motion blur in shading.  Note that you must run oslc *.osl in the shaders
+subdirectory first.

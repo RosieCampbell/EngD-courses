@@ -1,0 +1,18 @@
+shader stripes  (
+	color Cin=1,
+output	color Cout=1
+)
+{
+    float repeatCount=10;
+    float ss=u*repeatCount+v;
+    //float filterWidthSS=abs(Du(ss)*du)+abs(Dv(ss)*dv);
+    float filterWidthSS=5*filterwidth(ss);
+    float smag;
+
+    ss=mod(ss,2);
+    smag =smoothstep(0.5-filterWidthSS,0.5+filterWidthSS,ss);
+    smag-=smoothstep(1.5-filterWidthSS,1.5+filterWidthSS,ss);
+    
+    Cout=smag;
+}
+

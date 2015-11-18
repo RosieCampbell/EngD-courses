@@ -1,0 +1,221 @@
+# $Revision: #1 $
+##RenderMan RIB 
+version 3.04
+Quantize "rgba" 0 0 0 0
+Option "ribparse" "string varsubst" [""]
+Option "ribparse" "string varsubst" ["$"]
+Attribute "user" "string dopriority" "On"
+ReadArchive "waterglasses.look.rib"
+
+FrameBegin 1 #{
+Identity 
+
+PixelVariance 0
+Hider "raytrace"
+    "int incremental" 1
+    "int maxsamples" 4096
+    "int noisesuppressor" 1
+
+Integrator "PxrVCM" "vcm" "int maxPathLength" [13]
+
+Format 960 540 1
+Display "waterglasses.exr" "framebuffer" "rgba" 
+Projection "perspective" "fov" [54.4322]
+ScreenWindow -1 1 -0.5625 0.5625
+Shutter 0 0
+ConcatTransform [ 0.466387 -0.372977 -0.802104 0
+                    0 0.906762 -0.421643 0
+                    -0.884581 -0.196649 -0.422902 0
+                    -0.692536 -0.655701 3.49677 1 ]
+WorldBegin #{ 
+
+ScopedCoordinateSystem "world_ref"
+Attribute "trace" "int samplemotion" [1] 
+            "int maxdiffusedepth" [1] 
+            "int maxspeculardepth" [8] 
+
+AttributeBegin #{ 
+Attribute "identifier" "string name" ["RMSEnvLightShape1"]
+Transform [ -1 0 0 0  
+            0 0 -1 0  
+            0 1 0 0  
+            0 0 0 1 ]
+ShadingRate 10
+AreaLightSource "PxrEnvMapLight" "env" "string envmap" "Luxo-Jr_4000x2000.tex"
+Attribute "visibility" "int camera" [1] "int indirect" 0 "int transmission" [0] 
+ShadingRate 10
+Sides 1
+Attribute "dice" "string offscreenstrategy" ["sphericalprojection"]
+ReverseOrientation 
+Opacity [1 1 1]
+Sides 1
+Geometry "envsphere" 
+AttributeEnd #} 
+
+# -------- the left (subdiv) glass,watter,bubble,straw ---
+IfBegin "1" #{ to turn off entire subdiv glass
+
+IfBegin "1" #{ the subdiv glass
+AttributeBegin #{ 
+Attribute "identifier" "string name" ["subdivGlass"]
+ConcatTransform [ 0.966879 0 0 0  
+                  0 0.966879 0 0  
+                  0 0 0.966879 0  
+                  -0.00503167 0.499699 -0.0630622 1 ]
+    AttributeBegin #{ 
+    Attribute "identifier" "string name" ["subdivglassShape"]
+    ReadArchive "GlassSG"
+    Procedural2 "DelayedReadArchive2" "SimpleBound" 
+     "string filename" ["waterglasses.zip!renderman/waterglass/rib/job/pCube1_glassShape.job.rib"] 
+     "float[6] bound" [-0.5 0.5 -0.5 0.500423 -0.5 0.5] 
+     "int __immediatesubdivide" [0]
+    AttributeEnd #} 
+AttributeEnd #} 
+IfEnd #} end of subdiv glass 
+
+IfBegin "1" #{  subdiv water
+AttributeBegin #{ 
+    Attribute "identifier" "string name" ["subdivWater"]
+    ConcatTransform [ 1 0 0 0  
+                    0 1.17955 0 0  
+                    0 0 1.11111 0  
+                    -0.00252621 0.457073 -0.0635212 1 ]
+    AttributeBegin #{ 
+    Attribute "identifier" "string name" ["subdivWaterShape"]
+    ReadArchive "WaterSG"
+    Procedural2 "DelayedReadArchive2" "SimpleBound" 
+      "string filename" ["waterglasses.zip!renderman/waterglass/rib/job/pCube2_watershape.job.rib"] 
+      "float[6] bound" [-0.462296 0.462296 -0.310724 0.310724 -0.411518 0.411518] 
+      "int __immediatesubdivide" [0]
+    AttributeEnd #} 
+AttributeEnd #} 
+IfEnd
+
+AttributeBegin #{ 
+Attribute "identifier" "string name" ["subdivStraw"]
+ConcatTransform [ 0.0363018 0 -0 0  
+                  0 0.038048 -0.0232808 0  0 
+                  0.0189469 0.0309651 0  
+                  0.0249529 0.585807 -0.143395 1 ]
+    AttributeBegin #{ 
+    Attribute "identifier" "string name" ["subdivStrawShap"]
+    Attribute "identifier" "float id" [7]
+    Sides 2
+    ShadingInterpolation "smooth"
+    Attribute "shade" "string transmissionhitmode" ["shader"]
+    ReadArchive "StrawSG"
+    Procedural2 "DelayedReadArchive2" "SimpleBound" 
+      "string filename" ["waterglasses.zip!renderman/waterglass/rib/job/revolvedSurface1_straw.job.rib"] 
+      "float[6] bound" [-2.04894 2.53263 -15.1655 21.1803 -2.40868 2.40868] 
+      "int __immediatesubdivide" [0]
+    AttributeEnd #} 
+AttributeEnd #} 
+
+IfBegin "1" #{ to vis/invis the airbubble
+AttributeBegin #{ 
+Attribute "identifier" "string name" ["airbubble"]
+ConcatTransform [ 0.0284519 0 0 0  
+                  0 0.0284519 0 0  
+                  0 0 0.0284519 0  
+                  0.177936 0.563421 0.09507 1 ]
+AttributeBegin #{ 
+    Attribute "identifier" "string name" ["airbubbleShape"]
+    ShadingInterpolation "smooth"
+    ReadArchive "airbubbleSG"
+    Procedural2 "DelayedReadArchive2" "SimpleBound" 
+      "string filename" ["waterglasses.zip!renderman/waterglass/rib/job/nurbsSphereShape1.job.rib"] 
+      "float[6] bound" [-1.22641 1.22641 -1 1 -1.22641 1.22641] 
+      "int __immediatesubdivide" [0]
+AttributeEnd #} 
+AttributeEnd #} 
+IfEnd #}   end of airbubble
+
+IfEnd #}  end of entire subdiv glass assembly
+
+# ---- the right (polygon) vessel ------------------
+IfBegin "1" # { to vis/invis entire poly glass
+
+IfBegin "1" #{ "0" to invis the outer poly glass
+AttributeBegin #{ 
+    Attribute "identifier" "string name" ["polyGlass"]
+    ConcatTransform [ 0.966879 0 0 0  
+                 0 0.966879 0 0  
+                 0 0 0.966879 0  
+                 -0.00503167 0.499699 -1.24938 1 ]
+    AttributeBegin #{ 
+    Attribute "identifier" "string name" ["polyGlassShape"]
+    Attribute "identifier" "float id" [2]
+    Sides 2
+    ShadingInterpolation "smooth"
+    Attribute "user" "int receivesShadows" [1]
+    Attribute "shade" "string transmissionhitmode" ["shader"]
+    ReadArchive "GlassSG"
+    Procedural2 "DelayedReadArchive2" "SimpleBound" 
+      "string filename" ["waterglasses.zip!renderman/waterglass/rib/job/pCube3_glassShape.job.rib"] 
+      "float[6] bound" [-0.5 0.5 -0.5 0.500423 -0.5 0.5] 
+      "int __immediatesubdivide" [0]
+    AttributeEnd #} 
+AttributeEnd #} 
+IfEnd  #} end of outer poly glass
+
+IfBegin "1" #{ "0" to disable the polyWater
+AttributeBegin #{ 
+  Attribute "identifier" "string name" ["polyWater"]
+  ConcatTransform [ 1 0 0 0  0 1.17955 0 0  0 0 1.11111 0  -0.00252621 0.457073 -1.24984 1 ]
+  AttributeBegin #{ 
+    Attribute "identifier" "string name" ["watershape"]
+    Attribute "identifier" "float id" [8]
+    Sides 2
+    ShadingInterpolation "smooth"
+    Attribute "shade" "string transmissionhitmode" ["shader"]
+    ReadArchive "WaterSG"
+    Procedural2 "DelayedReadArchive2" "SimpleBound" 
+      "string filename" ["waterglasses.zip!renderman/waterglass/rib/job/pCube4_watershape.job.rib"] 
+      "float[6] bound" [-0.462296 0.462296 -0.310724 0.310724 -0.411518 0.411518] 
+      "int __immediatesubdivide" [0]
+    AttributeEnd #} 
+AttributeEnd #}  end of poly water
+IfEnd #}
+
+AttributeBegin #{ 
+    Attribute "identifier" "string name" ["polyglassStraw"]
+    ConcatTransform [ 0.0363018 0 -0 0  
+                 -0 0.038048 -0.0232808 0  
+                  0 0.0189469 0.0309651 0  
+                  0.0249529 0.585807 -1.32971 1 ]
+    AttributeBegin #{ 
+    Attribute "identifier" "string name" ["straw"]
+    Attribute "identifier" "float id" [6]
+    Sides 2
+    ShadingInterpolation "smooth"
+    Attribute "user" "int receivesShadows" [1]
+    Attribute "shade" "string transmissionhitmode" ["shader"]
+    ReadArchive "StrawSG"
+    Procedural2 "DelayedReadArchive2" "SimpleBound" 
+      "string filename" ["waterglasses.zip!renderman/waterglass/rib/job/revolvedSurface2_straw.job.rib"] 
+      "float[6] bound" [-2.04894 2.53263 -15.1655 21.1803 -2.40868 2.40868] 
+    AttributeEnd #} 
+AttributeEnd #} 
+
+IfEnd #}  end of poly glass assembly
+
+# ------------------ floor ----------------------
+AttributeBegin #{ 
+    Attribute "identifier" "string name" ["floor"]
+    ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 2.67274 0  -0.50555 0 0 1 ]
+    AttributeBegin #{ 
+    Attribute "identifier" "string name" ["floorShape"]
+    Attribute "identifier" "float id" [4]
+    Sides 2
+    Attribute "shade" "string transmissionhitmode" ["shader"]
+    ReadArchive "FloorSG"
+    ReverseOrientation
+    Procedural2 "DelayedReadArchive2" "SimpleBound" 
+      "string filename" ["waterglasses.zip!renderman/waterglass/rib/job/loftedSurfaceShape1.job.rib"] 
+      "float[6] bound" [-8.16534 5 -0.352836 4.36824 -3.9116 2.08289] 
+      "int __immediatesubdivide" [0]
+    AttributeEnd #} 
+AttributeEnd #} 
+
+WorldEnd #} 
+FrameEnd #} 

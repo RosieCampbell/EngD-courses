@@ -1,0 +1,9 @@
+shader cstripe (
+	color Cin = 1,
+	float repeatCount=5,
+output	color Cout=0
+)
+{
+    Cout=(color) noise("cell",u*repeatCount);
+}
+

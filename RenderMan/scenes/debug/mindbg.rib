@@ -1,0 +1,27 @@
+
+#Display "mindbg.tif" "tiff" "rgba"
+Display "mindbg" "framebuffer" "rgba"
+Quantize "rgba" 255 0 255 0
+Format 128 128 1
+Projection "perspective" "fov" [45]
+
+PixelVariance 0
+Hider "raytrace"
+
+#Integrator "PxrDefault" "integrator"
+Integrator "PxrDebugShadingContext" "dsc" "string viewchannel" ["Nn"]
+#Integrator "PxrDebugShadingContext" "dsc" "string viewchannel" ["Tn"]
+#Integrator "PxrDebugShadingContext" "dsc" "string viewchannel" ["ST"]
+#Integrator "PxrDebugShadingContext" "dsc" "string viewchannel" ["InsideOutside"]
+
+WorldBegin
+
+AttributeBegin
+Attribute "identifier" "name" ["sphere1"]
+Translate 0 0 2.75
+Bxdf "PxrDiffuse" "smooth" "color diffuseColor"  [.7 .5 .5]
+Sphere 1.0 -1.0 1.0 360.0
+AttributeEnd
+
+WorldEnd
+

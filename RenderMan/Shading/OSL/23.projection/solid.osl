@@ -1,0 +1,10 @@
+surface solid (
+        color Cin = 1,
+output  color Cout=0
+)
+{
+    point PP=transform("object",P);
+    float repeatCount=5;
+    Cout=(color) noise("cell",PP*repeatCount);;
+}
+

@@ -1,0 +1,51 @@
+#
+# roughglass.rib:
+#   a varying roughness in front of a constant shaded textured plane
+#
+# $Revision: #1 $ $Date: 2015/04/23 $
+#
+Display "roughglass" "it" "rgba" 
+Projection "perspective" "fov" 25
+
+Option "ribparse" "string varsubst" [""] # we have seexpr in play
+Integrator "PxrPathTracer" "ffo"
+        "int numLightSamples" 0 "int numBxdfSamples" 0
+        "int numIndirectSamples" 4 "int allowCaustics" 1
+
+#Integrator "PxrDebugShadingContext" "x" "string viewchannel" "ST"
+
+Hider "raytrace" "int incremental" [1] "int maxsamples" [100] "int minsamples" [25]
+
+Translate 0 0 60
+Rotate -30 1 0 0
+Rotate 30 0 1 0
+WorldBegin
+
+Attribute "trace" "int maxspeculardepth" 5
+
+AttributeBegin
+  Attribute "identifier" "string name" "glassplate"
+  Translate 0 0 -15
+  Rotate -30 1 0 0
+  Scale 20 .5 20
+  Translate 0 0 .5
+  Pattern "PxrSeExpr" "tex1"  "string expression" ["\
+$f = dist($s, $t, 0, .5, .5, 0.); \
+$f = .2*(1. - smoothstep($f, .42, .45))*smoothstep($f, .15, .2); \
+$f \
+"]
+  Bxdf "PxrGlass" "plate" "reference float roughness" "tex1:resultF" "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1]
+  Geometry "cube"
+AttributeEnd
+
+
+AttributeBegin
+  Attribute "identifier" "string name" "floor"
+  Color 0 0 1
+  Scale 25 1 25
+  Pattern "PxrTexture" "tex1" "string filename" "ratGrid.tex" "int invertT" [0]
+  Bxdf "PxrConstant" "base" "reference color emitColor" ["tex1:resultRGB"]
+  Geometry "cube"
+AttributeEnd
+
+WorldEnd

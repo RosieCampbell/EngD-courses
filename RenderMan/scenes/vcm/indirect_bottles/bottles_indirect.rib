@@ -1,0 +1,746 @@
+##RenderMan RIB
+#Created by RenderMan for Maya 5.5b2 (@1222788 Sep 11 2013)
+#Thu Sep 26 15:42:59 PDT 2013
+version 3.04
+Option "ribparse" "string varsubst" [""]
+Option "ribparse" "string varsubst" ["$"]
+IfBegin "!defined(RMSPROJ_FROM_ENV)" 
+Option "user" "string RMSPROJ" ["./"]
+IfEnd 
+IfBegin "!defined(RMSTREE)" 
+Option "user" "string RMSTREE" ["/Applications/Pixar/RenderManStudio-18.0b2-maya2014/"]
+IfEnd 
+Option "searchpath" "string resource" ["${RMSPROJ}:@"]
+Option "searchpath" "string archive" ["${RMSPROJ}:."]
+Option "searchpath" "string display" ["${RMSTREE}/bin:@"]
+Option "searchpath" "string shader" ["${RMSPROJ}:${RMSTREE}/lib/shaders/:@"]
+Option "searchpath" "string texture" ["${RMSPROJ}:${RMSTREE}/lib/textures/:@"]
+Option "searchpath" "string dirmap" [""]
+Option "searchpath" "string rifilter" ["${RMSTREE}/lib/rif/:${RMANTREE}/etc:@"]
+Option "searchpath" "string procedural" ["${RMSTREE}/lib/plugins/:${RMSTREE}/lib/plugins:${RMANTREE}/etc:@"]
+##rifcontrol insert begin -rif RLFInjector -rifend
+FrameBegin 23
+Identity 
+Option "user" "string pass_id" ["perspShape4_Final"] "string pass_phase" ["/Job/Frames/Images"] "string pass_class" ["Final"] "string pass_flavor" [""] "string pass_crew" [""] "string pass_camera_name" ["perspShape4"] "string pass_camera_flavor" [""] "string pass_layer" ["defaultRenderLayer"] "int pass_features_trace" [1]
+Option "shading" "int directlightingsamples" [100]
+Option "trace" "float decimationrate" [1]
+PixelVariance 0.0005
+Option "bucket" "string order" ["spiral"]
+Option "limits" "int[2] bucketsize" [8 8]
+Option "limits" "int gridsize" [289]
+Option "limits" "color zthreshold" [0.996 0.996 0.996]
+Option "limits" "color othreshold" [0.996 0.996 0.996]
+Option "limits" "float vprelativeshadingrate" [1]
+Option "limits" "int texturememory" [102400]
+Option "limits" "int deepshadowtiles" [1000]
+Option "limits" "int deepshadowmemory" [102400]
+Option "limits" "int geocachememory" [204800]
+Option "limits" "int proceduralmemory" [0]
+Option "limits" "int brickmemory" [10240]
+Option "hair" "float minwidth" [0.5]
+Option "statistics" "int endofframe" [0]
+Option "statistics" "string filename" ["stdout"]
+Option "statistics" "string xmlfilename" ["bottles_indirect.xml"]
+Option "polygon" "int reducedmemory" [1]
+CropWindow 0 1 0 1
+Option "photon" "string lifetime" ["transient"]
+Option "photon" "int emit" [0]
+Hider "raytrace" "int minsamples" [64] "int maxsamples" [2048] "int incremental" [1]
+Format 1024 768 1
+Display "bottles_indirect" "framebuffer" "rgba" "string filter" ["gaussian"] "float[2] filterwidth" [2 2] "int[4] quantize" [0 0 0 0] "float dither" [0] "float[2] exposure" [1 1] "int merge" [0] "string connection" ["-launchURI /Applications/Pixar/RenderManStudio-18.0b2-maya2014/bin/it.app/Contents/bin/it"] "string dspyParams" [" dspyRender -renderer preview -time 23 -crop 0 1 0 1 -port 53006 -context \"renderman/bottles_indirect/images/bottles_indirect.0023\" -notes \"(Thu Sep 26 15:42:59 PDT 2013)\""]
+#Camera perspShape4
+Clipping 0.1 10000
+Projection "perspective" "fov" [54.4322]
+ScreenWindow -1 1 -0.75 0.75
+Shutter 0 0
+ConcatTransform [ -0.409923 -0.393229 -0.823003 -1.57165e-10  0 0.902297 -0.431115 1.22448e-10  -0.91212 0.176724 0.369872 -9.7489e-10  4.84905 -5.5812 16.281 1 ]
+Camera "world" "float[2] shutteropening" [0 1]
+Option "user" "color camera_bg" [0 0 0] "float camera_bga" [0]
+Imager "background" "color color" [0 0 0] "float alpha" [0]
+ResourceBegin 
+#slim shader: _Frame
+#slim ribbox Frame (ribbox) 
+Integrator "PxrVCM" "handle" "int maxPathLength" [13] "int skipFirstIteration" [1] "float mergeRadiusScale" [10]
+#Integrator "PxrPathTracer" "handle" 
+WorldBegin 
+##RLF ScopeBegin -name perspShape4_Final -localbinding 1
+ScopedCoordinateSystem "world_ref"
+Attribute "visibility" "int indirect" [1] "int transmission" [1]
+Surface "defaultsurface" 
+Attribute "user" "int shader_bindingstrength" [0]
+Attribute "dice" "string referencecamera" ["worldcamera"] "float minlength" [-1]
+Attribute "trace" "int samplemotion" [1] "int maxdiffusedepth" [12] "int maxspeculardepth" [12] "float bias" [0.001]
+ShadingRate 1
+GeometricApproximation "motionfactor" 3
+GeometricApproximation "focusfactor" 3
+Attribute "volume" "float depthrelativeshadingrate" [3] "string depthinterpolation" ["constant"]
+Attribute "displacementbound" "string coordinatesystem" ["shader"] "float sphere" [0]
+Attribute "stochastic" "int sigma" [1]
+Attribute "photon" "string causticmap" [""] "string globalmap" [""]
+Attribute "user" "string irRenderCam" ["false,13.1924,12.0549,-0.612657"]
+Attribute "user" "string irRenderCamFOV" ["54.4322"]
+Attribute "user" "string irRenderCamXform" ["-0.409923,0,-0.91212,0,-0.393229,0.902297,0.176724,0,0.823003,0.431115,-0.369872,0,13.1924,12.0549,-0.612657,1"]
+Attribute "user" "string irRenderCamRatio" ["1"]
+#slim shader: _World
+#slim ribbox World (ribbox) 
+Bxdf "PxrDiffuse" "null" "color diffuseColor" [0 0 0]
+AttributeBegin 
+Attribute "identifier" "string name" ["RMSGeoAreaLightShape2"]
+Transform [ -5.90554 1.45034 -31.9392 0  2.35933 32.4107 1.03551 0  31.885 -2.12961 -5.99221 0  -134.959 38.5938 -72.924 1 ]
+IfBegin "!defined(user:shader_bindingstrength) || $user:shader_bindingstrength <= 0" 
+Surface "shaders/RMSGeoAreaLightShape2_rfm" "string shape" ["rect"] "float intensity" [16.5] "color lightcolor" [1 1 1] "float temperature" [7775.28] "color specAmount" [1 1 1] "color diffAmount" [1 1 1] "color shadowColor" [0 0 0] 
+"string __group" [""] "float coneangle" [90] "float penumbraangle" [5] "float penumbraexponent" [0] "string profilemap" [""] "string iesprofile" [""] "float distributionAngle" [90] "float angularVisibility" [1] "float rmsDisplayBarnDoors" [0] "float rmsBarnT" [0] "float rmsBarnB" [0] "float rmsBarnL" [0] "float rmsBarnR" [0] "string barnDoorMap" ["default.tex"] 
+"float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "string shadowname" [""] "float samplebase" [0.5] "float bias" [-1] "float mapbias" [1] "float mapbias2" [1] "float sides" [0] "float areaNormalize" [1] "string photonTarget" [""] "string __category" ["stdrsl_plausible,RMSGeoAreaLightShape2"] "__instanceid" ["RMSGeoAreaLightShape2"]
+AreaLightSource "shaders/RMSGeoAreaLightShape2_rfm" "RMSGeoAreaLightShape2" "string shape" ["rect"] "float intensity" [16.5] "color lightcolor" [1 1 1] "float temperature" [7775.28] "color specAmount" [1 1 1] "color diffAmount" [1 1 1] "color shadowColor" [0 0 0] 
+"string __group" [""] "float coneangle" [90] "float penumbraangle" [5] "float penumbraexponent" [0] "string profilemap" [""] "string iesprofile" [""] "float distributionAngle" [90] "float angularVisibility" [1] "float rmsDisplayBarnDoors" [0] "float rmsBarnT" [0] "float rmsBarnB" [0] "float rmsBarnL" [0] "float rmsBarnR" [0] "string barnDoorMap" ["default.tex"] 
+"float traceShadows" [1] "float adaptive" [1] "string subset" [""] "string excludesubset" [""] "string shadowname" [""] "float samplebase" [0.5] "float bias" [-1] "float mapbias" [1] "float mapbias2" [1] "float sides" [0] "float areaNormalize" [1] "string photonTarget" [""] "string __category" ["stdrsl_plausible,RMSGeoAreaLightShape2"] "__instanceid" ["RMSGeoAreaLightShape2"]
+Attribute "user" "int shader_bindingstrength" [0]
+IfEnd 
+Attribute "visibility" "int camera" [0]
+Attribute "visibility" "int indirect" [0] "int transmission" [0]
+ShadingRate 1e+06
+Sides 1
+Attribute "dice" "string offscreenstrategy" ["sphericalprojection"]
+ReverseOrientation 
+Geometry "rectlight"
+AttributeEnd 
+Illuminate "RMSGeoAreaLightShape2" 1
+AttributeBegin 
+Attribute "identifier" "string name" ["groundPlane_transform"]
+ConcatTransform [ 12 0 0 0  0 2.66454e-15 12 0  0 -1 2.22045e-16 0  0 0 0 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["Manipulator1"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["UniversalManip"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["persp"]
+ConcatTransform [ 0.821149 0 0.570714 0  0.0537089 0.995562 -0.077277 0  -0.568181 0.0941083 0.817505 0  -98.4062 42.2333 56.083 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["RMSGeoAreaLight2"]
+ConcatTransform [ -5.90554 1.45034 -31.9392 0  2.35933 32.4107 1.03551 0  31.885 -2.12961 -5.99221 0  -134.959 38.5938 -72.924 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle"]
+ConcatTransform [ -0.184493 -4.25037e-17 0.74312 0  0.74312 1.70015e-16 0.184493 0  -1.70015e-16 0.765679 0 0  -9.2337 0.917253 8.47906 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottleShape"]
+Attribute "identifier" "float id" [166]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:asset_sodaBottle_v01:RMSGPSurface1SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/sodaBottleShape.job.rib"] "float[6] bound" [-1.26013 1.26013 0.00398267 7.8361 -1.26013 1.26013] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle1"]
+ConcatTransform [ 0.765679 0 0 0  0 0.765679 0 0  0 0 0.765679 0  -6.69778 0.0331297 0.582008 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle1Shape"]
+Attribute "identifier" "float id" [160]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:asset_sodaBottle_v01:RMSGPSurface1SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/sodaBottle1Shape.job.rib"] "float[6] bound" [-1.26013 1.26013 0.00398267 7.8361 -1.26013 1.26013] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle2"]
+ConcatTransform [ 0.0117375 0.765495 -0.0120261 0  -0.510729 -0.00113082 -0.570455 0  -0.570335 0.0167666 0.510589 0  0.148839 0.828745 2.9386 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle2Shape"]
+Attribute "identifier" "float id" [161]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:asset_sodaBottle_v01:RMSGPSurface1SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/sodaBottle2Shape.job.rib"] "float[6] bound" [-1.26013 1.26013 0.00398267 7.8361 -1.26013 1.26013] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle5"]
+ConcatTransform [ 0.464435 -0.0154266 0.608545 0  0.586544 0.216153 -0.442164 0  -0.162885 0.734374 0.142928 0  -5.66494 0.792332 2.36685 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle5Shape"]
+Attribute "identifier" "float id" [164]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:asset_sodaBottle_v01:RMSGPSurface1SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/sodaBottle5Shape.job.rib"] "float[6] bound" [-1.26013 1.26013 0.00398267 7.8361 -1.26013 1.26013] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["group1"]
+ConcatTransform [ 0.98408 -0.0228287 -0.176252 0  0.013108 0.998338 -0.0561208 0  0.17724 0.0529171 0.982744 0  -1.55636 0.532405 9.08867 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["persp2"]
+ConcatTransform [ -0.139131 0.306637 -0.941603 0  -0.47678 0.812647 0.335091 0  0.867942 0.495559 0.033134 0  -106.828 65.072 -19.4551 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle6"]
+ConcatTransform [ 0.765679 0 0 0  0 0.765679 0 0  0 0 0.765679 0  -9.07516 -0.0148281 4.2244 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["sodaBottle6Shape"]
+Attribute "identifier" "float id" [165]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:asset_sodaBottle_v01:RMSGPSurface1SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/sodaBottle6Shape.job.rib"] "float[6] bound" [-1.26013 1.26013 0.00398267 7.8361 -1.26013 1.26013] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["nurbsPlane1"]
+ConcatTransform [ -24 0 -2.93915e-15 0  4.3475e-15 7.88258e-15 -35.5 0  8.75143e-31 -35.5 -7.88258e-15 0  -10.5728 11.7546 63.7844 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["nurbsPlaneShape1"]
+Attribute "identifier" "float id" [4]
+Sides 2
+ReverseOrientation 
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,initialShadingGroup,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/nurbsPlaneShape1.job.rib"] "float[6] bound" [-0.5 0.5 -3.06162e-17 3.06162e-17 -0.5 0.5] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:pCube62"]
+ConcatTransform [ 181.89 0 0 0  0 181.89 0 0  0 0 181.89 0  0 0 0 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:polySurface1"]
+ConcatTransform [ 1 0 0 0  0 0.593766 0 0  0 0 1 0  0.0598527 0.0979152 -0.14852 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:polySurfaceShape4"]
+Attribute "identifier" "float id" [158]
+Sides 1
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:RMSMatte3SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/siggraph_glassBottlesOnCakeStand_v03_polySurfaceShape4.job.rib"] "float[6] bound" [-0.5 -0.5 -0.5 0.5 -0.5 0.5] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:polySurface2"]
+ConcatTransform [ 1 0 0 0  0 0.593766 0 0  0 0 1 0  0.148425 0.0979152 -0.14852 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:transform1"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["polySurface2"]
+ConcatTransform [ -1 0 0 0  0 0.593766 0 0  0 0 1 0  -0.940147 0.0979152 -0.14852 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["polySurface1"]
+ConcatTransform [ 1 0 0 0  0 0.593766 0 0  0 0 1 0  0.148425 0.0976518 -0.14852 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["polySurfaceShape1"]
+Attribute "identifier" "float id" [6]
+Sides 1
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:RMSMatte3SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/polySurfaceShape1.job.rib"] "float[6] bound" [-0.5 -0.5 -0.5 0.5 -0.5 0.5] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:persp1"]
+ConcatTransform [ -0.903335 1.38778e-17 -0.428935 0  -0.243188 0.823747 0.512153 0  0.353334 0.566958 -0.74412 0  17.8062 29.8011 -37.4402 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:persp2"]
+ConcatTransform [ -0.980271 1.21431e-16 -0.197657 0  -0.044256 0.974612 0.219485 0  0.192639 0.223903 -0.955384 0  3.02774 8.5118 -14.0902 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Table"]
+ConcatTransform [ 9.32106e-15 0 41.9783 0  0 41.9783 0 0  -41.9783 0 9.32106e-15 0  -27.221 -36.5259 -6.62126 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:tableTop"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface501"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.219884 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape501"]
+Attribute "identifier" "float id" [27]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface4SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape501.job.rib"] "float[6] bound" [12.5146 13.3177 1.0385 1.0893 -1.55404 0.257134] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:tableLegs"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface323"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape323"]
+Attribute "identifier" "float id" [21]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface4SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape323.job.rib"] "float[6] bound" [12.5146 13.3177 0.23676 1.02802 -1.55404 0.180049] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface322"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape322"]
+Attribute "identifier" "float id" [20]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface4SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape322.job.rib"] "float[6] bound" [12.5916 13.2407 0.998021 1.02802 0.180049 0.237133] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface324"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape324"]
+Attribute "identifier" "float id" [22]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface4SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape324.job.rib"] "float[6] bound" [12.5146 12.5916 0.23676 1.02802 0.180049 0.257133] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface321"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape321"]
+Attribute "identifier" "float id" [19]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface4SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape321.job.rib"] "float[6] bound" [13.2407 13.3177 0.23676 1.02802 0.180049 0.257133] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:Chair"]
+ConcatTransform [ 24.9918 0 33.7282 0  0 41.9783 0 0  -33.7282 0 24.9918 0  -67.9058 -36.4079 7.59769 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:chairSeatsh"]
+ConcatTransform [ 0.97172 0 -0.236137 0  0 1 0 0  0.236137 0 0.97172 0  -0.0150214 0 0.196815 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface521"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape521"]
+Attribute "identifier" "float id" [28]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:RMSGPSurface5SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape521.job.rib"] "float[6] bound" [13.4932 14.1486 0.68737 1.18053 -0.289519 0.327882] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:chairLegs"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface318"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape318"]
+Attribute "identifier" "float id" [17]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:RMSMatte5SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape318.job.rib"] "float[6] bound" [13.4722 13.8086 0.262604 0.734591 -0.299166 0.31707] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface319"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape319"]
+Attribute "identifier" "float id" [18]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:RMSMatte5SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape319.job.rib"] "float[6] bound" [13.8317 14.1681 0.262604 0.734591 -0.299165 0.31707] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:chairFeet"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface325"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape325"]
+Attribute "identifier" "float id" [23]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:RMSMatte5SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape325.job.rib"] "float[6] bound" [13.4635 13.4979 0.23426 0.266869 -0.308539 -0.275527] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface326"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape326"]
+Attribute "identifier" "float id" [24]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:RMSMatte5SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape326.job.rib"] "float[6] bound" [13.4613 13.4957 0.234216 0.26679 0.293448 0.326459] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface327"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape327"]
+Attribute "identifier" "float id" [25]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:RMSMatte5SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape327.job.rib"] "float[6] bound" [14.1424 14.1768 0.23426 0.266869 -0.308538 -0.275527] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurface328"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  -12.7584 -0.228276 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:chairAndtable_v01:polySurfaceShape328"]
+Attribute "identifier" "float id" [26]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:RMSMatte5SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/siggraph_glassBottlesOnCakeStand_v03_chairAndtable_v01_polySurfaceShape328.job.rib"] "float[6] bound" [14.1446 14.179 0.234216 0.26679 0.293448 0.32646] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:asset_sodaBottle_v01:sodaBottle"]
+ConcatTransform [ 0.765679 0 0 0  0 0.765679 0 0  0 0 0.765679 0  -3.28148 -0.0267398 4.46507 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["siggraph_glassBottlesOnCakeStand_v03:asset_sodaBottle_v01:sodaBottleShape"]
+Attribute "identifier" "float id" [15]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,siggraph_glassBottlesOnCakeStand_v03:asset_sodaBottle_v01:RMSGPSurface1SG,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/siggraph_glassBottlesOnCakeStand_v03_asset_sodaBottle_v01_sodaBottleShape.job.rib"] "float[6] bound" [-1.26013 1.26013 0.00398267 7.8361 -1.26013 1.26013] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["persp3"]
+ConcatTransform [ -0.409923 0 -0.91212 0  -0.393229 0.902297 0.176724 0  0.823003 0.431115 -0.369872 0  13.1924 12.0549 -0.612657 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["polySurface3"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeBegin 
+Attribute "identifier" "string name" ["polySurface4"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 1.7934 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["polySurfaceShape4"]
+Attribute "identifier" "float id" [9]
+Sides 2
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/polySurfaceShape4.job.rib"] "float[6] bound" [-63.948 117.942 -36.1902 71.8099 -117.959 -117.959] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["polySurface5"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["polySurfaceShape5"]
+Attribute "identifier" "float id" [10]
+Sides 1
+ReverseOrientation 
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/polySurfaceShape5.job.rib"] "float[6] bound" [-269.949 125.942 -40.9404 76.56 -125.959 71.9307] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["nurbsPlane2"]
+ConcatTransform [ 182.991 0 0 0  0 1.596e-14 -71.8776 0  0 104.712 2.32508e-14 0  -168.595 19.5835 61.9648 1 ]
+AttributeBegin 
+AttributeBegin 
+Attribute "identifier" "string name" ["nurbsPlaneShape2"]
+Attribute "identifier" "float id" [5]
+Sides 1
+ShadingInterpolation "smooth"
+Attribute "user" "int receivesShadows" [1]
+Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+Attribute "shade" "string transmissionhitmode" ["shader"]
+Attribute "grouping" "string membership" ["+reflection,refraction,shadow"]
+##RLF Inject SurfaceShading -attribute sets@,initialShadingGroup,
+TransformBegin 
+Procedural2 "DelayedReadArchive2" "SimpleBound" "string filename" ["bottles_indirectStaticGeoCache.job.zip!renderman/bottles_indirect/rib/job/nurbsPlaneShape2.job.rib"] "float[6] bound" [-0.5 0.5 -3.06162e-17 3.06162e-17 -0.5 0.5] "int __immediatesubdivide" [0]
+TransformEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["Manipulator2"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeBegin 
+AttributeEnd 
+AttributeEnd 
+AttributeBegin 
+Attribute "identifier" "string name" ["CubeCompass"]
+ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+AttributeEnd 
+##RLF ScopeEnd -name perspShape4_Final
+WorldEnd 
+ResourceEnd 
+##streammarker 122
+FrameEnd 

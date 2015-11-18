@@ -1,0 +1,14 @@
+surface ramp (
+	int orientation=0,
+	color Cin = color(0.9,0.1,0.1),
+	color Cin2 = color(0.1,0.1,0.9),
+output	color Cout=0
+	)
+
+{
+    if(orientation==0)
+	    Cout=mix(Cin,Cin2,u);
+    else
+	    Cout=mix(Cin,Cin2,v);
+}
+

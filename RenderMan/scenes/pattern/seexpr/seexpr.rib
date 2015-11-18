@@ -1,0 +1,130 @@
+
+
+#Display "seexpr.tif" "tiff" "rgba"
+Display "seexpr.tif" "framebuffer" "rgba"
+
+Projection "orthographic"
+ScreenWindow -6 6 -1 1
+Format 768 128 1
+
+PixelVariance 0
+Hider "raytrace" "int incremental" [1] "int maxsamples" [1]
+
+Integrator "PxrDefault" "def"
+
+Translate 0 0 5
+
+WorldBegin
+
+    ArchiveBegin "wall"
+      Patch "bilinear" "P" [ -1 1 0  1 1 0  -1 -1 0  1 -1 0]
+    ArchiveEnd
+
+    Pattern "PxrSeExpr" "expr1" "string expression"
+["\
+lookup=fbm([5,5,5]*P/1,1);\
+color=ccurve(lookup,  0.000, [0.635, 0.243, 0.047], 4, \
+                      0.341, [0.953, 1.000, 0.000], 4, \
+                      0.405, [0.635, 0.243, 0.047], 4, \
+                      0.474, [0.635, 0.243, 0.047], 4, \
+                      0.532, [0.635, 0.502, 0.282], 4, \
+                      0.601, [0.635, 0.243, 0.047], 4);\
+color\
+"]
+
+    Pattern "PxrSeExpr" "expr2" "string expression"
+["\
+$val=voronoi(5*[$s,$t,.5],4,.6,.2); \
+$color=ccurve($val,    0.000, [0.141, 0.059, 0.051], 4,\
+                       0.185, [0.302, 0.176, 0.122], 4,\
+                       0.301, [0.651, 0.447, 0.165], 4,\
+                       0.462, [0.976, 0.976, 0.976], 4);\
+$color\
+"]
+
+Pattern "PxrSeExpr" "expr3" "string expression"
+["\
+$freq=13.148;\
+$fbmscale=0.255;\
+$pat=voronoi($freq*$P,2,1,$fbmscale)^2;\
+$c=ccurve($pat, 0.0, [.024,.235,.333], 4, .799, [.757,.757,.757],4, .994, [.855,.855,.855],4);\
+$c\
+"]
+
+Pattern "PxrSeExpr" "expr4" "string expression"
+["\
+$c = [$s,$t,0]; \
+$c\
+"]
+
+Pattern "PxrTexture" "ctex1"  "string filename" ["color.1.red.tex"] "int invertT" [0]
+Pattern "PxrTexture" "ctex2"  "string filename" ["color.2.blue.tex"] "int invertT" [0]
+Pattern "PxrTexture" "ctex3"  "string filename" ["color.3.yellow.tex"] "int invertT" [0]
+Pattern "PxrTexture" "matte_star" "string filename" ["matte_star.tex"] "int invertT" [0]
+Pattern "PxrTexture" "matte_circle" "string filename" ["matte_circle.tex"] "int invertT" [0]
+Pattern "PxrTexture" "matte_white" "string filename" ["matte_white.tex"] "int invertT" [0]
+Pattern "PxrSeExpr" "comp"
+                    "reference color c1" ["ctex1:resultRGB"]
+                    "reference color c2" ["ctex2:resultRGB"]
+                    "reference color c3" ["ctex3:resultRGB"]
+                    "reference float a1" ["matte_star:resultA"]
+                    "reference float a2" ["matte_circle:resultA"]
+                    "reference float a3" ["matte_white:resultA"]
+"string expression" 
+["\
+$a = $a1; \
+$c = $c1*$a1; \
+\
+$c = $c + $c2*$a2 * (1.0 - $a); \
+$a = $a + $a2 * (1.0 - $a); \
+\
+$c = $c + $c3*$a3 * (1.0 - $a); \
+$a = $a + $a3 * (1.0 - $a); \
+\
+$c\
+"]
+
+    Color 1 1 1
+
+    AttributeBegin
+      TransformBegin
+      Translate  -5 0 1
+      Bxdf "PxrDiffuse" "diffuse"  "reference color diffuseColor" ["expr1:resultRGB"]
+      ReadArchive "wall"
+      TransformEnd
+    AttributeEnd
+
+    AttributeBegin
+      TransformBegin
+      Translate  -2.5 0 1
+      Bxdf "PxrDiffuse" "diffuse"  "reference color diffuseColor" ["expr2:resultRGB"]
+      ReadArchive "wall"
+      TransformEnd
+    AttributeEnd
+
+    AttributeBegin
+      TransformBegin
+      Translate  0 0 1
+      Bxdf "PxrDiffuse" "diffuse"  "reference color diffuseColor" ["expr3:resultRGB"]
+      ReadArchive "wall"
+      TransformEnd
+    AttributeEnd
+
+    AttributeBegin
+      TransformBegin
+      Translate   2.5 0 1
+      Bxdf "PxrDiffuse" "diffuse"  "reference color diffuseColor" ["expr4:resultRGB"]
+      ReadArchive "wall"
+      TransformEnd
+    AttributeEnd
+
+    AttributeBegin
+      TransformBegin
+      Translate   5 0 1
+      Bxdf "PxrDiffuse" "diffuse"  "reference color diffuseColor" ["comp:resultRGB"]
+      ReadArchive "wall"
+      TransformEnd
+    AttributeEnd
+
+WorldEnd
+

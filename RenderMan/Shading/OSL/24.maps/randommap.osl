@@ -1,0 +1,17 @@
+surface randommap (
+        color Cin=1,
+output  color Cout=1
+)
+{
+    Cout=(color)texture("Flower_pattern_pxr128.tx",u,v);
+    float repeatCount=2;
+    float s=mod(u*repeatCount,1);
+    float t=mod(v*repeatCount,1);
+
+
+    if((float)noise("cell",u*repeatCount,v*repeatCount)>0.5)
+	    Cout=(color) texture("Flower_pattern_pxr128.tx",s,t);
+    else
+	    Cout=(color) texture("Wild_flowers_pxr128.tx",s,t);
+}
+

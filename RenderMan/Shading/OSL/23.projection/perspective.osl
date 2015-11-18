@@ -1,0 +1,12 @@
+shader perspective (
+        color Cin = 1,
+output  color Cout=0
+)
+{
+    point PP=transform("camera",P);
+    float repeatCount=20;
+    float ss=PP[0]/PP[2]*repeatCount;
+    float tt=PP[1]/PP[2]*repeatCount;
+    Cout=(color)noise("cell",ss,tt);;
+}
+

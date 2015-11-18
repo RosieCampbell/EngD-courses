@@ -1,0 +1,38 @@
+shader marble (
+	color Cin=1,
+output	color Cout=1
+)
+{
+    float i;
+    float mag=0;
+    float freq=1;
+    point PP=transform("shader",P);
+    PP*=3;
+
+    for(i=0;i<8;i+=1)
+        {
+		mag+=abs((float)noise("perlin",PP*freq))/freq;
+        freq*=2.1;
+	}
+
+    mag=smoothstep(0,0.4,mag);
+
+    color sCols[13]={
+	color("rgb",0.25,0.35,0.25),
+        color("rgb",0.25,0.35,0.25),
+        color("rgb",0.20,0.30,0.20),
+        color("rgb",0.20,0.30,0.20),
+        color("rgb",0.20,0.30,0.20),
+        color("rgb",0.25,0.35,0.35),
+        color("rgb",0.25,0.35,0.35),
+        color("rgb",0.15,0.25,0.10),
+        color("rgb",0.15,0.25,0.10),
+        color("rgb",0.10,0.20,0.10),
+        color("rgb",0.10,0.20,0.10),
+        color("rgb",0.25,0.35,0.25),
+        color("rgb",0.10,0.10,0.20)
+	};
+
+    Cout=(color)spline("catmull-rom",mag,sCols);
+}
+

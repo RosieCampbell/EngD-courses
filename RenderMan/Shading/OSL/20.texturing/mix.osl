@@ -1,0 +1,10 @@
+surface mix (
+	color Cin = 1,
+output	color Cout=0
+	)
+
+{
+    color green=color("rgb",0,1,0);
+    Cout=mix(Cin,green,u);
+}
+

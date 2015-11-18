@@ -1,0 +1,59 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+surface distance
+param	color	Cin	1 1 1		%read{6,6} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{12,12} %write{6,12}
+global	float	u	%read{5,5} %write{2147483647,-1}
+global	float	v	%read{5,5} %write{2147483647,-1}
+local	color	red	%read{2147483647,-1} %write{0,0}
+local	color	green	%read{2147483647,-1} %write{1,1}
+local	color	blue	%read{12,12} %write{2,2}
+local	float	fuzz	%read{8,9} %write{3,3}
+local	float	dist	%read{10,10} %write{7,7}
+local	float	inDisk	%read{12,12} %write{11,11}
+local	point	centre	%read{7,7} %write{4,4}
+local	point	here	%read{7,7} %write{5,5}
+const	string	$const1	"rgb"		%read{0,2} %write{2147483647,-1}
+const	float	$const3	1		%read{0,11} %write{2147483647,-1}
+const	float	$const5	0		%read{0,5} %write{2147483647,-1}
+const	float	$const6	0.025		%read{3,3} %write{2147483647,-1}
+const	point	$const7	0.5 0.5 0		%read{4,4} %write{2147483647,-1}
+temp	float	$tmp1	%read{11,11} %write{10,10}
+const	float	$const8	0.30000001		%read{8,9} %write{2147483647,-1}
+temp	float	$tmp2	%read{10,10} %write{8,8}
+temp	float	$tmp3	%read{10,10} %write{9,9}
+code ___main___
+# distance.osl:6
+#     color red=color("rgb",1,0,0);
+	color		red $const1 $const3 $const5 $const5 	%filename{"distance.osl"} %line{6} %argrw{"wrrrr"}
+# distance.osl:7
+#     color green=color  ("rgb",0,1,0);
+	color		green $const1 $const5 $const3 $const5 	%line{7} %argrw{"wrrrr"}
+# distance.osl:8
+#     color blue=color  ("rgb",0,0,1);
+	color		blue $const1 $const5 $const5 $const3 	%line{8} %argrw{"wrrrr"}
+# distance.osl:9
+#     float fuzz=0.025;
+	assign		fuzz $const6 	%line{9} %argrw{"wr"}
+# distance.osl:12
+#     point centre=point (0.5,0.5,0);
+	assign		centre $const7 	%line{12} %argrw{"wr"}
+# distance.osl:13
+#     point here=point(u,v,0);
+	point		here u v $const5 	%line{13} %argrw{"wrrr"}
+# distance.osl:15
+#     Cout=Cin;
+	assign		Cout Cin 	%line{15} %argrw{"wr"}
+# distance.osl:17
+#     dist=distance(centre,here);
+	distance	dist centre here 	%line{17} %argrw{"wrr"}
+# distance.osl:18
+#     inDisk=1-smoothstep(0.3-fuzz,0.3+fuzz,dist);
+	sub		$tmp2 $const8 fuzz 	%line{18} %argrw{"wrr"}
+	add		$tmp3 $const8 fuzz 	%argrw{"wrr"}
+	smoothstep	$tmp1 $tmp2 $tmp3 dist 	%argrw{"wrrr"}
+	sub		inDisk $const3 $tmp1 	%argrw{"wrr"}
+# distance.osl:19
+#     Cout=mix(Cout,blue,inDisk);
+	mix		Cout Cout blue inDisk 	%line{19} %argrw{"wrrr"}
+	end

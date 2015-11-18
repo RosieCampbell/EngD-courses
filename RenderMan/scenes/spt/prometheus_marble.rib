@@ -1,0 +1,98 @@
+# Prometheus statue with marble material.
+# Unidirectional path tracing.
+# Shows subsurface scattering.
+
+# The Prometheus Model was created by artist and designer Scott Eaton.
+# http://www.scott-eaton.com
+# Permission is granted for non-commercial use. You may not use this work for
+# commercial purposes.
+# For any reuse or distribution, please give attribution for this work.
+
+
+#Option "statistics" "endofframe" 1 "xmlfilename" "stats.xml"
+
+FrameBegin 1
+
+	Hider "raytrace"
+		"int incremental" 1
+		"int maxsamples" 400
+	Integrator "PxrPathTracer" "handle"
+		"string sampleMode" "manual"
+		"int numLightSamples" 16
+		"int numBxdfSamples" 16
+		"int numSubsurfaceSamples" 1
+
+	PixelVariance 0.002
+
+	Format 480 640 1
+	Display "prometheus_marble" "it" "rgba" 
+	Projection "perspective" "fov" 10
+
+	ConcatTransform [ 0.999945 -5.08542e-05 0.0104716 5.07938e-11	 -4.36582e-11 0.999988 0.00485467 -4.55376e-14	0.0104718 0.00485441 -0.999933 9.9125e-12	 266.921 -253.834 1448.26 1 ]
+
+	WorldBegin
+			Attribute "visibility" "int indirect" [1] "int transmission" [1]
+
+			# Key light
+			AttributeBegin
+				Transform [ 176.31 -1.38412e-14 -176.31 0	 -165.58 85.6562 -165.58 0	60.5681 234.166 60.5681 0	 -184.759 858.353 -762.454 1 ]
+				ShadingRate 100
+				AreaLightSource "PxrAreaLight" "keyLight" "string shape" ["disk"]
+            "float intensity" [20]
+				Attribute "visibility" "int indirect" [0] "int transmission" [0]
+            "int camera" [0]
+				Sides 1
+				ReverseOrientation
+				Disk 0 0.5 360
+			AttributeEnd
+
+IfBegin "0"
+			# Back light (very dim)
+			AttributeBegin
+				Transform [ 236.779 0 0 0	 0 186.366 -146.055 0	 0 146.055 186.366 0	-291.339 727.345 -1216.82 1 ]
+				ShadingRate 100
+				AreaLightSource "PxrAreaLight" "backLight" "string shape" ["disk"]
+                "float intensity" [50]
+				Attribute "visibility" "int indirect" [0] "int transmission" [0]
+                "int camera" [0]
+				Sides 1
+				Disk 0 0.5 360
+			AttributeEnd
+IfEnd
+
+			# Main geometry
+			AttributeBegin
+				ConcatTransform [ -1 0 -1.22465e-16 0	 0 1 0 0	1.22465e-16 0 -1 0	-259.429 0 -934.37 1 ]
+
+				#Bxdf "PxrDiffuse" "matte"
+				Bxdf "simple/PxrSubsurface" "sss" "float unitLength" 1.0
+
+				ReadArchive "./prometheus.zip!promGeoShape.job.rib"
+				ReadArchive "./prometheus.zip!clothGeoShape.job.rib"
+				ReadArchive "./prometheus.zip!chainsGeoShape.job.rib"
+			AttributeEnd
+
+			# Background geometry
+			AttributeBegin
+				ConcatTransform [ 42.9794 0 0 0	 0 42.9794 0 0	0 0 42.9794 0	 -288.428 12.991 -866.123 1 ]
+				AttributeBegin
+					ConcatTransform [ 2 0 0 0	 0 1 0 0	0 0 1 0	 0 0 0 1 ]
+					AttributeBegin
+						Bxdf "PxrDiffuse" "matte" "color diffuseColor" [1 1 1]
+						ReadArchive "./prometheus.zip!Rembrant_Light_Rig_backdropShape.job.rib"
+					AttributeEnd
+				AttributeEnd
+
+				AttributeBegin
+					ConcatTransform [ 2 0 0 0	 0 1 0 0	0 0 1.4 0	 0 0 4.8 1 ]
+					AttributeBegin
+						AttributeBegin
+							Bxdf "PxrDiffuse" "matte" "color diffuseColor" [1 1 1]
+							ReadArchive "./prometheus.zip!Rembrant_Light_Rig_baseShape.job.rib"
+						AttributeEnd
+					AttributeEnd
+				AttributeEnd
+
+			AttributeEnd
+		WorldEnd
+FrameEnd

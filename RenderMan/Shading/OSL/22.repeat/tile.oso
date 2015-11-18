@@ -1,0 +1,38 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+surface tile
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{9,9}
+global	float	u	%read{1,1} %write{2147483647,-1}
+global	float	v	%read{4,4} %write{2147483647,-1}
+local	float	repeatCount	%read{1,4} %write{0,0}
+local	int	sTile	%read{7,7} %write{3,3}
+local	int	tTile	%read{7,7} %write{6,6}
+const	int	$const1	6		%read{0,0} %write{2147483647,-1}
+temp	float	$tmp1	%read{3,3} %write{2,2}
+temp	float	$tmp2	%read{2,2} %write{1,1}
+temp	float	$tmp3	%read{6,6} %write{5,5}
+temp	float	$tmp4	%read{5,5} %write{4,4}
+temp	int	$tmp5	%read{8,8} %write{7,7}
+const	int	$const2	2		%read{8,8} %write{2147483647,-1}
+temp	int	$tmp6	%read{9,9} %write{8,8}
+code ___main___
+# tile.osl:7
+#     float repeatCount=6;
+	assign		repeatCount $const1 	%filename{"tile.osl"} %line{7} %argrw{"wr"}
+# tile.osl:8
+#     int sTile=(int)floor(u*repeatCount);
+	mul		$tmp2 u repeatCount 	%line{8} %argrw{"wrr"}
+	floor		$tmp1 $tmp2 	%argrw{"wr"}
+	assign		sTile $tmp1 	%argrw{"wr"}
+# tile.osl:9
+#     int tTile=(int)floor(v*repeatCount);
+	mul		$tmp4 v repeatCount 	%line{9} %argrw{"wrr"}
+	floor		$tmp3 $tmp4 	%argrw{"wr"}
+	assign		tTile $tmp3 	%argrw{"wr"}
+# tile.osl:10
+#     Cout=(sTile+tTile)%2;
+	add		$tmp5 sTile tTile 	%line{10} %argrw{"wrr"}
+	mod		$tmp6 $tmp5 $const2 	%argrw{"wrr"}
+	assign		Cout $tmp6 	%argrw{"wr"}
+	end

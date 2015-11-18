@@ -1,0 +1,393 @@
+##RenderMan RIB
+Option "ribparse" "string varsubst" [""]
+Option "ribparse" "string varsubst" ["$"]
+FrameBegin 1
+
+   Option "searchpath" "string procedural" [".:${RMANTREE}/etc:@"]
+   Attribute "trace" "int maxspeculardepth" [3] "int maxdiffusedepth" [3]
+   Option "limits" "bucketsize" [16 16]
+   Option "limits" "geocachememory" [1000000]
+   ShadingInterpolation "smooth"
+   PixelVariance 0.001
+   Hider "raytrace" "int incremental" [1] "int minsamples" [24] "int maxsamples" [512]
+   Integrator "PxrPathTracer" "handle" "float clampLuminance" [10] "int allowCaustics" [1] "int maxPathLength" [3]
+   
+	CropWindow 0 1 0 1
+	Format 760 540 1
+	Display "sheep" "framebuffer" "rgba" "string filter" ["separable-catmull-rom"] "float[2] filterwidth" [2 2] "int[4] quantize" [0 0 0 0] 
+	Clipping 0.1 10000
+	Projection "perspective" "fov" [39.5978]
+	ScreenWindow -1 1 -0.710526 0.710526
+	Shutter 0 0
+	ConcatTransform [ -0.526956 -0.190293 -0.828315 -1.02261e-009  -1.13839e-008 0.974612 -0.223903 -2.17378e-010  -0.849893 0.117987 0.513577 4.76836e-010  0.454819 -20.4568 105.16 1 ]
+	WorldBegin 
+			Attribute "visibility" "int indirect" [1] "int transmission" [1]
+			ShadingRate 1
+			
+			# key area light
+			AttributeBegin 
+				Transform [ -0.427756 -0.624878 -15.1039 0  -6.3468 12.601 -0.34158 0  1.47654 0.74173 -0.0725036 0  48.0758 61.2751 -12.5641 1 ]
+				AreaLightSource "PxrAreaLight" "arealight1" "string shape" ["disk"] 
+            "float intensity" [4.5] 
+				Attribute "visibility" "int camera" [0]
+				Attribute "visibility" "int indirect" [0] "int transmission" [0]
+				ShadingRate 1000
+				Sides 1
+				Attribute "dice" "string offscreenstrategy" ["sphericalprojection"]
+				ReverseOrientation 
+				Disk 0 0.5 360 
+			AttributeEnd 
+			
+			# environment light
+			AttributeBegin 
+				Transform [ 3203.38 63.3327 -3313.73 0  3305.3 -401.222 3187.55 0  244.645 4591.46 324.251 0  0 0 0 1 ]
+				Scale 0.000216949 0.000216949 0.000216949
+				ShadingRate 1000
+				AreaLightSource "PxrEnvMapLight" "envlight" 
+            "string envmap" ["${RMANTREE}/lib/textures/desert.env"] 
+            "float intensity" [1] 
+				Sides 1
+				Attribute "dice" "string offscreenstrategy" ["sphericalprojection"]
+				ReverseOrientation 
+				Opacity [1 1 1]
+				Geometry "envsphere" 
+			AttributeEnd 
+
+      # back area light
+			AttributeBegin 
+				Transform [ 49.0214 4.87617 45.7964 0  -7.96843 49.4662 3.26266 0  -19.5717 -4.56663 21.4362 0  -20.1224 35.1941 30.1932 1 ]
+				AreaLightSource "PxrAreaLight" "arealight2" "string shape" ["rect"] 
+            "float intensity" [3] 
+				Attribute "visibility" "int camera" [0]
+				Attribute "visibility" "int indirect" [0] "int transmission" [0]
+				ShadingRate 1000
+				Sides 1
+				Attribute "dice" "string offscreenstrategy" ["sphericalprojection"]
+				ReverseOrientation 
+                                Geometry "rectlight"
+			AttributeEnd 
+			
+			# background light
+			AttributeBegin 
+				Transform [ -0.221976 -3.53364 -33.1216 0  -22.2764 29.0201 -2.94677 0  17.9571 13.6244 -1.57389 0  35.8351 82.0846 45.6077 1 ]
+				AreaLightSource "PxrAreaLight" "arealight3" "string shape" ["rect"] 
+                "float intensity" [1.5] 
+				Attribute "visibility" "int camera" [0]
+				Attribute "visibility" "int indirect" [0] "int transmission" [0]
+				ShadingRate 1000
+				Sides 1
+				Attribute "dice" "string offscreenstrategy" ["sphericalprojection"]
+				ReverseOrientation 
+                                Geometry "rectlight"
+			AttributeEnd 
+			
+			AttributeBegin 
+				AttributeBegin 
+					AttributeBegin 
+						ConcatTransform [ 0.992621 0.121256 0 0  -0.121256 0.992621 0 0  0 0 1 0  0 0 0 1 ]
+						AttributeBegin 
+							ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+							AttributeBegin 
+								ConcatTransform [ -0.945691 -0.325066 2.12336e-015 0  -0.325066 0.945691 4.09191e-015 0  -3.33818e-015 3.17945e-015 -1 0  -10.1257 28.4297 1.20517e-013 1 ]
+								 
+								AttributeBegin 
+									ConcatTransform [ -0.992298 -0.123873 -1.22441e-016 0  -0.123873 0.992298 2.40331e-018 0  1.212e-016 1.7552e-017 -1 0  -3.73589 0.259835 4.36746e-015 1 ]
+									AttributeBegin 
+										ConcatTransform [ 0.961912 -0.273358 -0 0  0.273358 0.961912 0 0  0 -0 1 0  4.51866 -4.26326e-014 -1.28435e-015 1 ]
+										AttributeBegin 
+											ConcatTransform [ 0.991466 -0.130362 -0 0  0.130362 0.991466 0 0  0 -0 1 0  3.76271 -3.55271e-014 6.56391e-014 1 ]
+											AttributeBegin 
+												ConcatTransform [ 0.996286 0.0861034 0 0  -0.0861034 0.996286 0 0  0 0 1 0  3.91213 -4.26326e-014 -4.32963e-015 1 ]
+												AttributeBegin 
+													ConcatTransform [ 0.907535 -0.419977 -0 0  0.419977 0.907535 0 0  0 -0 1 0  4.81196 -0.766556 2.68648e-014 1 ]
+													AttributeBegin 
+														ConcatTransform [ 0.911247 0.411861 0 0  -0.411861 0.911247 0 0  0 0 1 0  4.13822 -0.359192 2.94188e-014 1 ]
+														AttributeBegin 
+															ConcatTransform [ 0.465965 0.883847 -0.0411243 0  -0.802835 0.441878 0.40025 0  0.371931 -0.153486 0.915483 0  3.38639 2.28049 2.9035e-014 1 ]
+															AttributeBegin 
+																ConcatTransform [ 0.959459 0.281848 0 0  -0.281848 0.959459 0 0  0 0 1 0  1.19663 -1.77636e-014 -2.95994e-015 1 ]
+																
+																# sheep top teeth
+																AttributeBegin 
+																	ConcatTransform [ 0.883166 -0.46906 -0 0  0.254753 0.479659 0 0  0 -0 1 0  6.37292 8.86013 -1.35855e-013 1 ]
+																	AttributeBegin 
+																		AttributeBegin 
+																			Sides 2
+																			Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+																			Bxdf "PxrDiffuse" "whiteDiffuse" "color diffuseColor" [0.5 0.5 0.5]
+																			#Surface "plausibleMatte"
+																			TransformBegin 
+																				Procedural "DelayedReadArchive" ["./sheepScene.zip!topTeethShape.job.rib"] [5.74914 8.84583 -41.3137 -32.6287 -2.42446 2.42135]
+																			TransformEnd 
+																		AttributeEnd 
+																	AttributeEnd 	
+																AttributeEnd 
+																
+																# sheep eye 1
+																AttributeBegin 
+																	ConcatTransform [ -1.10698 1.49287 -5.01681 0  5.09495 1.48235 -0.683115 0  1.19941 -4.91899 -1.72842 0  7.0114 -7.1812 -3.75565 1 ]
+																	AttributeBegin 
+																		ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+																		AttributeBegin 
+																			AttributeBegin 
+																				Sides 2
+																				Bxdf "PxrDisney" "shinyWhite" "color baseColor" [1 1 1] 
+																				#Surface "plausibleDielectric" "color surfaceColor" [1 1 1]
+																				TransformBegin 
+																					Procedural "DelayedReadArchive" ["./sheepScene.zip!eye_char_hi_side_scleraShape.0002.rib"] [-0.510387 0.510387 -0.510387 0.510387 -0.5 0.477896]
+																				TransformEnd 
+																			AttributeEnd 
+																		AttributeEnd 
+																	AttributeEnd 
+																	AttributeBegin 
+																		Attribute "identifier" "string name" ["sam9:eye:char_hi_side_cornea"]
+																		ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+																		AttributeBegin 
+																			AttributeBegin 
+																				Sides 2
+																				Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+																				Bxdf "PxrGlass" "glass" "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1]
+
+																				#Surface "plausibleGlass"
+																				TransformBegin 
+																					Procedural "DelayedReadArchive" ["./sheepScene.zip!eye_char_hi_side_corneaShape.0002.rib"] [-0.149459 0.149459 -0.149459 0.149459 0.477896 0.507013]
+																				TransformEnd 
+																			AttributeEnd 
+																		AttributeEnd 
+																	AttributeEnd 
+																	AttributeBegin 
+																		ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+																		AttributeBegin 
+																			AttributeBegin 
+																				Sides 2
+																				Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+																				Bxdf "PxrDisney" "default" "color baseColor" [0 .2 .6]
+																				#Surface "plausibleConductor" "color surfaceColor" [0 .2 .6]
+																				TransformBegin 
+																					Procedural "DelayedReadArchive" ["./sheepScene.zip!eye_char_hi_side_irisShape.0002.rib"] [-0.167012 0.167012 -0.167012 0.167012 0.440639 0.456327]
+																				TransformEnd 
+																			AttributeEnd 
+																		AttributeEnd 
+																	AttributeEnd 
+																	AttributeBegin 
+																		ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+																		AttributeBegin 
+																			AttributeBegin 
+																				Sides 2
+																				Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+																				Bxdf "PxrDiffuse" "blackDiffuse" "color diffuseColor" [0 0 0] 
+																				#Surface "plausibleMatte" "color surfaceColor" [0 0 0]
+																				TransformBegin 
+																					Procedural "DelayedReadArchive" ["./sheepScene.zip!eye_char_hi_side_pupilShape.0002.rib"] [-0.0502437 0.0502437 -0.0502437 0.0502437 0.439123 0.440639]
+																				TransformEnd 
+																			AttributeEnd 
+																		AttributeEnd 
+																	AttributeEnd 																 
+																AttributeEnd 
+																
+																# sheep eye 2
+																AttributeBegin 
+																	ConcatTransform [ -0.812999 -0.438076 -5.26969 0  5.13048 1.22577 -0.893421 0  1.28052 -5.18923 0.23383 0  6.99317 -7.168 3.78202 1 ]
+																	AttributeBegin 
+																		ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+																		AttributeBegin 
+																			AttributeBegin 
+																				Sides 2
+																				Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+																				Bxdf "PxrDisney" "shinyWhite" "color baseColor" [1 1 1] 
+																				#Surface "plausibleDielectric" "color surfaceColor" [1 1 1]
+																				TransformBegin 
+																					Procedural "DelayedReadArchive" ["./sheepScene.zip!eye1_char_hi_side_scleraShape.0002.rib"] [-0.510387 0.510387 -0.510387 0.510387 -0.5 0.477896]
+																				TransformEnd 
+																			AttributeEnd 
+																		AttributeEnd 
+																	AttributeEnd
+																	AttributeBegin 
+																		ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+																		AttributeBegin 
+																			AttributeBegin 
+																				Sides 2
+																				Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+																				Bxdf "PxrGlass" "glass" "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1]
+																				#Surface "plausibleGlass"
+																				TransformBegin 
+																					Procedural "DelayedReadArchive" ["./sheepScene.zip!eye1_char_hi_side_corneaShape.0002.rib"] [-0.149459 0.149459 -0.149459 0.149459 0.477896 0.507013]
+																				TransformEnd 
+																			AttributeEnd 
+																		AttributeEnd 
+																	AttributeEnd
+																	AttributeBegin 
+																		ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+																		AttributeBegin 
+																			AttributeBegin 
+																				Sides 2
+																				Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+																				Bxdf "PxrDisney" "default" "color baseColor" [0 .2 .6]
+																				#Surface "plausibleConductor" "color surfaceColor" [0 .2 .6]
+																				TransformBegin 
+																					Procedural "DelayedReadArchive" ["./sheepScene.zip!eye1_char_hi_side_irisShape.0002.rib"] [-0.167012 0.167012 -0.167012 0.167012 0.440639 0.456327]
+																				TransformEnd 
+																			AttributeEnd 
+																		AttributeEnd 
+																	AttributeEnd 
+																	AttributeBegin 
+																		ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+																		AttributeBegin 
+																			AttributeBegin 
+																				Sides 2
+																				Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+																				Bxdf "PxrDiffuse" "blackDiffuse" "color diffuseColor" [0 0 0] 
+																				#Surface "plausibleMatte" "color surfaceColor" [0 0 0]
+																				TransformBegin 
+																					Procedural "DelayedReadArchive" ["./sheepScene.zip!eye1_char_hi_side_pupilShape.0002.rib"] [-0.0502437 0.0502437 -0.0502437 0.0502437 0.439123 0.440639]
+																				TransformEnd 
+																			AttributeEnd 
+																		AttributeEnd 
+																	AttributeEnd 															
+																AttributeEnd 
+															AttributeEnd
+															
+															# bottom teeth 
+															AttributeBegin 
+																ConcatTransform [ 0.710611 -0.703585 -0 0  0.703585 0.710611 0 0  0 -0 1 0  0.439089 -3.79402 -4.43303e-008 1 ]
+																AttributeBegin 
+																	ConcatTransform [ 0.768356 -0.640022 -0 0  0.640022 0.768356 0 0  0 -0 1 0  8.42038 -1.77636e-014 6.28941e-014 1 ]
+																	AttributeBegin 
+																		ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  3.55271e-015 0.223126 -1.73472e-016 1 ]
+																		AttributeBegin 
+																			AttributeBegin 
+																				Sides 2
+																				ShadingInterpolation "smooth"
+																				Attribute "visibility" "int camera" [1] "int indirect" [0] "int transmission" [1]
+																				Bxdf "PxrDiffuse" "whiteDiffuse" "color diffuseColor" [0.5 0.5 0.5]
+																				#Surface "plausibleMatte" "color surfaceColor" [1 1 1]
+																				TransformBegin 
+																					Procedural "DelayedReadArchive" ["./sheepScene.zip!bottomTeethShape.job.rib"] [-1.68027 3.35941 -0.682291 0.662603 -2.22866 2.32461]
+																				TransformEnd 
+																			AttributeEnd 
+																		AttributeEnd 
+																	AttributeEnd 
+																	
+																	# tounge
+																	AttributeBegin 
+																		ConcatTransform [ 0.917142 -0.398561 -0 0  0.398561 0.917142 0 0  0 -0 1 0  3.46945e-017 0 0 1 ]
+																		AttributeBegin 
+																			AttributeBegin 
+																				Sides 2
+																				ShadingInterpolation "smooth"
+																				Attribute "visibility" "int camera" [1] "int indirect" [0] "int transmission" [1]
+																				Bxdf "PxrDisney" "tongue" "color baseColor" [0.964 0.450541 0.432836] 
+																				#Surface "plausibleMatte" "color surfaceColor" [0.964 0.450541 0.432836]
+																				TransformBegin 
+																					Procedural "DelayedReadArchive" ["./sheepScene.zip!toungeShape.job.rib"] [-1.5543 2.57188 -1.74015 1.54033 -1.46442 1.63184]
+																				TransformEnd 
+																			AttributeEnd 
+																		AttributeEnd 
+																	AttributeEnd 
+																
+																AttributeEnd 
+															AttributeEnd 	 
+														AttributeEnd 
+													AttributeEnd  
+												AttributeEnd  
+											AttributeEnd  
+										AttributeEnd 
+									AttributeEnd 
+								AttributeEnd 
+							AttributeEnd  
+						AttributeEnd 
+					AttributeEnd 
+				AttributeEnd 
+				
+				# sheep body
+				AttributeBegin 
+					ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 -1.49884e-029 1 ]
+					AttributeBegin 
+						ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 1.49884e-029 1 ]
+						AttributeBegin 
+							AttributeBegin 
+								Sides 1
+								ShadingInterpolation "smooth"
+								Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+								Bxdf "PxrSkin" "sss" "float unitLength" [1.6]
+									"color nearColor" [1 1 1]
+									"color midColor" [1 0.94 0.75]
+									"color farColor" [1 0.5 0.33]
+									"float nearWeight" 0.95		# ~ near albedo [0.95 0.95 0.95]
+									"float midWeight" 0.8		# ~ mid albedo [0.80 0.75 0.6]
+									"float farWeight" 0.6		# ~ far albedo [0.6 0.3 0.2]
+									"float nearLength" 0.2
+									"float midLength" 0.3
+									"float farLength" 0.4
+								TransformBegin 
+									Procedural "DelayedReadArchive" ["./sheepScene.zip!sheepBodyShape.0002.rib"] [-20.8711 29.893 -1.8711 42.8104 -9.61303 9.59308]
+								TransformEnd 
+							AttributeEnd 
+						AttributeEnd  
+					AttributeEnd 
+				  
+				  AttributeBegin 
+						ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 1.49884e-029 1 ]
+						AttributeBegin 
+							AttributeBegin 
+								Sides 2
+								Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+								Bxdf "PxrDisney" "hoof" "color baseColor" [.15 .15 .15]
+								#Surface "plausibleDielectric" "color surfaceColor" [.15 .15 .15]
+								TransformBegin 
+                   Procedural "DelayedReadArchive" ["./sheepScene.zip!sheepFeet.rib"] [-15.6332 13.2262 -1.89628 7.72919 -8.6193 8.50881]
+								TransformEnd 
+							AttributeEnd 
+						AttributeEnd 
+					AttributeEnd
+				AttributeEnd 
+				
+				# sheep wool
+				AttributeBegin 
+					ConcatTransform [ 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 ]
+					AttributeBegin 
+						AttributeBegin 
+							Sides 2
+							ShadingInterpolation "constant"
+							Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+							Attribute "shade" "string transmissionhitmode" ["shader"]
+							Attribute "dice" "int hair" [1] "int roundcurve" [1] "int hair" [1] "int roundcurve" [1]
+							Attribute "sides" "int doubleshaded" [0]
+							Bxdf "PxrDiffuse" "wool" "color diffuseColor" [0.5 0.5 0.5]
+							#Surface "plausibleBasicHair" "color diffuseRootColor" [.8 .8 .8] "color diffuseTipColor" [1 1 1] "color transmitColor" [1 1 1]
+							TransformBegin 
+								ReadArchive "./sheepScene.zip!sheepPfxHairShape1_0_attr.0002.rib" 
+								Procedural "DelayedReadArchive" ["./sheepScene.zip!sheepPfxHairShape1_0.0002.rib"] [-22.1888 26.3383 7.48048 45.6283 -11.0598 10.9938]
+							TransformEnd 
+							TransformBegin 
+								ReadArchive "./sheepScene.zip!sheepPfxHairShape1_1_attr.0002.rib" 
+								Procedural "DelayedReadArchive" ["./sheepScene.zip!sheepPfxHairShape1_1.0002.rib"] [-22.1888 26.3383 7.48048 45.6283 -11.0598 10.9938]
+							TransformEnd 
+							TransformBegin 
+								ReadArchive "./sheepScene.zip!sheepPfxHairShape1_2_attr.0002.rib" 
+								Procedural "DelayedReadArchive" ["./sheepScene.zip!sheepPfxHairShape1_2.0002.rib"] [-22.1888 26.3383 7.48048 45.6283 -11.0598 10.9938]
+							TransformEnd 
+						AttributeEnd 
+					AttributeEnd 
+				AttributeEnd  
+			AttributeEnd
+			
+			# background geometry
+			AttributeBegin 
+				ConcatTransform [ -9.59619 -1.70398 -9.03221 0  -0.510305 3.34211 -0.0883412 0  7.80459 0.967675 -8.47447 0  -8.09312 -0.776177 8.80201 1 ]
+				AttributeBegin 
+					AttributeBegin 
+						Sides 2
+						ShadingInterpolation "smooth"
+						Attribute "visibility" "int camera" [1] "int indirect" [1] "int transmission" [1]
+						Bxdf "PxrDiffuse" "background" "color diffuseColor" [0.37303 0.459843 0.511] 
+						#Surface "plausibleMatte" "color surfaceColor" [0.37303 0.459843 0.511] 
+						TransformBegin 
+							Procedural "DelayedReadArchive" ["./sheepScene.zip!background2Shape.job.rib"] [-10 10 -1.40389e-015 25.6985 -4.26185 10]
+						TransformEnd 
+					AttributeEnd 
+				AttributeEnd 
+			AttributeEnd 
+			
+		WorldEnd 
+FrameEnd 

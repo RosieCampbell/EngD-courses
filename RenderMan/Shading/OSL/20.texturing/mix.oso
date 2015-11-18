@@ -1,0 +1,18 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+surface mix
+param	color	Cin	1 1 1		%read{1,1} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{1,1}
+global	float	u	%read{1,1} %write{2147483647,-1}
+local	color	green	%read{1,1} %write{0,0}
+const	string	$const1	"rgb"		%read{0,0} %write{2147483647,-1}
+const	float	$const3	0		%read{0,0} %write{2147483647,-1}
+const	float	$const5	1		%read{0,0} %write{2147483647,-1}
+code ___main___
+# mix.osl:7
+#     color green=color("rgb",0,1,0);
+	color		green $const1 $const3 $const5 $const3 	%filename{"mix.osl"} %line{7} %argrw{"wrrrr"}
+# mix.osl:8
+#     Cout=mix(Cin,green,u);
+	mix		Cout Cin green u 	%line{8} %argrw{"wrrr"}
+	end

@@ -1,0 +1,59 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.0dev
+shader marble
+param	color	Cin	0.5 0.5 0.5 		 %read{16,16} %write{2147483647,-1}
+param	float	freq	1 		 %read{1,1} %write{2147483647,-1}
+oparam	color	Cout	0 0 0 		 %read{2147483647,-1} %write{16,16}
+global	point	P	 %read{7,7} %write{2147483647,-1}
+local	float	sum	 %read{2,16} %write{0,15}
+local	float	freqVal	 %read{2,15} %write{1,15}
+local	int	___317_i	 %read{2,15} %write{2,15}
+const	int	$const1	0		 %read{0,3} %write{2147483647,-1}
+const	int	$const2	6		 %read{4,4} %write{2147483647,-1}
+temp	int	$tmp1	 %read{2,15} %write{2,15}
+const	int	$const3	1		 %read{15,15} %write{2147483647,-1}
+temp	float	$tmp2	 %read{11,11} %write{5,5}
+const	float	$const4	1		 %read{5,5} %write{2147483647,-1}
+temp	float	$tmp3	 %read{11,11} %write{10,10}
+const	float	$const5	0.5		 %read{9,9} %write{2147483647,-1}
+temp	float	$tmp4	 %read{9,9} %write{8,8}
+temp	float	$tmp5	 %read{7,7} %write{6,6}
+const	float	$const7	4		 %read{6,6} %write{2147483647,-1}
+temp	point	$tmp6	 %read{8,8} %write{7,7}
+temp	float	$tmp7	 %read{10,10} %write{9,9}
+temp	float	$tmp8	 %read{12,12} %write{11,11}
+const	float	$const9	2		 %read{13,13} %write{2147483647,-1}
+temp	int	$tmp9	 %read{2147483647,-1} %write{14,14}
+code ___main___
+# marble.osl:5
+#     float sum = 0;
+	assign		sum $const1 	%filename{"marble.osl"} %line{5} %argrw{"wr"}
+# marble.osl:6
+#     float freqVal = freq;
+	assign		freqVal freq 	%line{6} %argrw{"wr"}
+# marble.osl:9
+#     for (int i = 0; i < 6; i++) 
+	for		$tmp1 4 5 14 16 	%line{9} %argrw{"r"}
+	assign		___317_i $const1 	%argrw{"wr"}
+	lt		$tmp1 ___317_i $const2 	%argrw{"wrr"}
+# marble.osl:11
+#         sum = sum + 1/freqVal * abs(.5 - noise( 4 * freqVal * P)) ;
+	div		$tmp2 $const4 freqVal 	%line{11} %argrw{"wrr"}
+	mul		$tmp5 $const7 freqVal 	%argrw{"wrr"}
+	mul		$tmp6 $tmp5 P 	%argrw{"wrr"}
+	noise		$tmp4 $tmp6 	%argrw{"wr"}
+	sub		$tmp7 $const5 $tmp4 	%argrw{"wrr"}
+	abs		$tmp3 $tmp7 	%argrw{"wr"}
+	mul		$tmp8 $tmp2 $tmp3 	%argrw{"wrr"}
+	add		sum sum $tmp8 	%argrw{"wrr"}
+# marble.osl:12
+#         freqVal = 2 * freqVal;
+	mul		freqVal $const9 freqVal 	%line{12} %argrw{"wrr"}
+# marble.osl:9
+#     for (int i = 0; i < 6; i++) 
+	assign		$tmp9 ___317_i 	%line{9} %argrw{"wr"}
+	add		___317_i ___317_i $const3 	%argrw{"wrr"}
+# marble.osl:14
+#     Cout = Cin * sum;
+	mul		Cout Cin sum 	%line{14} %argrw{"wrr"}
+	end

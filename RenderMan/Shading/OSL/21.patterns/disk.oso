@@ -1,0 +1,65 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+surface disk
+param	color	Cin	1 1 1		%read{4,4} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{17,17} %write{4,17}
+global	float	u	%read{5,6} %write{2147483647,-1}
+global	float	v	%read{8,9} %write{2147483647,-1}
+local	color	red	%read{2147483647,-1} %write{0,0}
+local	color	green	%read{2147483647,-1} %write{1,1}
+local	color	blue	%read{17,17} %write{2,2}
+local	float	fuzz	%read{13,14} %write{3,3}
+local	float	dist	%read{15,15} %write{12,12}
+local	float	inDisk	%read{17,17} %write{16,16}
+const	string	$const1	"rgb"		%read{0,2} %write{2147483647,-1}
+const	float	$const3	1		%read{0,16} %write{2147483647,-1}
+const	float	$const5	0		%read{0,2} %write{2147483647,-1}
+const	float	$const6	0.025		%read{3,3} %write{2147483647,-1}
+const	float	$const7	0.5		%read{5,9} %write{2147483647,-1}
+temp	float	$tmp1	%read{7,7} %write{5,5}
+temp	float	$tmp2	%read{7,7} %write{6,6}
+temp	float	$tmp3	%read{11,11} %write{7,7}
+temp	float	$tmp4	%read{10,10} %write{8,8}
+temp	float	$tmp5	%read{10,10} %write{9,9}
+temp	float	$tmp6	%read{11,11} %write{10,10}
+temp	float	$tmp7	%read{12,12} %write{11,11}
+temp	float	$tmp8	%read{16,16} %write{15,15}
+const	float	$const8	0.30000001		%read{13,14} %write{2147483647,-1}
+temp	float	$tmp9	%read{15,15} %write{13,13}
+temp	float	$tmp10	%read{15,15} %write{14,14}
+code ___main___
+# disk.osl:6
+#     color red=color("rgb",1,0,0);
+	color		red $const1 $const3 $const5 $const5 	%filename{"disk.osl"} %line{6} %argrw{"wrrrr"}
+# disk.osl:7
+#     color green=color("rgb",0,1,0);
+	color		green $const1 $const5 $const3 $const5 	%line{7} %argrw{"wrrrr"}
+# disk.osl:8
+#     color blue=color("rgb",0,0,1);
+	color		blue $const1 $const5 $const5 $const3 	%line{8} %argrw{"wrrrr"}
+# disk.osl:9
+#     float fuzz=0.025;
+	assign		fuzz $const6 	%line{9} %argrw{"wr"}
+# disk.osl:13
+#     Cout=Cin;
+	assign		Cout Cin 	%line{13} %argrw{"wr"}
+# disk.osl:15
+#     dist=sqrt((u-0.5)*(u-0.5)+(v-0.5)*(v-0.5));
+	sub		$tmp1 u $const7 	%line{15} %argrw{"wrr"}
+	sub		$tmp2 u $const7 	%argrw{"wrr"}
+	mul		$tmp3 $tmp1 $tmp2 	%argrw{"wrr"}
+	sub		$tmp4 v $const7 	%argrw{"wrr"}
+	sub		$tmp5 v $const7 	%argrw{"wrr"}
+	mul		$tmp6 $tmp4 $tmp5 	%argrw{"wrr"}
+	add		$tmp7 $tmp3 $tmp6 	%argrw{"wrr"}
+	sqrt		dist $tmp7 	%argrw{"wr"}
+# disk.osl:16
+#     inDisk=1-smoothstep(0.3-fuzz,0.3+fuzz,dist);
+	sub		$tmp9 $const8 fuzz 	%line{16} %argrw{"wrr"}
+	add		$tmp10 $const8 fuzz 	%argrw{"wrr"}
+	smoothstep	$tmp8 $tmp9 $tmp10 dist 	%argrw{"wrrr"}
+	sub		inDisk $const3 $tmp8 	%argrw{"wrr"}
+# disk.osl:17
+#     Cout=mix(Cout,blue,inDisk);
+	mix		Cout Cout blue inDisk 	%line{17} %argrw{"wrrr"}
+	end

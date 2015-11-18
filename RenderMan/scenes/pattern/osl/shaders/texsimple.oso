@@ -1,0 +1,12 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.0dev
+shader texsimple
+param	string	filename	"invalid.tex" 		 %read{0,0} %write{2147483647,-1}
+oparam	color	Cout	0 0 0 		 %read{2147483647,-1} %write{0,0}
+global	float	u	 %read{0,0} %write{2147483647,-1} %derivs
+global	float	v	 %read{0,0} %write{2147483647,-1} %derivs
+code ___main___
+# texsimple.osl:5
+#     Cout = (color) texture (filename, u, v);
+	texture		Cout filename u v 	%filename{"texsimple.osl"} %line{5} %argrw{"wrrr"} %argderivs{2,3}
+	end

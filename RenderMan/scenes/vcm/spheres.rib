@@ -1,0 +1,184 @@
+# Cornell box with spheres using the PxrDisney bxdf under different settings.
+# Demonstrates more rapid convergence of indirect illumination and caustics
+# using the bi-directional PxrVCM integrator compared to the uni-directional 
+# PxrPathTracer integrator.
+
+Format 512 512 1
+ShadingInterpolation "smooth"
+
+# Specify a maximum pixel variance to use with the hider's adaptive samplemode.
+PixelVariance 0.0001
+
+# Demonstrates adaptive rendering based on a maximum pixel variance.
+Hider "raytrace" 
+      "int incremental" [1] 
+      "int maxsamples" [512] 
+      "int minsamples" [32]
+
+Display "spheres.exr" "framebuffer" "rgba"
+
+Projection "perspective" "fov" 30
+
+Attribute "trace" "int maxdiffusedepth" [3]
+Attribute "trace" "int maxspeculardepth" [3]
+
+# Use the bidirectional integrator with vertex merging.
+
+Integrator "PxrVCM" "handle"
+           "int maxPathLength" [4]
+           "int mergePaths" [1]
+
+# Or, uncomment the next Integrator line to switch to the uni-directional path 
+# tracer.
+# Note that also uncommenting the (optional) "clampLuminance" setting will 
+# permit rapid convergence even with the uni-directional path tracer, although 
+# clamping will result in the caustic and a few reflections being slightly 
+# dimmer than ground truth.
+
+# Integrator "PxrPathTracer" "handle" # "float clampLuminance" [2]
+
+FrameBegin 1
+           
+  Shutter 0 1
+  Translate 0 0 5
+
+  WorldBegin
+
+    Attribute "trace" "bias" 0.001
+
+    Attribute "visibility" "int indirect" [1] "int transmission" [1] 
+              "int camera" [1]
+
+    Attribute "shade" "transmissionhitmode" ["primitive"]
+
+    AttributeBegin 
+    AreaLightSource "PxrAreaLight" "Light0" "float intensity" [12] 
+
+    Attribute "visibility" 
+              "int indirect" [0] "int transmission" [0] "int camera" [0]
+
+    ShadingRate 1000000
+    Sides 1
+
+    Translate 0 0.95 0
+    Scale 0.5 0.5 0.5
+    Rotate 90 1 0 0
+    Geometry "rectlight"
+
+    AttributeEnd
+
+    # Matte box
+    AttributeBegin
+      ShadingRate 1000000
+
+      # Left wall
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.8 .2 .2] 
+           "float roughness" [1] 
+      Polygon "P" [ -1 1 -5  -1 1 1  -1 -1 1  -1 -1 -5 ]
+
+      # Right wall
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.2 .2 .8]  
+           "float roughness" [1] 
+      Polygon "P" [ 1 -1 -5  1 -1 1  1 1 1  1 1 -5 ]
+
+      # Floor
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.8 .8 .8]   
+           "float roughness" [1]
+      Polygon "P" [ -1 -1 1  1 -1 1  1 -1 -5  -1 -1 -5 ]
+      
+      # Ceiling
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.95 .95 .95]  
+           "float roughness" [1] 
+      Polygon "P" [ -1 1 -5  1 1 -5  1 1 1  -1 1 1 ]
+
+      # Back wall
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.8 .8 .8]   
+           "float roughness" [.00002] "float metallic" [.5]
+      Polygon "P" [ -1 1 1  1 1 1  1 -1 1  -1 -1 1 ]
+
+      # Front wall
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.8 .8 .8]   
+           "float roughness" [.00002] "float metallic" [.5]
+      Polygon "P" [ -1 1 -5  -1 -1 -5  1 -1 -5  1 1 -5 ] 
+
+    AttributeEnd
+    
+    # Top sphere
+    AttributeBegin
+      Translate  0.65 0.25 0.65
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.2 .8 .8]   
+           "float roughness" [.25]
+      Sphere 0.3  -0.3 0.3  360
+    AttributeEnd
+
+    # Back sphere
+    AttributeBegin
+      Translate -0.3 -0.7 0.3
+      Color [.2 .8 .2]
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.2 .8 .2]   
+           "float roughness" [.5]
+      Sphere 0.3  -0.3 0.3  360
+    AttributeEnd
+
+    # Front sphere 
+    AttributeBegin
+      Translate 0.5 -0.85 -0.6
+      Color [.2 .8 .8]
+      Bxdf "PxrGlass" "glass"  "color transmissionColor" [0.9 0.8 .7] "color reflectionColor" [1 1 1]
+      Translate 0 .2 -.1 
+      Sphere 0.3  -0.3 0.3  360
+    AttributeEnd
+
+    # A few more spheres ...
+    AttributeBegin
+
+      Translate  0.5 0.75 0.15
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [0 0 0] 
+           "float roughness" [0]
+      Sphere 0.2  -0.2 0.2  360
+
+      Translate  0. -.5 0.
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.9 .1 .8]   
+           "float roughness" [.5]
+      Sphere 0.2  -0.2 0.2  360
+
+      Translate  -.5 0. 0.
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.2 .7 .9]  
+           "float roughness" [.5]
+      Sphere 0.2  -0.2 0.2  360
+
+      Translate  0. -0.5 -0.5
+      Color [.1 .5 .1]
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.1 .5 .1]   
+           "float roughness" [.5]
+      Sphere 0.2  -0.2 0.2  360
+
+      Translate  -0.5 0.2 0.
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.1 .1 .1]  
+           "float roughness" [.1]
+      Sphere 0.2  -0.2 0.2  360
+
+      Translate  -.1 -.4 -.3
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.3 .1 .1]  
+           "float metallic" [.95] "float roughness" [.35]
+      Sphere 0.2  -0.2 0.2  360
+
+      Translate  .3 -0.1 0.4
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.3 .1 .5]   
+           "float roughness" [.05]
+      Sphere 0.2  -0.2 0.2  360
+
+      Translate  -0.5 -0.4 0.3
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.3 .5 .1]   
+           "float roughness" [.5]
+      Sphere 0.2  -0.2 0.2  360
+
+      Translate  0.2 0.3 0.1
+      Bxdf "PxrDisney" "smooth" "color baseColor"  [.6 .5 .4]  
+           "float metallic" [.95] "float roughness" [.5]
+      Sphere 0.2  -0.2 0.2  360
+
+    AttributeEnd
+
+  WorldEnd
+FrameEnd

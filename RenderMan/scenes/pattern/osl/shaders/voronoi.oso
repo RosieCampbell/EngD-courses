@@ -1,0 +1,120 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.0dev
+shader voronoi
+oparam	float	Fout	0 		 %read{2147483647,-1} %write{39,39}
+global	point	P	 %read{1,30} %write{2147483647,-1}
+local	point	___317_thiscell	 %read{25,25} %write{10,10}
+local	float	___317_f1	 %read{12,38} %write{11,37}
+local	int	___317_i	 %read{12,37} %write{12,37}
+local	int	___317_j	 %read{12,37} %write{12,37}
+local	int	___317_k	 %read{12,37} %write{12,37}
+local	point	___323_testcell	 %read{12,37} %write{12,37}
+local	point	___323_pos	 %read{12,37} %write{12,37}
+local	vector	___323_offset	 %read{12,37} %write{12,37}
+local	float	___323_dist	 %read{12,37} %write{12,37}
+local	float	result	 %read{39,39} %write{38,38}
+const	float	$const1	0.5		 %read{3,28} %write{2147483647,-1}
+const	string	$const2	"voronoi1D"		 %read{0,0} %write{2147483647,-1}
+temp	float	$tmp1	 %read{3,3} %write{2,2}
+const	int	$const3	0		 %read{1,1} %write{2147483647,-1}
+temp	float	$tmp2	 %read{2,2} %write{1,1}
+temp	float	$tmp3	 %read{10,10} %write{3,3}
+temp	float	$tmp4	 %read{6,6} %write{5,5}
+const	int	$const4	1		 %read{4,37} %write{2147483647,-1}
+temp	float	$tmp5	 %read{5,5} %write{4,4}
+temp	float	$tmp6	 %read{10,10} %write{6,6}
+temp	float	$tmp7	 %read{9,9} %write{8,8}
+const	int	$const5	2		 %read{7,7} %write{2147483647,-1}
+temp	float	$tmp8	 %read{8,8} %write{7,7}
+temp	float	$tmp9	 %read{10,10} %write{9,9}
+const	int	$const6	1000		 %read{11,11} %write{2147483647,-1}
+const	int	$const7	-1		 %read{13,19} %write{2147483647,-1}
+temp	int	$tmp10	 %read{12,37} %write{12,37}
+temp	int	$tmp11	 %read{15,36} %write{15,36}
+temp	int	$tmp12	 %read{18,35} %write{18,35}
+temp	vector	$tmp13	 %read{25,25} %write{24,24}
+temp	float	$tmp14	 %read{24,24} %write{21,21}
+temp	float	$tmp15	 %read{24,24} %write{22,22}
+temp	float	$tmp16	 %read{24,24} %write{23,23}
+temp	vector	$tmp17	 %read{27,27} %write{26,26}
+temp	vector	$tmp18	 %read{28,28} %write{27,27}
+temp	vector	$tmp19	 %read{29,29} %write{28,28}
+temp	int	$tmp20	 %read{33,33} %write{32,32}
+code ___main___
+# voronoi.osl:29
+#     float result = voronoi1D(P, .5); 
+	functioncall	$const2 39 	%filename{"voronoi.osl"} %line{29} %argrw{"r"}
+# voronoi.osl:6
+#     point thiscell = point (floor(Pv[0])+0.5, floor(Pv[1])+0.5,
+	compref		$tmp2 P $const3 	%line{6} %argrw{"wrr"}
+	floor		$tmp1 $tmp2 	%argrw{"wr"}
+	add		$tmp3 $tmp1 $const1 	%argrw{"wrr"}
+	compref		$tmp5 P $const4 	%argrw{"wrr"}
+	floor		$tmp4 $tmp5 	%argrw{"wr"}
+	add		$tmp6 $tmp4 $const1 	%argrw{"wrr"}
+# voronoi.osl:7
+#                             floor(Pv[2])+0.5);
+	compref		$tmp8 P $const5 	%line{7} %argrw{"wrr"}
+	floor		$tmp7 $tmp8 	%argrw{"wr"}
+	add		$tmp9 $tmp7 $const1 	%argrw{"wrr"}
+	point		___317_thiscell $tmp3 $tmp6 $tmp9 	%argrw{"wrrr"}
+# voronoi.osl:8
+#     float f1 = 1000;
+	assign		___317_f1 $const6 	%line{8} %argrw{"wr"}
+# voronoi.osl:10
+#     for (i = -1;  i <= 1;  i += 1) {
+	for		$tmp10 14 15 37 38 	%line{10} %argrw{"r"}
+	assign		___317_i $const7 	%argrw{"wr"}
+	le		$tmp10 ___317_i $const4 	%argrw{"wrr"}
+# voronoi.osl:11
+#         for (j = -1;  j <= 1;  j += 1) {
+	for		$tmp11 17 18 36 37 	%line{11} %argrw{"r"}
+	assign		___317_j $const7 	%argrw{"wr"}
+	le		$tmp11 ___317_j $const4 	%argrw{"wrr"}
+# voronoi.osl:12
+#             for (k = -1;  k <= 1;  k += 1) {
+	for		$tmp12 20 21 35 36 	%line{12} %argrw{"r"}
+	assign		___317_k $const7 	%argrw{"wr"}
+	le		$tmp12 ___317_k $const4 	%argrw{"wrr"}
+# voronoi.osl:13
+#                 point testcell = thiscell + vector(i,j,k);
+	assign		$tmp14 ___317_i 	%line{13} %argrw{"wr"}
+	assign		$tmp15 ___317_j 	%argrw{"wr"}
+	assign		$tmp16 ___317_k 	%argrw{"wr"}
+	vector		$tmp13 $tmp14 $tmp15 $tmp16 	%argrw{"wrrr"}
+	add		___323_testcell ___317_thiscell $tmp13 	%argrw{"wrr"}
+# voronoi.osl:15
+#                             jitter * (cellnoise (testcell) - 0.5);
+	cellnoise	$tmp17 ___323_testcell 	%line{15} %argrw{"wr"}
+	sub		$tmp18 $tmp17 $const1 	%argrw{"wrr"}
+	mul		$tmp19 $const1 $tmp18 	%argrw{"wrr"}
+	add		___323_pos ___323_testcell $tmp19 	%argrw{"wrr"}
+# voronoi.osl:16
+#                 vector offset = pos - Pv;
+	sub		___323_offset ___323_pos P 	%line{16} %argrw{"wrr"}
+# voronoi.osl:17
+#                 float dist = dot (offset , offset); /* actually dist^2 */
+	dot		___323_dist ___323_offset ___323_offset 	%line{17} %argrw{"wrr"}
+# voronoi.osl:18
+#                 if (dist < f1) {
+	lt		$tmp20 ___323_dist ___317_f1 	%line{18} %argrw{"wrr"}
+	if		$tmp20 35 35 	%argrw{"r"}
+# voronoi.osl:19
+#                     f1 = dist;
+	assign		___317_f1 ___323_dist 	%line{19} %argrw{"wr"}
+# voronoi.osl:12
+#             for (k = -1;  k <= 1;  k += 1) {
+	add		___317_k ___317_k $const4 	%line{12} %argrw{"wrr"}
+# voronoi.osl:11
+#         for (j = -1;  j <= 1;  j += 1) {
+	add		___317_j ___317_j $const4 	%line{11} %argrw{"wrr"}
+# voronoi.osl:10
+#     for (i = -1;  i <= 1;  i += 1) {
+	add		___317_i ___317_i $const4 	%line{10} %argrw{"wrr"}
+# voronoi.osl:24
+#     return sqrt(f1);
+	sqrt		result ___317_f1 	%line{24} %argrw{"wr"}
+# voronoi.osl:30
+#     Fout = result * result;
+	mul		Fout result result 	%line{30} %argrw{"wrr"}
+	end

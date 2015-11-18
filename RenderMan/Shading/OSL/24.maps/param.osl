@@ -1,0 +1,12 @@
+shader param (
+	color Cin=1,
+	string mapname="",
+output  color Cout=1
+)
+{
+    if(mapname != "")
+	Cout=(color) texture(mapname,u,v);
+    else
+	Cout=Cin;
+}
+

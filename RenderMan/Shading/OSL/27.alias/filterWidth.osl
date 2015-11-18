@@ -1,0 +1,30 @@
+shader filterWidth  
+(
+	color Cin=1,
+output	color Cout=1
+)
+
+{
+
+    float ss=u+0.1*v;
+    //filterWidth=abs(Du(ss)*du)+abs(Dv(ss)*dv);
+    float filterWidth=2*filterwidth(ss);
+	
+
+
+    if(v>0.5)
+	{
+		if(ss>0.5)
+			Cout=color( "rgb",0,1,0);
+		else
+			Cout=Cin;
+	}
+    else
+	{
+    	float onRight;
+	onRight=smoothstep(0.5-filterWidth,0.5+filterWidth,ss);
+	Cout=mix(Cin,color("rgb",0,1,0),onRight);
+	}
+    
+}
+

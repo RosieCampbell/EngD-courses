@@ -1,0 +1,16 @@
+shader randomDisk (
+output	float resultF=0
+)
+{
+    float fuzz=0.05;
+    float repeatCount=5;
+    float s=mod(repeatCount*u,1);
+    float t=mod(repeatCount*v,1);
+    point centre=point (0.5,0.5,0);
+    point here=point (s,t,0);
+    float dist=distance(centre,here);
+    float radius=(float) noise("cell",repeatCount*u,repeatCount*v)*0.4;
+    float inDisk=1-smoothstep(radius-fuzz,radius+fuzz,dist);
+    resultF=inDisk;
+}
+

@@ -1,0 +1,12 @@
+surface tile  (
+	color Cin = 1,
+output	color Cout=0
+)
+
+{
+    float repeatCount=6;
+    int sTile=(int)floor(u*repeatCount);
+    int tTile=(int)floor(v*repeatCount);
+    Cout=(sTile+tTile)%2;
+}
+

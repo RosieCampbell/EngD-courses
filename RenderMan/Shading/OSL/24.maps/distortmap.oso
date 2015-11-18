@@ -1,0 +1,45 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+shader distortmap
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	1 1 1		%read{2147483647,-1} %write{11,11}
+global	float	u	%read{0,0} %write{2147483647,-1} %derivs
+global	float	v	%read{1,10} %write{2147483647,-1} %derivs
+local	float	s	%read{11,11} %write{9,9} %derivs
+local	float	t	%read{11,11} %write{10,10} %derivs
+temp	float	$tmp1	%read{4,4} %write{0,0} %derivs
+const	float	$const2	2		%read{0,0} %write{2147483647,-1}
+const	float	$const3	0.1		%read{3,3} %write{2147483647,-1}
+temp	float	$tmp2	%read{3,3} %write{2,2} %derivs
+temp	float	$tmp3	%read{2,2} %write{1,1} %derivs
+const	float	$const5	10		%read{1,1} %write{2147483647,-1}
+temp	float	$tmp4	%read{4,4} %write{3,3} %derivs
+temp	float	$tmp5	%read{6,9} %write{4,4} %derivs
+const	float	$const7	1		%read{6,8} %write{2147483647,-1}
+const	string	$const8	"mod"		%read{5,5} %write{2147483647,-1}
+temp	float	$tmp6	%read{8,8} %write{7,7} %derivs
+temp	float	$tmp7	%read{7,7} %write{6,6} %derivs
+temp	float	$tmp8	%read{9,9} %write{8,8} %derivs
+const	string	$const9	"Flower_pattern_pxr128.tx"		%read{11,11} %write{2147483647,-1}
+code ___main___
+# distortmap.osl:6
+#     float s=mod(u*2+0.1*sin(v*10),1);
+	mul		$tmp1 u $const2 	%filename{"distortmap.osl"} %line{6} %argrw{"wrr"}
+	mul		$tmp3 v $const5 	%argrw{"wrr"}
+	sin		$tmp2 $tmp3 	%argrw{"wr"}
+	mul		$tmp4 $const3 $tmp2 	%argrw{"wrr"}
+	add		$tmp5 $tmp1 $tmp4 	%argrw{"wrr"}
+	functioncall	$const8 10 	%argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:135
+# normal mod (normal a, normal b) { return a - b*floor(a/b); }
+	div		$tmp7 $tmp5 $const7 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp6 $tmp7 	%argrw{"wr"}
+	mul		$tmp8 $const7 $tmp6 	%argrw{"wrr"}
+	sub		s $tmp5 $tmp8 	%argrw{"wrr"}
+# distortmap.osl:7
+#     float t=v;
+	assign		t v 	%filename{"distortmap.osl"} %line{7} %argrw{"wr"}
+# distortmap.osl:9
+#     Cout=(color)texture("Flower_pattern_pxr128.tx",s,t);
+	texture		Cout $const9 s t 	%line{9} %argrw{"wrrr"} %argderivs{2,3}
+	end

@@ -1,0 +1,12 @@
+shader shader (
+        color Cin = 1,
+output  color Cout=0
+)
+{
+    point PP=transform("shader",P);
+    float repeatCount=6;
+    float s=PP[0]*repeatCount;
+    float t=PP[1]*repeatCount;
+    Cout=(color)noise("cell",s,t);
+}
+

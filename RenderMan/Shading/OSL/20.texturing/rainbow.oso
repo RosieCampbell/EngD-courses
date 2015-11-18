@@ -1,0 +1,14 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+surface rainbow
+param	color	Cin	1 1 1		%read{2147483647,-1} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{0,0}
+global	float	u	%read{0,0} %write{2147483647,-1}
+global	float	v	%read{0,0} %write{2147483647,-1}
+const	string	$const1	"hsv"		%read{0,0} %write{2147483647,-1}
+const	float	$const2	0.2		%read{0,0} %write{2147483647,-1}
+code ___main___
+# rainbow.osl:7
+#     Cout=color ("hsv",u,v,0.2);
+	color		Cout $const1 u v $const2 	%filename{"rainbow.osl"} %line{7} %argrw{"wrrrr"}
+	end

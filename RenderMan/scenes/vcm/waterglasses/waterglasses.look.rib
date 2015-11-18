@@ -1,0 +1,41 @@
+#
+# $Revision: #1 $
+#
+# glass intersections 'win' over water 
+#
+ArchiveBegin "GlassSG"
+Attribute "trace" "int intersectpriority" 2
+Attribute "shade" "float indexofrefraction" 1.5 
+Bxdf "PxrGlass" "sg1" "float reflectionGain" 1 "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1]
+
+ArchiveEnd
+
+ArchiveBegin "WaterSG"
+Attribute "trace" "int intersectpriority" 1
+Attribute "shade" "float indexofrefraction" 1.3
+Bxdf "PxrGlass" "water" "float ior" 1.3 
+    "color reflectionColor" [1 1 1]
+    "color transmissionColor" [.8 .8 .95]
+    "float reflectionGain" 1
+    "float absorptionGain" 1.0
+    "color absorptionColor" [1 1 .5]
+ArchiveEnd
+
+ArchiveBegin "airbubbleSG"
+Attribute "trace" "int intersectpriority" 3
+Attribute "shade" "float indexofrefraction" 1
+Bxdf "PxrGlass" "bubble" "float ior" 1.0 "color reflectionColor" [1 1 1] "color transmissionColor" [1 1 1]
+ArchiveEnd
+
+ArchiveBegin "StrawSG"
+Attribute "trace" "int maxdiffusedepth" 4
+Pattern "PxrSeExpr" "stripes" "string expression" 
+    ["c=mix([1,0,0], [1,1,1], boxstep(8*t%1, .25)); c"]
+Bxdf "PxrDisney" "straw" "reference color baseColor" "stripes:resultRGB"
+ArchiveEnd
+
+ArchiveBegin "FloorSG"
+Pattern "PxrTexture" "tex" "string filename" "ratGrid.tex" "int invertT" [0]
+Bxdf "PxrDiffuse" "floor" "reference color diffuseColor" ["tex:resultRGB"]
+ArchiveEnd
+
