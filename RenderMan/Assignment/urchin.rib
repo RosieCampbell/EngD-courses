@@ -4,10 +4,10 @@ Projection "perspective" "fov" [ 30 ]
 
 Hider "raytrace"
 #PixelVariance 0.01
-Integrator "PxrDefault" "integrator"
+#Integrator "PxrDefault" "integrator"
 #Integrator "PxrDirectlighting" "integrator"
 #Integrator "PxrVCM" "integrator"
-#Integrator "PxrPathTracer" "integrator"
+Integrator "PxrPathTracer" "integrator"
 
 Translate 0 -.8 5
 
@@ -19,7 +19,7 @@ WorldBegin
 	AttributeEnd
 
 	AttributeBegin
-		Bxdf "simple/PxrSmoothDielectric" "forTheSphere" "color diffuseColor" [ 1 0 0] "color specularColor" [ 0.1 0.1 0.1 ]
+		Bxdf "simple/PxrSmoothDielectric" "forTheSphere" "color diffuseColor" [ .8 .8 0] "color specularColor" [ 0.1 0.1 0.1 ]
 		Patch "bilinear" "P" [ -1 0 -1
 				-1 0 1
 				1 0 -1
