@@ -1,0 +1,12 @@
+surface urchinPattern (
+	color Cin = 1,
+output color Cout=0, output float b = 0
+)
+{
+    float repeatCount=90;
+    int whichStripe=(int)floor(u*repeatCount);
+		float b=(float)(whichStripe%5);
+		float c = 1-(b-(b*.7));
+		b = 1-b*0.1;
+		Cout=b*Cin;
+}
