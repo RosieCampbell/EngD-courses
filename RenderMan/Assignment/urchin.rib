@@ -1,6 +1,7 @@
 #min.rib - a minimal scene
 Display "min.tiff" "it" "rgb"
 Projection "perspective" "fov" [ 30 ]
+Format 1920 1080 1
 
 Hider "raytrace" "int incremental" [1] "int minsamples" [32] "int maxsamples" [200]
 PixelVariance 0.01
@@ -38,11 +39,10 @@ WorldBegin
 		Pattern "PxrOSL" "patternForTheUrchin" "string shader" "urchinPattern" "color Cin" [0.43 0.22 0.47]
 		Attribute "trace" "int displacements" [1]
 		Attribute "displacementbound" "sphere" [10] "coordinatesystem" ["shader"]
-		Displacement "dis" "reference float disp" [ "patternForTheUrchin:d" ]
 		Bxdf "PxrDisney" "forTheUrchin" "reference color baseColor" ["patternForTheUrchin:Cout"]
-		#"reference float subsurface" [ "myShader:red" ]
-		#"color subsurfaceColor" [1 0 0]
-		#"color emitColor" [ .01 .01 .01]
+		"reference float subsurface" [ "patternForTheUrchin:a" ]
+		"color subsurfaceColor" [0.98 0.95 0.8]
+		Displacement "dis" "reference float disp" ["patternForTheUrchin:a"]
 		Scale 1 .85 1
 		Translate 0 1 0
 		Rotate 90 1 0 0
