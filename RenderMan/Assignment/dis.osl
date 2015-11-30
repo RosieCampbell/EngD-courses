@@ -1,0 +1,11 @@
+displacement dis(float disp = 1)
+{
+float a;
+	a = 0.01 * sin(PI*144*u) * sin(PI*72*v);
+	if (a > 0.0)
+		P += normalize(N) * a;
+	P -= normalize(N) * 0.7 * sin((1-v)*.8);
+	if(v < .05){
+		P -= normalize(N) *.2;
+	}
+}
