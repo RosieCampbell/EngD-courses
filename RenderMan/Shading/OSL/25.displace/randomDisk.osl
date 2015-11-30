@@ -13,4 +13,3 @@ output	float resultF=0
     float inDisk=1-smoothstep(radius-fuzz,radius+fuzz,dist);
     resultF=inDisk;
 }
-

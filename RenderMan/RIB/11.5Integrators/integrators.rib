@@ -3,11 +3,11 @@ Display "pointlight.tiff" "it" "rgb"
 Format 640 480 1.0
 
 Hider "raytrace" "int incremental" [1]
-PixelVariance 0.01
+#PixelVariance 0.01
 Integrator "PxrDefault" "integrator"
 Integrator "PxrDirectlighting" "integrator"
 Integrator "PxrVCM" "integrator"
-Integrator "PxrPathTracer" "integrator"
+#Integrator "PxrPathTracer" "integrator"
 
 Projection "perspective" "fov" [ 30 ]
 

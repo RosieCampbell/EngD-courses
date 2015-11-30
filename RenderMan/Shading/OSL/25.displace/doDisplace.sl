@@ -1,5 +1,3 @@
-//WATCH OUT - THIS IS OLD SCHOOL SL...
-
 displacement doDisplace(float disp = 0.25; float atten = 0.5)
 {
     point PP = transform ("shader", P);

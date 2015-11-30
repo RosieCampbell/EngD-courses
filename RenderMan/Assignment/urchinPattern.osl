@@ -1,12 +1,25 @@
 surface urchinPattern (
 	color Cin = 1,
-output color Cout=0, output float b = 0
+output color Cout=0, output float d = 0
 )
 {
-    float repeatCount=90;
+		color newCol = color("hsl", 0.8, 0.4, 0.3);
+    float repeatCount=30;
     int whichStripe=(int)floor(u*repeatCount);
-		float b=(float)(whichStripe%5);
-		float c = 1-(b-(b*.7));
-		b = 1-b*0.1;
-		Cout=b*Cin;
+		float b=(float)(whichStripe%6);
+		d = 1;
+		if( b < 2 || b > 4){
+			d = 0.8;
+		}
+		if(b == 3 ){
+			d = 0.6;
+		}
+		float a;
+		a = sin(M_PI*144*u) * sin(M_PI*72*v);
+		color newColHSL = transformc("hsl", Cin);
+		if (a > 0.0){
+			newColHSL[2] *= (1+a);
+		}
+		color newColRGB = transformc("hsl", "rgb", newColHSL);
+		Cout=d*newColRGB;
 }

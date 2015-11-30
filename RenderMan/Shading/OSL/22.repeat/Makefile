@@ -4,7 +4,7 @@ SLCOMPILER=oslc
 VIEWER=sho
 SLEXT=oso
 
-SHADERNAME=random
+SHADERNAME=tile
 
 all: ${SHADERNAME}.${SLEXT} test.rib
 	cat test.rib | sed s/XXXX/${SHADERNAME}/g | ${RENDER}

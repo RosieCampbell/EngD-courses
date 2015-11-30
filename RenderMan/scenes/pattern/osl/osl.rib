@@ -1,11 +1,11 @@
 
 
-Display "osl.tif" "framebuffer" "rgba"
+Display "osl.tif" "it" "rgba"
 
 Option "searchpath" "string shader" ["./shaders:@"]
 
 Projection "orthographic"
-ScreenWindow -6 1 -1 1 
+ScreenWindow -6 1 -1 1
 Format 768 256 1
 
 PixelVariance 0
@@ -21,14 +21,14 @@ WorldBegin
       Patch "bilinear" "P" [ -1 1 0  1 1 0  -1 -1 0  1 -1 0]
     ArchiveEnd
 
-    Pattern "PxrOSL" "expr1" "string shader" "marble" 
+    Pattern "PxrOSL" "expr1" "string shader" "marble"
             "color Cin" [0.635 0.243 0.047] "float freq" .2
 
     Pattern "PxrOSL" "expr2" "string shader" "voronoi"
-    Pattern "PxrOSL" "expr3" "string shader" "colorselect" 
-            "reference float select" ["expr2:Fout"] 
+    Pattern "PxrOSL" "expr3" "string shader" "colorselect"
+            "reference float select" ["expr2:Fout"]
 
-    Pattern "PxrOSL" "mixnetwork" "string network" "mixnetwork" 
+    Pattern "PxrOSL" "mixnetwork" "string network" "mixnetwork"
 
     Color 1 1 1
 
@@ -57,4 +57,3 @@ WorldBegin
     AttributeEnd
 
 WorldEnd
-
