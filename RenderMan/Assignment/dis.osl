@@ -3,9 +3,11 @@ displacement dis(float disp = 0.25; float atten = 0.1)
 
     float scale;
     float ret=evalparam("disp",scale);
-		P += normalize(N) * scale * 0.01;
+		P += normalize(N) * scale * cellnoise(v*10)*.01;
+		P -= normalize(N) * 0.7 * sin((1-v)*.8);
 		if(v < .05){
 			P -= normalize(N) *.2;
 		}
+
 
 }

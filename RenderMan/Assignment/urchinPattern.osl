@@ -2,27 +2,30 @@ surface urchinPattern (
 	color Cin = 1,
 output color Cout=0, output float d = 0, output float a = 1)
 {
-    float repeatCount=30;
-    int whichStripe=(int)floor(u*repeatCount);
-		float b=(float)(whichStripe%6);
-		d = 1;
-		if( b < 2 || b > 4){
-			d = 0.4;
-		}
-		if(b == 3 ){
-			d = 0.2;
-		}
 
+		// Stripes
 		color white = color(1,1,1);
-		float fuzz=0.05;
-		float s=mod(repeatCount*u*2,1);
-		float t=mod(repeatCount*v*2,1);
+		float seg = 0.2*sin(u*10*M_PI) + 0.2*sin(u*20*M_PI) + 0.2*sin(u*30*M_PI);
+		float inZone = smoothstep(-0.1, 0.1, seg);
+		float cnoise = cellnoise(u*10);
+		color stripes = mix(cnoise*white,white,inZone);
+
+		//White blobs
+		float repeatCountu = 72;
+		float repeatCountv = 36;
+		float fuzz=0.1;
+		float verticalNudge = v+cellnoise(u*72);
+		float s=mod(repeatCountu*u,1);
+		float t=mod(repeatCountv*v,1);
 		point centre=point (0.5,0.5,0);
 		point here=point (s,t,0);
 		float dist=distance(centre,here);
-		float radius=(float) noise(repeatCount*u,repeatCount*v)*0.2;
+		float radius=(float) cellnoise(repeatCountu*u)*0.22;
 		a=1-smoothstep(radius-fuzz,radius+fuzz,dist);
 		Cout=mix(Cin,white,a);
-		Cout *= d;
+
+
+
+		Cout *= stripes ;
 
 }

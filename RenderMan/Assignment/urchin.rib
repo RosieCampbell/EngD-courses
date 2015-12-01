@@ -10,7 +10,7 @@ PixelVariance 0.01
 #Integrator "PxrVCM" "integrator"
 Integrator "PxrPathTracer" "integrator"
 
-Translate 0 -.8 5
+Translate 0 -.8 4
 Rotate -30 1 0 0
 
 WorldBegin
@@ -42,6 +42,8 @@ WorldBegin
 		Bxdf "PxrDisney" "forTheUrchin" "reference color baseColor" ["patternForTheUrchin:Cout"]
 		"reference float subsurface" [ "patternForTheUrchin:a" ]
 		"color subsurfaceColor" [0.98 0.95 0.8]
+		"float roughness" 0
+		"float specular" 0
 		Displacement "dis" "reference float disp" ["patternForTheUrchin:a"]
 		Scale 1 .85 1
 		Translate 0 1 0
