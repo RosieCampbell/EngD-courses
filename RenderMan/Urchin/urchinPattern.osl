@@ -1,0 +1,45 @@
+surface urchinPattern (
+	color Cin = 1,
+output color Cout=0, output float a = 1)
+{
+
+		// Stripes
+		color white = color(1,1,1);
+		float seg = 0.2*sin(u*10*M_PI) + 0.2*sin(u*20*M_PI) + 0.2*sin(u*30*M_PI) + 0.2*sin(u*40*M_PI);
+		float inZone = smoothstep(-0.1, 0.1, seg);
+		float cnoise = cellnoise(u*10);
+		color stripes = mix(cnoise*white,white,inZone);
+
+		//White blobs
+		float repeatCountu = 360;
+		float repeatCountv = 48;
+		float fuzz=0.1;
+		float verticalVariation = ((cellnoise(repeatCountu*u)+1)/2)*repeatCountv;
+		float horizontalVariation = ((cellnoise(repeatCountu*u)+2)/4)*repeatCountu;
+		float s=mod(horizontalVariation*u,1);
+		float t=mod(verticalVariation*v,1);
+		point centre=point (0.5,0.5,0);
+		point here=point (s,t,0);
+		float dist=distance(centre,here)*horizontalVariation/verticalVariation;
+		float radius=(float) cellnoise(horizontalVariation*u);
+		float b=1-smoothstep(radius-fuzz,radius+fuzz,dist);
+		color spot =mix(Cin,white,b);
+
+		//White blobs
+		repeatCountu = 72;
+		repeatCountv = 36;
+		fuzz=0.1;
+		verticalVariation = ((cellnoise(repeatCountu*u)+1)/2)*repeatCountv;
+		horizontalVariation = ((cellnoise(repeatCountu*u)+2)/4)*repeatCountu;
+		s=mod(horizontalVariation*u,1);
+		t=mod(verticalVariation*v,1);
+		centre=point (0.5,0.5,0);
+		here=point (s,t,0);
+		dist=distance(centre,here)*horizontalVariation/verticalVariation;
+		radius=(float) cellnoise(horizontalVariation*u)*0.3;
+		a=1-smoothstep(radius-fuzz,radius+fuzz,dist);
+		Cout=mix(spot,white,a);
+
+		Cout *= stripes ;
+
+}

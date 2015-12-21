@@ -1,0 +1,45 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+surface urchinPattern
+param	color	Cin	1 1 1		%read{7,11} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{7,11}
+oparam	float	a	1		%read{7,7} %write{6,6}
+global	float	u	%read{0,3} %write{2147483647,-1}
+global	float	v	%read{8,11} %write{2147483647,-1}
+const	float	$const1	0.69999999		%read{2,2} %write{2147483647,-1}
+temp	float	$tmp1	%read{2,2} %write{1,1}
+temp	float	$tmp2	%read{1,1} %write{0,0}
+const	float	$const3	10		%read{0,0} %write{2147483647,-1}
+temp	float	$tmp3	%read{6,6} %write{2,2}
+const	float	$const4	0.34999999		%read{5,5} %write{2147483647,-1}
+temp	float	$tmp4	%read{5,5} %write{4,4}
+temp	float	$tmp5	%read{4,4} %write{3,3}
+const	float	$const6	20		%read{3,3} %write{2147483647,-1}
+temp	float	$tmp6	%read{6,6} %write{5,5}
+const	float	$const7	0.059999999		%read{8,8} %write{2147483647,-1}
+temp	int	$tmp7	%read{9,9} %write{8,8}
+const	color	$const8	0.1 0.050000001 0.050000001		%read{10,10} %write{2147483647,-1}
+code ___main___
+# urchinPattern.osl:8
+# 		a = 0.7*noise(u*10)+0.35*noise(u*20);
+	mul		$tmp2 u $const3 	%filename{"urchinPattern.osl"} %line{8} %argrw{"wrr"}
+	noise		$tmp1 $tmp2 	%argrw{"wr"}
+	mul		$tmp3 $const1 $tmp1 	%argrw{"wrr"}
+	mul		$tmp5 u $const6 	%argrw{"wrr"}
+	noise		$tmp4 $tmp5 	%argrw{"wr"}
+	mul		$tmp6 $const4 $tmp4 	%argrw{"wrr"}
+	add		a $tmp3 $tmp6 	%argrw{"wrr"}
+# urchinPattern.osl:9
+# 		Cout = Cin*a;
+	mul		Cout Cin a 	%line{9} %argrw{"wrr"}
+# urchinPattern.osl:11
+# 		if(v < .06){
+	lt		$tmp7 v $const7 	%line{11} %argrw{"wrr"}
+	if		$tmp7 12 12 	%argrw{"r"}
+# urchinPattern.osl:12
+# 			Cout = color(0.1,0.05,0.05);
+	assign		Cout $const8 	%line{12} %argrw{"wr"}
+# urchinPattern.osl:13
+# 			Cout = Cin * v;
+	mul		Cout Cin v 	%line{13} %argrw{"wrr"}
+	end

@@ -1,0 +1,286 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+surface urchinPattern
+param	color	Cin	1 1 1		%read{61,61} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{100,100} %write{99,100}
+oparam	float	a	1		%read{99,99} %write{98,98}
+global	float	u	%read{1,92} %write{2147483647,-1}
+global	float	v	%read{44,81} %write{2147483647,-1}
+local	color	white	%read{23,99} %write{0,0}
+local	float	seg	%read{20,20} %write{19,19}
+local	float	inZone	%read{24,24} %write{20,20}
+local	float	cnoise	%read{23,23} %write{22,22}
+local	color	stripes	%read{100,100} %write{24,24}
+local	float	repeatCountu	%read{28,74} %write{25,62}
+local	float	repeatCountv	%read{32,69} %write{26,63}
+local	float	fuzz	%read{57,96} %write{27,64}
+local	float	verticalVariation	%read{44,91} %write{32,69}
+local	float	horizontalVariation	%read{38,92} %write{37,74}
+local	float	s	%read{51,88} %write{43,80}
+local	float	t	%read{51,88} %write{49,86}
+local	point	centre	%read{52,89} %write{50,87}
+local	point	here	%read{52,89} %write{51,88}
+local	float	dist	%read{59,97} %write{54,91}
+local	float	radius	%read{57,96} %write{56,94}
+local	float	b	%read{61,61} %write{60,60}
+local	color	spot	%read{99,99} %write{61,61}
+const	color	$const1	1 1 1		%read{0,0} %write{2147483647,-1}
+const	float	$const2	0.2		%read{4,18} %write{2147483647,-1}
+temp	float	$tmp1	%read{4,4} %write{3,3}
+temp	float	$tmp2	%read{2,2} %write{1,1}
+const	float	$const4	10		%read{1,21} %write{2147483647,-1}
+const	float	$const5	3.1415927		%read{2,16} %write{2147483647,-1}
+temp	float	$tmp3	%read{3,3} %write{2,2}
+temp	float	$tmp4	%read{9,9} %write{4,4}
+temp	float	$tmp5	%read{8,8} %write{7,7}
+temp	float	$tmp6	%read{6,6} %write{5,5}
+const	float	$const7	20		%read{5,5} %write{2147483647,-1}
+temp	float	$tmp7	%read{7,7} %write{6,6}
+temp	float	$tmp8	%read{9,9} %write{8,8}
+temp	float	$tmp9	%read{14,14} %write{9,9}
+temp	float	$tmp10	%read{13,13} %write{12,12}
+temp	float	$tmp11	%read{11,11} %write{10,10}
+const	float	$const9	30		%read{10,10} %write{2147483647,-1}
+temp	float	$tmp12	%read{12,12} %write{11,11}
+temp	float	$tmp13	%read{14,14} %write{13,13}
+temp	float	$tmp14	%read{19,19} %write{14,14}
+temp	float	$tmp15	%read{18,18} %write{17,17}
+temp	float	$tmp16	%read{16,16} %write{15,15}
+const	float	$const11	40		%read{15,15} %write{2147483647,-1}
+temp	float	$tmp17	%read{17,17} %write{16,16}
+temp	float	$tmp18	%read{19,19} %write{18,18}
+const	float	$const12	-0.1		%read{20,20} %write{2147483647,-1}
+const	float	$const13	0.1		%read{20,64} %write{2147483647,-1}
+temp	float	$tmp19	%read{22,22} %write{21,21}
+temp	color	$tmp20	%read{24,24} %write{23,23}
+const	int	$const14	360		%read{25,25} %write{2147483647,-1}
+const	int	$const15	48		%read{26,26} %write{2147483647,-1}
+temp	float	$tmp21	%read{30,30} %write{29,29}
+temp	float	$tmp22	%read{29,29} %write{28,28}
+temp	float	$tmp23	%read{31,31} %write{30,30}
+const	float	$const17	1		%read{30,98} %write{2147483647,-1}
+temp	float	$tmp24	%read{32,32} %write{31,31}
+const	float	$const19	2		%read{31,72} %write{2147483647,-1}
+temp	float	$tmp25	%read{35,35} %write{34,34}
+temp	float	$tmp26	%read{34,34} %write{33,33}
+temp	float	$tmp27	%read{36,36} %write{35,35}
+temp	float	$tmp28	%read{37,37} %write{36,36}
+const	float	$const21	4		%read{36,73} %write{2147483647,-1}
+temp	float	$tmp29	%read{40,43} %write{38,38}
+const	string	$const22	"mod"		%read{39,82} %write{2147483647,-1}
+temp	float	$tmp30	%read{42,42} %write{41,41}
+temp	float	$tmp31	%read{41,41} %write{40,40}
+temp	float	$tmp32	%read{43,43} %write{42,42}
+temp	float	$tmp33	%read{46,49} %write{44,44}
+temp	float	$tmp34	%read{48,48} %write{47,47}
+temp	float	$tmp35	%read{47,47} %write{46,46}
+temp	float	$tmp36	%read{49,49} %write{48,48}
+const	point	$const23	0.5 0.5 0		%read{50,87} %write{2147483647,-1}
+const	float	$const25	0		%read{51,88} %write{2147483647,-1}
+temp	float	$tmp37	%read{53,53} %write{52,52}
+temp	float	$tmp38	%read{54,54} %write{53,53}
+temp	float	$tmp39	%read{56,56} %write{55,55}
+temp	float	$tmp40	%read{60,60} %write{59,59}
+temp	float	$tmp41	%read{59,59} %write{57,57}
+temp	float	$tmp42	%read{59,59} %write{58,58}
+const	int	$const26	72		%read{62,62} %write{2147483647,-1}
+const	int	$const27	36		%read{63,63} %write{2147483647,-1}
+temp	float	$tmp43	%read{67,67} %write{66,66}
+temp	float	$tmp44	%read{66,66} %write{65,65}
+temp	float	$tmp45	%read{68,68} %write{67,67}
+temp	float	$tmp46	%read{69,69} %write{68,68}
+temp	float	$tmp47	%read{72,72} %write{71,71}
+temp	float	$tmp48	%read{71,71} %write{70,70}
+temp	float	$tmp49	%read{73,73} %write{72,72}
+temp	float	$tmp50	%read{74,74} %write{73,73}
+temp	float	$tmp51	%read{77,80} %write{75,75}
+temp	float	$tmp52	%read{79,79} %write{78,78}
+temp	float	$tmp53	%read{78,78} %write{77,77}
+temp	float	$tmp54	%read{80,80} %write{79,79}
+temp	float	$tmp55	%read{83,86} %write{81,81}
+temp	float	$tmp56	%read{85,85} %write{84,84}
+temp	float	$tmp57	%read{84,84} %write{83,83}
+temp	float	$tmp58	%read{86,86} %write{85,85}
+temp	float	$tmp59	%read{90,90} %write{89,89}
+temp	float	$tmp60	%read{91,91} %write{90,90}
+temp	float	$tmp61	%read{94,94} %write{93,93}
+temp	float	$tmp62	%read{93,93} %write{92,92}
+const	float	$const28	0.30000001		%read{94,94} %write{2147483647,-1}
+temp	float	$tmp63	%read{98,98} %write{97,97}
+temp	float	$tmp64	%read{97,97} %write{95,95}
+temp	float	$tmp65	%read{97,97} %write{96,96}
+code ___main___
+# urchinPattern.osl:7
+# 		color white = color(1,1,1);
+	assign		white $const1 	%filename{"urchinPattern.osl"} %line{7} %argrw{"wr"}
+# urchinPattern.osl:8
+# 		float seg = 0.2*sin(u*10*M_PI) + 0.2*sin(u*20*M_PI) + 0.2*sin(u*30*M_PI) + 0.2*sin(u*40*M_PI);
+	mul		$tmp2 u $const4 	%line{8} %argrw{"wrr"}
+	mul		$tmp3 $tmp2 $const5 	%argrw{"wrr"}
+	sin		$tmp1 $tmp3 	%argrw{"wr"}
+	mul		$tmp4 $const2 $tmp1 	%argrw{"wrr"}
+	mul		$tmp6 u $const7 	%argrw{"wrr"}
+	mul		$tmp7 $tmp6 $const5 	%argrw{"wrr"}
+	sin		$tmp5 $tmp7 	%argrw{"wr"}
+	mul		$tmp8 $const2 $tmp5 	%argrw{"wrr"}
+	add		$tmp9 $tmp4 $tmp8 	%argrw{"wrr"}
+	mul		$tmp11 u $const9 	%argrw{"wrr"}
+	mul		$tmp12 $tmp11 $const5 	%argrw{"wrr"}
+	sin		$tmp10 $tmp12 	%argrw{"wr"}
+	mul		$tmp13 $const2 $tmp10 	%argrw{"wrr"}
+	add		$tmp14 $tmp9 $tmp13 	%argrw{"wrr"}
+	mul		$tmp16 u $const11 	%argrw{"wrr"}
+	mul		$tmp17 $tmp16 $const5 	%argrw{"wrr"}
+	sin		$tmp15 $tmp17 	%argrw{"wr"}
+	mul		$tmp18 $const2 $tmp15 	%argrw{"wrr"}
+	add		seg $tmp14 $tmp18 	%argrw{"wrr"}
+# urchinPattern.osl:9
+# 		float inZone = smoothstep(-0.1, 0.1, seg);
+	smoothstep	inZone $const12 $const13 seg 	%line{9} %argrw{"wrrr"}
+# urchinPattern.osl:10
+# 		float cnoise = cellnoise(u*10);
+	mul		$tmp19 u $const4 	%line{10} %argrw{"wrr"}
+	cellnoise	cnoise $tmp19 	%argrw{"wr"}
+# urchinPattern.osl:11
+# 		color stripes = mix(cnoise*white,white,inZone);
+	mul		$tmp20 cnoise white 	%line{11} %argrw{"wrr"}
+	mix		stripes $tmp20 white inZone 	%argrw{"wrrr"}
+# urchinPattern.osl:14
+# 		float repeatCountu = 360;
+	assign		repeatCountu $const14 	%line{14} %argrw{"wr"}
+# urchinPattern.osl:15
+# 		float repeatCountv = 48;
+	assign		repeatCountv $const15 	%line{15} %argrw{"wr"}
+# urchinPattern.osl:16
+# 		float fuzz=0.1;
+	assign		fuzz $const13 	%line{16} %argrw{"wr"}
+# urchinPattern.osl:17
+# 		float verticalVariation = ((cellnoise(repeatCountu*u)+1)/2)*repeatCountv;
+	mul		$tmp22 repeatCountu u 	%line{17} %argrw{"wrr"}
+	cellnoise	$tmp21 $tmp22 	%argrw{"wr"}
+	add		$tmp23 $tmp21 $const17 	%argrw{"wrr"}
+	div		$tmp24 $tmp23 $const19 	%argrw{"wrr"}
+	mul		verticalVariation $tmp24 repeatCountv 	%argrw{"wrr"}
+# urchinPattern.osl:18
+# 		float horizontalVariation = ((cellnoise(repeatCountu*u)+2)/4)*repeatCountu;
+	mul		$tmp26 repeatCountu u 	%line{18} %argrw{"wrr"}
+	cellnoise	$tmp25 $tmp26 	%argrw{"wr"}
+	add		$tmp27 $tmp25 $const19 	%argrw{"wrr"}
+	div		$tmp28 $tmp27 $const21 	%argrw{"wrr"}
+	mul		horizontalVariation $tmp28 repeatCountu 	%argrw{"wrr"}
+# urchinPattern.osl:19
+# 		float s=mod(horizontalVariation*u,1);
+	mul		$tmp29 horizontalVariation u 	%line{19} %argrw{"wrr"}
+	functioncall	$const22 44 	%argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:135
+# int abs (int x) BUILTIN;
+	div		$tmp31 $tmp29 $const17 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp30 $tmp31 	%argrw{"wr"}
+	mul		$tmp32 $const17 $tmp30 	%argrw{"wrr"}
+	sub		s $tmp29 $tmp32 	%argrw{"wrr"}
+# urchinPattern.osl:20
+# 		float t=mod(verticalVariation*v,1);
+	mul		$tmp33 verticalVariation v 	%filename{"urchinPattern.osl"} %line{20} %argrw{"wrr"}
+	functioncall	$const22 50 	%argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:135
+# PERCOMP1 (abs)
+	div		$tmp35 $tmp33 $const17 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp34 $tmp35 	%argrw{"wr"}
+	mul		$tmp36 $const17 $tmp34 	%argrw{"wrr"}
+	sub		t $tmp33 $tmp36 	%argrw{"wrr"}
+# urchinPattern.osl:21
+# 		point centre=point (0.5,0.5,0);
+	assign		centre $const23 	%filename{"urchinPattern.osl"} %line{21} %argrw{"wr"}
+# urchinPattern.osl:22
+# 		point here=point (s,t,0);
+	point		here s t $const25 	%line{22} %argrw{"wrrr"}
+# urchinPattern.osl:23
+# 		float dist=distance(centre,here)*horizontalVariation/verticalVariation;
+	distance	$tmp37 centre here 	%line{23} %argrw{"wrr"}
+	mul		$tmp38 $tmp37 horizontalVariation 	%argrw{"wrr"}
+	div		dist $tmp38 verticalVariation 	%argrw{"wrr"}
+# urchinPattern.osl:24
+# 		float radius=(float) cellnoise(horizontalVariation*u);
+	mul		$tmp39 horizontalVariation u 	%line{24} %argrw{"wrr"}
+	cellnoise	radius $tmp39 	%argrw{"wr"}
+# urchinPattern.osl:25
+# 		float b=1-smoothstep(radius-fuzz,radius+fuzz,dist);
+	sub		$tmp41 radius fuzz 	%line{25} %argrw{"wrr"}
+	add		$tmp42 radius fuzz 	%argrw{"wrr"}
+	smoothstep	$tmp40 $tmp41 $tmp42 dist 	%argrw{"wrrr"}
+	sub		b $const17 $tmp40 	%argrw{"wrr"}
+# urchinPattern.osl:26
+# 		color spot =mix(Cin,white,b);
+	mix		spot Cin white b 	%line{26} %argrw{"wrrr"}
+# urchinPattern.osl:29
+# 		repeatCountu = 72;
+	assign		repeatCountu $const26 	%line{29} %argrw{"wr"}
+# urchinPattern.osl:30
+# 		repeatCountv = 36;
+	assign		repeatCountv $const27 	%line{30} %argrw{"wr"}
+# urchinPattern.osl:31
+# 		fuzz=0.1;
+	assign		fuzz $const13 	%line{31} %argrw{"wr"}
+# urchinPattern.osl:32
+# 		verticalVariation = ((cellnoise(repeatCountu*u)+1)/2)*repeatCountv;
+	mul		$tmp44 repeatCountu u 	%line{32} %argrw{"wrr"}
+	cellnoise	$tmp43 $tmp44 	%argrw{"wr"}
+	add		$tmp45 $tmp43 $const17 	%argrw{"wrr"}
+	div		$tmp46 $tmp45 $const19 	%argrw{"wrr"}
+	mul		verticalVariation $tmp46 repeatCountv 	%argrw{"wrr"}
+# urchinPattern.osl:33
+# 		horizontalVariation = ((cellnoise(repeatCountu*u)+2)/4)*repeatCountu;
+	mul		$tmp48 repeatCountu u 	%line{33} %argrw{"wrr"}
+	cellnoise	$tmp47 $tmp48 	%argrw{"wr"}
+	add		$tmp49 $tmp47 $const19 	%argrw{"wrr"}
+	div		$tmp50 $tmp49 $const21 	%argrw{"wrr"}
+	mul		horizontalVariation $tmp50 repeatCountu 	%argrw{"wrr"}
+# urchinPattern.osl:34
+# 		s=mod(horizontalVariation*u,1);
+	mul		$tmp51 horizontalVariation u 	%line{34} %argrw{"wrr"}
+	functioncall	$const22 81 	%argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:135
+# PERCOMP1 (exp2)
+	div		$tmp53 $tmp51 $const17 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp52 $tmp53 	%argrw{"wr"}
+	mul		$tmp54 $const17 $tmp52 	%argrw{"wrr"}
+	sub		s $tmp51 $tmp54 	%argrw{"wrr"}
+# urchinPattern.osl:35
+# 		t=mod(verticalVariation*v,1);
+	mul		$tmp55 verticalVariation v 	%filename{"urchinPattern.osl"} %line{35} %argrw{"wrr"}
+	functioncall	$const22 87 	%argrw{"r"}
+# /Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h:135
+# PERCOMP1 (exp)
+	div		$tmp57 $tmp55 $const17 	%filename{"/Applications/Pixar/RenderManProServer-20.4/lib/osl/include/stdosl.h"} %line{135} %argrw{"wrr"}
+	floor		$tmp56 $tmp57 	%argrw{"wr"}
+	mul		$tmp58 $const17 $tmp56 	%argrw{"wrr"}
+	sub		t $tmp55 $tmp58 	%argrw{"wrr"}
+# urchinPattern.osl:36
+# 		centre=point (0.5,0.5,0);
+	assign		centre $const23 	%filename{"urchinPattern.osl"} %line{36} %argrw{"wr"}
+# urchinPattern.osl:37
+# 		here=point (s,t,0);
+	point		here s t $const25 	%line{37} %argrw{"wrrr"}
+# urchinPattern.osl:38
+# 		dist=distance(centre,here)*horizontalVariation/verticalVariation;
+	distance	$tmp59 centre here 	%line{38} %argrw{"wrr"}
+	mul		$tmp60 $tmp59 horizontalVariation 	%argrw{"wrr"}
+	div		dist $tmp60 verticalVariation 	%argrw{"wrr"}
+# urchinPattern.osl:39
+# 		radius=(float) cellnoise(horizontalVariation*u)*0.3;
+	mul		$tmp62 horizontalVariation u 	%line{39} %argrw{"wrr"}
+	cellnoise	$tmp61 $tmp62 	%argrw{"wr"}
+	mul		radius $tmp61 $const28 	%argrw{"wrr"}
+# urchinPattern.osl:40
+# 		a=1-smoothstep(radius-fuzz,radius+fuzz,dist);
+	sub		$tmp64 radius fuzz 	%line{40} %argrw{"wrr"}
+	add		$tmp65 radius fuzz 	%argrw{"wrr"}
+	smoothstep	$tmp63 $tmp64 $tmp65 dist 	%argrw{"wrrr"}
+	sub		a $const17 $tmp63 	%argrw{"wrr"}
+# urchinPattern.osl:41
+# 		Cout=mix(spot,white,a);
+	mix		Cout spot white a 	%line{41} %argrw{"wrrr"}
+# urchinPattern.osl:43
+# 		Cout *= stripes ;
+	mul		Cout Cout stripes 	%line{43} %argrw{"wrr"}
+	end

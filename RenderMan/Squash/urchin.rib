@@ -1,0 +1,55 @@
+#min.rib - a minimal scene
+Display "min.tiff" "it" "rgb"
+Projection "perspective" "fov" [ 30 ]
+Format 1920 1080 1
+
+Hider "raytrace" "int incremental" [1] "int minsamples" [32] "int maxsamples" [200]
+PixelVariance 0.01
+#Integrator "PxrDefault" "integrator"
+#Integrator "PxrDirectlighting" "integrator"
+#Integrator "PxrVCM" "integrator"
+Integrator "PxrPathTracer" "integrator"
+
+Translate 0 -.8 4
+Rotate -30 1 0 0
+
+WorldBegin
+
+	AttributeBegin
+		AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [6]
+		Translate -2 2 -2
+		Sphere 0.1 -0.1 0.1 360
+	AttributeEnd
+
+	AttributeBegin
+		AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [6]
+		Translate 2 2 2
+		Sphere 0.1 -0.1 0.1 360
+	AttributeEnd
+
+	AttributeBegin
+		Bxdf "simple/PxrSmoothDielectric" "forThePlane" "color diffuseColor" [ .8 .8 0] "color specularColor" [ 0.1 0.1 0.1 ]
+		Patch "bilinear" "P" [ -1 0 -1
+				-1 0 1
+				1 0 -1
+				1 0 1]
+	AttributeEnd
+
+#Urchin
+	AttributeBegin
+		Pattern "PxrOSL" "patternForTheUrchin" "string shader" "urchinPattern" "color Cin" [1 0.3 0]
+		Attribute "trace" "int displacements" [1]
+		Attribute "displacementbound" "sphere" [10] "coordinatesystem" ["shader"]
+		Bxdf "PxrDisney" "forTheUrchin" "reference color baseColor" ["patternForTheUrchin:Cout"]
+		"float subsurface" 0
+		"color subsurfaceColor" [0.98 0.95 0.8]
+		"float roughness" 0
+		"float specular" 0
+		Displacement "dis" "reference float disp" ["patternForTheUrchin:a"]
+		Scale 1 .85 1
+		Translate 0 1 0
+		Rotate 90 1 0 0
+		Sphere 1 -1 1 360
+	AttributeEnd
+
+WorldEnd

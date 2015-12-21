@@ -1,0 +1,87 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.6.2dev
+displacement dis
+param	float	disp	0.25		%read{2147483647,-1} %write{2147483647,-1}
+param	float	atten	0.1		%read{2147483647,-1} %write{2147483647,-1}
+global	point	P	%read{17,28} %write{17,28}
+global	normal	N	%read{14,24} %write{2147483647,-1}
+global	float	u	%read{0,9} %write{2147483647,-1}
+global	float	v	%read{18,25} %write{2147483647,-1}
+local	float	seg	%read{15,15} %write{13,13}
+const	float	$const1	0.69999999		%read{3,3} %write{2147483647,-1}
+temp	float	$tmp1	%read{3,3} %write{2,2}
+temp	float	$tmp2	%read{1,1} %write{0,0}
+const	float	$const3	20		%read{0,0} %write{2147483647,-1}
+const	float	$const4	3.1415927		%read{1,10} %write{2147483647,-1}
+temp	float	$tmp3	%read{2,2} %write{1,1}
+temp	float	$tmp4	%read{8,8} %write{3,3}
+const	float	$const5	0.02		%read{7,7} %write{2147483647,-1}
+temp	float	$tmp5	%read{7,7} %write{6,6}
+temp	float	$tmp6	%read{5,5} %write{4,4}
+const	float	$const7	160		%read{4,4} %write{2147483647,-1}
+temp	float	$tmp7	%read{6,6} %write{5,5}
+temp	float	$tmp8	%read{8,8} %write{7,7}
+temp	float	$tmp9	%read{13,13} %write{8,8}
+const	float	$const8	0.050000001		%read{12,18} %write{2147483647,-1}
+temp	float	$tmp10	%read{12,12} %write{11,11}
+temp	float	$tmp11	%read{10,10} %write{9,9}
+const	float	$const10	75		%read{9,9} %write{2147483647,-1}
+temp	float	$tmp12	%read{11,11} %write{10,10}
+temp	float	$tmp13	%read{13,13} %write{12,12}
+temp	normal	$tmp14	%read{15,15} %write{14,14}
+temp	normal	$tmp15	%read{16,16} %write{15,15}
+const	float	$const11	0.029999999		%read{16,16} %write{2147483647,-1}
+temp	normal	$tmp16	%read{17,17} %write{16,16}
+temp	int	$tmp17	%read{19,19} %write{18,18}
+const	vector	$const12	0 0.02 0		%read{20,20} %write{2147483647,-1}
+temp	normal	$tmp19	%read{22,22} %write{21,21}
+const	float	$const13	0.2		%read{22,22} %write{2147483647,-1}
+temp	normal	$tmp20	%read{23,23} %write{22,22}
+temp	normal	$tmp21	%read{27,27} %write{24,24}
+temp	float	$tmp22	%read{27,27} %write{26,26}
+temp	float	$tmp23	%read{26,26} %write{25,25}
+const	float	$const15	1		%read{25,25} %write{2147483647,-1}
+temp	normal	$tmp24	%read{28,28} %write{27,27}
+code ___main___
+# dis.osl:4
+#     float seg =0.7*sin(u*20*M_PI)+0.02*sin(u*160*M_PI)+0.05*sin(u*75*M_PI);
+	mul		$tmp2 u $const3 	%filename{"dis.osl"} %line{4} %argrw{"wrr"}
+	mul		$tmp3 $tmp2 $const4 	%argrw{"wrr"}
+	sin		$tmp1 $tmp3 	%argrw{"wr"}
+	mul		$tmp4 $const1 $tmp1 	%argrw{"wrr"}
+	mul		$tmp6 u $const7 	%argrw{"wrr"}
+	mul		$tmp7 $tmp6 $const4 	%argrw{"wrr"}
+	sin		$tmp5 $tmp7 	%argrw{"wr"}
+	mul		$tmp8 $const5 $tmp5 	%argrw{"wrr"}
+	add		$tmp9 $tmp4 $tmp8 	%argrw{"wrr"}
+	mul		$tmp11 u $const10 	%argrw{"wrr"}
+	mul		$tmp12 $tmp11 $const4 	%argrw{"wrr"}
+	sin		$tmp10 $tmp12 	%argrw{"wr"}
+	mul		$tmp13 $const8 $tmp10 	%argrw{"wrr"}
+	add		seg $tmp9 $tmp13 	%argrw{"wrr"}
+# dis.osl:5
+#     P += normalize(N) * seg *.03;
+	normalize	$tmp14 N 	%line{5} %argrw{"wr"}
+	mul		$tmp15 $tmp14 seg 	%argrw{"wrr"}
+	mul		$tmp16 $tmp15 $const11 	%argrw{"wrr"}
+	add		P P $tmp16 	%argrw{"wrr"}
+# dis.osl:7
+#     if(v < .05){
+	lt		$tmp17 v $const8 	%line{7} %argrw{"wrr"}
+	if		$tmp17 24 24 	%argrw{"r"}
+# dis.osl:8
+#       P+= vector (0,0.02,0);
+	add		P P $const12 	%line{8} %argrw{"wrr"}
+# dis.osl:9
+#       P+= normalize(N)*0.2;
+	normalize	$tmp19 N 	%line{9} %argrw{"wr"}
+	mul		$tmp20 $tmp19 $const13 	%argrw{"wrr"}
+	add		P P $tmp20 	%argrw{"wrr"}
+# dis.osl:11
+# 		P -= normalize(N) * sin((1-v));
+	normalize	$tmp21 N 	%line{11} %argrw{"wr"}
+	sub		$tmp23 $const15 v 	%argrw{"wrr"}
+	sin		$tmp22 $tmp23 	%argrw{"wr"}
+	mul		$tmp24 $tmp21 $tmp22 	%argrw{"wrr"}
+	sub		P P $tmp24 	%argrw{"wrr"}
+	end
