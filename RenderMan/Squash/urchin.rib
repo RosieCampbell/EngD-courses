@@ -37,14 +37,14 @@ WorldBegin
 
 #Urchin
 	AttributeBegin
-		Pattern "PxrOSL" "patternForTheUrchin" "string shader" "urchinPattern" "color Cin" [1 0.3 0]
+		Pattern "PxrOSL" "patternForTheUrchin" "string shader" "urchinPattern" "color Cin" [1 0.25 0]
 		Attribute "trace" "int displacements" [1]
 		Attribute "displacementbound" "sphere" [10] "coordinatesystem" ["shader"]
 		Bxdf "PxrDisney" "forTheUrchin" "reference color baseColor" ["patternForTheUrchin:Cout"]
 		"float subsurface" 0
 		"color subsurfaceColor" [0.98 0.95 0.8]
-		"float roughness" 0
-		"float specular" 0
+		"float roughness" 0.5
+		"float specular" 0.2
 		Displacement "dis" "reference float disp" ["patternForTheUrchin:a"]
 		Scale 1 .85 1
 		Translate 0 1 0

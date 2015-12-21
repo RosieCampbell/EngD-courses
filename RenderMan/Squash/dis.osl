@@ -8,7 +8,7 @@ displacement dis(float disp = 0.25; float atten = 0.1)
     P += normalize(N) * scale * 0.25;
 
     if(v < .05){
-      P+= vector (0,0.02,0);
+      P+= vector (0,0.01,0);
       P+= normalize(N)*0.05;
     }
 		P -= normalize(N) * sin((1-v));
