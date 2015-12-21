@@ -1,62 +1,97 @@
 OpenShadingLanguage 1.00
 # Compiled by oslc 1.6.2dev
 surface urchinPattern
-param	color	Cin	1 1 1		%read{12,16} %write{2147483647,-1}
-oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{12,17}
-oparam	float	a	1		%read{12,12} %write{11,11}
-global	float	u	%read{0,7} %write{2147483647,-1}
-global	float	v	%read{8,16} %write{2147483647,-1}
-const	float	$const1	0.69999999		%read{2,2} %write{2147483647,-1}
-temp	float	$tmp1	%read{2,2} %write{1,1}
-temp	float	$tmp2	%read{1,1} %write{0,0}
-const	float	$const3	10		%read{0,0} %write{2147483647,-1}
-temp	float	$tmp3	%read{6,6} %write{2,2}
-const	float	$const4	0.34999999		%read{5,5} %write{2147483647,-1}
-temp	float	$tmp4	%read{5,5} %write{4,4}
-temp	float	$tmp5	%read{4,4} %write{3,3}
-const	float	$const6	20		%read{3,3} %write{2147483647,-1}
-temp	float	$tmp6	%read{6,6} %write{5,5}
-temp	float	$tmp7	%read{11,11} %write{6,6}
-const	float	$const7	0.029999999		%read{10,10} %write{2147483647,-1}
-temp	float	$tmp8	%read{10,10} %write{9,9}
-const	string	$const8	"usimplex"		%read{9,9} %write{2147483647,-1}
-temp	float	$tmp9	%read{9,9} %write{7,7}
-const	float	$const10	40		%read{7,7} %write{2147483647,-1}
-temp	float	$tmp10	%read{9,9} %write{8,8}
-const	float	$const12	7		%read{8,8} %write{2147483647,-1}
-temp	float	$tmp11	%read{11,11} %write{10,10}
-const	float	$const13	0.059999999		%read{13,13} %write{2147483647,-1}
-temp	int	$tmp12	%read{14,14} %write{13,13}
-const	color	$const14	0.1 0.050000001 0.050000001		%read{15,15} %write{2147483647,-1}
-temp	color	$tmp13	%read{17,17} %write{16,16}
-const	float	$const16	2		%read{17,17} %write{2147483647,-1}
+param	color	Cin	1 1 1		%read{13,17} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{26,26} %write{13,26}
+oparam	float	a	1		%read{13,13} %write{12,12}
+oparam	float	b	0		%read{2147483647,-1} %write{24,24}
+global	point	P	%read{22,22} %write{2147483647,-1}
+global	float	u	%read{1,8} %write{2147483647,-1}
+global	float	v	%read{9,25} %write{2147483647,-1}
+local	color	green	%read{26,26} %write{0,0}
+local	color	___318_white	%read{2147483647,-1} %write{21,21}
+local	float	___318_mag	%read{24,24} %write{23,23}
+const	color	$const1	0 0.40000001 0		%read{0,0} %write{2147483647,-1}
+const	float	$const2	0.69999999		%read{3,24} %write{2147483647,-1}
+temp	float	$tmp1	%read{3,3} %write{2,2}
+temp	float	$tmp2	%read{2,2} %write{1,1}
+const	float	$const4	10		%read{1,1} %write{2147483647,-1}
+temp	float	$tmp3	%read{7,7} %write{3,3}
+const	float	$const5	0.34999999		%read{6,6} %write{2147483647,-1}
+temp	float	$tmp4	%read{6,6} %write{5,5}
+temp	float	$tmp5	%read{5,5} %write{4,4}
+const	float	$const7	20		%read{4,4} %write{2147483647,-1}
+temp	float	$tmp6	%read{7,7} %write{6,6}
+temp	float	$tmp7	%read{12,12} %write{7,7}
+const	float	$const8	0.029999999		%read{11,11} %write{2147483647,-1}
+temp	float	$tmp8	%read{11,11} %write{10,10}
+const	string	$const9	"usimplex"		%read{10,10} %write{2147483647,-1}
+temp	float	$tmp9	%read{10,10} %write{8,8}
+const	float	$const11	40		%read{8,8} %write{2147483647,-1}
+temp	float	$tmp10	%read{10,10} %write{9,9}
+const	float	$const13	7		%read{9,9} %write{2147483647,-1}
+temp	float	$tmp11	%read{12,12} %write{11,11}
+const	float	$const14	0.059999999		%read{14,14} %write{2147483647,-1}
+temp	int	$tmp12	%read{15,15} %write{14,14}
+const	color	$const15	0.1 0.050000001 0.050000001		%read{16,16} %write{2147483647,-1}
+temp	color	$tmp13	%read{18,18} %write{17,17}
+const	float	$const17	2		%read{18,18} %write{2147483647,-1}
+const	float	$const18	0.07		%read{19,19} %write{2147483647,-1}
+temp	int	$tmp14	%read{20,20} %write{19,19}
+const	color	$const19	1 1 1		%read{21,21} %write{2147483647,-1}
+temp	point	$tmp15	%read{23,23} %write{22,22}
+const	float	$const21	200		%read{22,22} %write{2147483647,-1}
+const	float	$const23	1		%read{24,24} %write{2147483647,-1}
+const	float	$const24	0.60000002		%read{25,25} %write{2147483647,-1}
+temp	float	$tmp16	%read{26,26} %write{25,25}
 code ___main___
 # urchinPattern.osl:8
-# 		a = 0.7*noise(u*10)+0.35*noise(u*20)+0.03*noise("usimplex",u*40, v*7);
-	mul		$tmp2 u $const3 	%filename{"urchinPattern.osl"} %line{8} %argrw{"wrr"}
-	noise		$tmp1 $tmp2 	%argrw{"wr"}
-	mul		$tmp3 $const1 $tmp1 	%argrw{"wrr"}
-	mul		$tmp5 u $const6 	%argrw{"wrr"}
-	noise		$tmp4 $tmp5 	%argrw{"wr"}
-	mul		$tmp6 $const4 $tmp4 	%argrw{"wrr"}
-	add		$tmp7 $tmp3 $tmp6 	%argrw{"wrr"}
-	mul		$tmp9 u $const10 	%argrw{"wrr"}
-	mul		$tmp10 v $const12 	%argrw{"wrr"}
-	noise		$tmp8 $const8 $tmp9 $tmp10 	%argrw{"wrrr"}
-	mul		$tmp11 $const7 $tmp8 	%argrw{"wrr"}
-	add		a $tmp7 $tmp11 	%argrw{"wrr"}
-# urchinPattern.osl:9
-# 		Cout = Cin*a;
-	mul		Cout Cin a 	%line{9} %argrw{"wrr"}
+# 		color green = color(0,0.4,0);
+	assign		green $const1 	%filename{"urchinPattern.osl"} %line{8} %argrw{"wr"}
 # urchinPattern.osl:11
-# 		if(v < .06){
-	lt		$tmp12 v $const13 	%line{11} %argrw{"wrr"}
-	if		$tmp12 18 18 	%argrw{"r"}
+# 		a = 0.7*noise(u*10)+0.35*noise(u*20)+0.03*noise("usimplex",u*40, v*7);
+	mul		$tmp2 u $const4 	%line{11} %argrw{"wrr"}
+	noise		$tmp1 $tmp2 	%argrw{"wr"}
+	mul		$tmp3 $const2 $tmp1 	%argrw{"wrr"}
+	mul		$tmp5 u $const7 	%argrw{"wrr"}
+	noise		$tmp4 $tmp5 	%argrw{"wr"}
+	mul		$tmp6 $const5 $tmp4 	%argrw{"wrr"}
+	add		$tmp7 $tmp3 $tmp6 	%argrw{"wrr"}
+	mul		$tmp9 u $const11 	%argrw{"wrr"}
+	mul		$tmp10 v $const13 	%argrw{"wrr"}
+	noise		$tmp8 $const9 $tmp9 $tmp10 	%argrw{"wrrr"}
+	mul		$tmp11 $const8 $tmp8 	%argrw{"wrr"}
+	add		a $tmp7 $tmp11 	%argrw{"wrr"}
 # urchinPattern.osl:12
+# 		Cout = Cin*a;
+	mul		Cout Cin a 	%line{12} %argrw{"wrr"}
+# urchinPattern.osl:15
+# 		if(v < .06){
+	lt		$tmp12 v $const14 	%line{15} %argrw{"wrr"}
+	if		$tmp12 19 27 	%argrw{"r"}
+# urchinPattern.osl:16
 # 			Cout = color(0.1,0.05,0.05);
-	assign		Cout $const14 	%line{12} %argrw{"wr"}
-# urchinPattern.osl:13
+	assign		Cout $const15 	%line{16} %argrw{"wr"}
+# urchinPattern.osl:17
 # 			Cout = Cin * v*2;
-	mul		$tmp13 Cin v 	%line{13} %argrw{"wrr"}
-	mul		Cout $tmp13 $const16 	%argrw{"wrr"}
+	mul		$tmp13 Cin v 	%line{17} %argrw{"wrr"}
+	mul		Cout $tmp13 $const17 	%argrw{"wrr"}
+# urchinPattern.osl:19
+# 		else if( v > 0.07){
+	gt		$tmp14 v $const18 	%line{19} %argrw{"wrr"}
+	if		$tmp14 27 27 	%argrw{"r"}
+# urchinPattern.osl:20
+# 			color white = color(1,1,1);
+	assign		___318_white $const19 	%line{20} %argrw{"wr"}
+# urchinPattern.osl:22
+# 	    float mag=noise(P*200);
+	mul		$tmp15 P $const21 	%line{22} %argrw{"wrr"}
+	noise		___318_mag $tmp15 	%argrw{"wr"}
+# urchinPattern.osl:23
+# 	    b=smoothstep(0.7,1,mag);
+	smoothstep	b $const2 $const23 ___318_mag 	%line{23} %argrw{"wrrr"}
+# urchinPattern.osl:24
+# 			Cout = mix(Cout, green, 0.6*v);
+	mul		$tmp16 $const24 v 	%line{24} %argrw{"wrr"}
+	mix		Cout Cout green $tmp16 	%argrw{"wrrr"}
 	end
