@@ -3,15 +3,9 @@ surface urchinPattern (
 output color Cout=0, output float a = 1, output float b = 0)
 {
 
-		// Stripes
-
 		color green = color(0,0.4,0);
-
-		//float seg =0.2*sin(u*10*M_PI);
 		a = 0.7*noise(u*10)+0.35*noise(u*20)+0.03*noise("usimplex",u*40, v*7);
 		Cout = Cin*a;
-
-
 		if(v < .06){
 			Cout = color(0.1,0.05,0.05);
 			Cout = Cin * v*2;
