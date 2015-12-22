@@ -3,7 +3,7 @@ Display "min.tiff" "it" "rgb"
 Projection "perspective" "fov" [ 30 ]
 Format 1920 1080 1
 
-Hider "raytrace" "int incremental" [1] "int minsamples" [32] "int maxsamples" [200]
+Hider "raytrace" "int incremental" [0] "int minsamples" [32] "int maxsamples" [200]
 PixelVariance 0.01
 #Integrator "PxrDefault" "integrator"
 #Integrator "PxrDirectlighting" "integrator"
@@ -42,10 +42,10 @@ WorldBegin
 		Attribute "displacementbound" "sphere" [10] "coordinatesystem" ["shader"]
 		Bxdf "PxrDisney" "forTheUrchin" "reference color baseColor" ["patternForTheUrchin:Cout"]
 		"reference float subsurface" ["patternForTheUrchin:b"]
-		"color subsurfaceColor" [0.98 0.95 0.2]
+		"color subsurfaceColor" [1 0.4 0]
 		"float roughness" 0.5
 		"float specular" 0.2
-		Displacement "dis" "reference float disp" ["patternForTheUrchin:a"]
+		Displacement "dis" "reference float disp" ["patternForTheUrchin:a"] "reference float pin" ["patternForTheUrchin:b"]
 		Scale 1 .85 1
 		Translate 0 1 0
 		Rotate 90 1 0 0
