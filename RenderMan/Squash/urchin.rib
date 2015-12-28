@@ -10,12 +10,12 @@ PixelVariance 0.01
 #Integrator "PxrVCM" "integrator"
 Integrator "PxrPathTracer" "integrator"
 
-Translate 0 -.8 4
-Rotate -30 1 0 0
+Translate 0 -0.8 5
+Rotate -20 1 0 0
 
 WorldBegin
 	AttributeBegin
-		AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [0.4]
+		AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [0.7]
 				"float enableEmissionMap" [1]
 				"string rman__EmissionMap" ["Alexs_Apt_8k.tx"]
 				"float linearizeEmissionMap" [1]
@@ -54,7 +54,7 @@ WorldBegin
 		"float roughness" 0.4
 		"float specular" 0.4
 		Displacement "dis" "reference float disp" ["patternForTheUrchin:a"] "reference float pin" ["patternForTheUrchin:b"]
-		Scale 1 .85 1
+		Scale 1 .8 1
 		Translate 0 1 0
 		Rotate 90 1 0 0
 		Sphere 1 -1 1 360
