@@ -1,4 +1,3 @@
-#min.rib - a minimal scene
 Display "min.tiff" "it" "rgb"
 Projection "perspective" "fov" [ 30 ]
 Format 1920 1080 1
@@ -15,7 +14,7 @@ Rotate -20 1 0 0
 
 WorldBegin
 	AttributeBegin
-		AreaLightSource "PxrStdAreaLight" "theLight" "float exposure" [2]
+		AreaLightSource "PxrStdAreaLight" "envMap" "float exposure" [2]
 				"float enableEmissionMap" [1]
 				"string rman__EmissionMap" ["apt.tx"]
 				"float linearizeEmissionMap" [1]
@@ -30,8 +29,8 @@ WorldBegin
 	AttributeEnd
 
 	AttributeBegin
-		Pattern "PxrTexture" "myTexture" "string filename" "wt.tx"
-		Bxdf "PxrDisney" "forTheTeapot" "reference color baseColor" ["myTexture:resultRGB"]
+		Pattern "PxrTexture" "table" "string filename" "wood.tx"
+		Bxdf "PxrDisney" "forTheTable" "reference color baseColor" ["table:resultRGB"]
 		Patch "bilinear" "P" [ -2 0 -2
 				-2 0 2
 				2 0 -2
@@ -40,15 +39,15 @@ WorldBegin
 
 #Urchin
 	AttributeBegin
-		Pattern "PxrOSL" "patternForTheUrchin" "string shader" "urchinPattern" "color Cin" [1 0.15 0]
+		Pattern "PxrOSL" "patternForThePumpkin" "string shader" "pumpkinPattern" "color Cin" [1 0.15 0]
 		Attribute "trace" "int displacements" [1]
 		Attribute "displacementbound" "sphere" [10] "coordinatesystem" ["shader"]
-		Bxdf "PxrDisney" "forTheUrchin" "reference color baseColor" ["patternForTheUrchin:Cout"]
-		"reference float subsurface" ["patternForTheUrchin:b"]
+		Bxdf "PxrDisney" "forThePumpkin" "reference color baseColor" ["patternForThePumpkin:Cout"]
+		"reference float subsurface" ["patternForThePumpkin:b"]
 		"color subsurfaceColor" [1 0.4 0]
 		"float roughness" 0.4
 		"float specular" 0.4
-		Displacement "dis" "reference float disp" ["patternForTheUrchin:a"] "reference float pin" ["patternForTheUrchin:b"]
+		Displacement "pumpkinDisplacement" "reference float disp" ["patternForThePumpkin:a"] "reference float pin" ["patternForThePumpkin:b"]
 		Scale 1 .8 1
 		Translate 0 1 0
 		Rotate 90 1 0 0

@@ -3,10 +3,10 @@ SLCOMPILER=oslc
 VIEWER=sho
 SLEXT=oso
 
-SHADERNAME=urchinPattern
+SHADERNAME=pumpkinSurface
 
-all: ${SHADERNAME}.${SLEXT} urchin.rib
-	cat urchin.rib | sed s/XXXX/${SHADERNAME}/g | ${RENDER}
+all: ${SHADERNAME}.${SLEXT} pumpkin.rib
+	cat pumpkin.rib | sed s/XXXX/${SHADERNAME}/g | ${RENDER}
 
 ${SHADERNAME}.${SLEXT} : ${SHADERNAME}.osl
 	${SLCOMPILER} ${SHADERNAME}.osl

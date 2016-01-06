@@ -1,4 +1,4 @@
-surface urchinPattern (
+surface pumpkinPattern (
 	color Cin = 1,
 output color Cout=0, output float a = 1, output float b = 0)
 {
