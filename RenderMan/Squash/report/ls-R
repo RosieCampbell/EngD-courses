@@ -1,0 +1,17 @@
+% ls-R -- filename database for kpathsea; do not change this line.
+./:
+.DS_Store
+agsm-no-url.bst
+bib.bib
+inititalLitReview.aux
+inititalLitReview.bbl
+inititalLitReview.blg
+inititalLitReview.fdb_latexmk
+inititalLitReview.fls
+inititalLitReview.log
+inititalLitReview.pdf
+inititalLitReview.synctex.gz
+inititalLitReview.tex
+ls-R
+mr.jpg
+
